@@ -44,7 +44,7 @@ def generate_small_real():
 
 
 def generate_large_real():
-    return [str(round(random.uniform(100, 10000), 2))]
+    return [str(round(random.uniform(0, 10000), 2))]
 
 
 def generate_date():
@@ -289,6 +289,9 @@ def generate_dataset():
         '部位': PlaceHolder('$', ['text'], values=['头部', '颅部', '脸部', '颈部', '肩部', '胸部', '背部', '腰部', '上臂', '上肢',
             '肘部', '前臂', '腕部', '手部', '臀部', '大腿', '下肢', '小腿', '踝部', '足部'])
     }
+    value_sets = {}
+    for key in place_holders:
+        value_sets[key] = set()
     data = pd.read_excel('templates.xlsx', skiprows=10)
     dataset = []
     for i in range(len(data)):
@@ -313,6 +316,7 @@ def generate_dataset():
                 question += string
                 all_values.extend(values)
                 all_types.extend(place_holders[place_holder].types)
+                value_sets[place_holder].update(values)
             sql = ''
             end = -1
             while 1:
@@ -339,3 +343,6 @@ def generate_dataset():
             })
     with open('dataset.json', 'w', encoding='utf-8') as file:
         json.dump(dataset, file, ensure_ascii=False, indent=4)
+    for key in value_sets:
+        value_sets[key] = list(value_sets[key])
+    return value_sets

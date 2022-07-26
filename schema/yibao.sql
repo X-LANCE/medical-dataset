@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 26/07/2022 15:13:45
+ Date: 26/07/2022 22:06:43
 */
 
 SET NAMES utf8mb4;
@@ -90,7 +90,7 @@ CREATE TABLE `t_kc22`  (
   `SPEC` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `USE_FRE` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `EACH_DOSAGE` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `QTY` decimal(11, 2) NULL DEFAULT NULL,
+  `QTY` int(11) NULL DEFAULT NULL,
   `UNIVALENT` decimal(11, 2) NULL DEFAULT NULL,
   `AMOUNT` decimal(11, 2) NULL DEFAULT NULL,
   `SELF_PAY_PRO` decimal(11, 2) NULL DEFAULT NULL,

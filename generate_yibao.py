@@ -1,3 +1,4 @@
+import pymysql
 import random
 from dataclasses import dataclass
 from datetime import date
@@ -71,8 +72,39 @@ class t_kc22:
     REMOTE_SETTLE_FLG: int = 0
 
 
+@dataclass
+class t_kc24:
+    MED_SAFE_PAY_ID: str = ''
+    MED_CLINIC_ID: str = ''
+    CLINIC_SLT_DATE: str = ''
+    PERSON_ID: str = ''
+    FLX_MED_ORG_ID: str = ''
+    INSU_TYPE: int = 0
+    MED_AMOUT: float = 0
+    PER_ACC_PAY: float = 0
+    OVE_PAY: float = 0
+    ILL_PAY: float = 0
+    CIVIL_SUBSIDY: float = 0
+    PER_SOL: float = 0
+    PER_EXP: float = 0
+    OUT_HOSP_DATE: str = ''
+    CLINIC_ID: str = ''
+    INSURED_STS: int = 0
+
+
 def str_to_date(string):
     return date(int(string[:4]), int(string[5:7]), int(string[8:]))
+
+
+def random_split(number, segment):
+    points = [0, number]
+    for _ in range(segment - 1):
+        points.append(round(random.uniform(0, number), 2))
+    points.sort()
+    result = []
+    for i in range(segment):
+        result.append(round(points[i + 1] - points[i], 2))
+    return result
 
 
 def generate_t_kc21(value_sets):
@@ -109,10 +141,10 @@ def generate_t_kc21(value_sets):
 
 def generate_t_kc22(value_sets, data_t_kc21):
     data = []
-    for i in range(len(value_sets['人员医疗费用明细ID'])):
+    for i in range(len(data_t_kc21) * 10):
         j = random.randint(0, len(data_t_kc21) - 1)
         record = t_kc22()
-        record.MED_EXP_DET_ID = value_sets['人员医疗费用明细ID'][i]
+        record.MED_EXP_DET_ID = value_sets['人员医疗费用明细ID'][i] if i < len(value_sets['人员医疗费用明细ID']) else Xeger().xeger(r'\d{11}')
         record.MED_CLINIC_ID = data_t_kc21[j].MED_CLINIC_ID
         record.SOC_SRT_DIRE_CD = record.MED_DIRE_CD = random.choice(value_sets['社保三大目录统一编码'])
         record.SOC_SRT_DIRE_NM = record.MED_DIRE_NM = random.choice(value_sets['社保三大目录名称'])
@@ -146,10 +178,40 @@ def generate_t_kc22(value_sets, data_t_kc21):
 
 def generate_t_kc24(value_sets, data_t_kc21):
     data = []
+    for i in range(len(data_t_kc21)):
+        record = t_kc24()
+        record.MED_SAFE_PAY_ID = Xeger().xeger(r'\d{11}')
+        record.MED_CLINIC_ID = data_t_kc21[i].MED_CLINIC_ID
+        record.CLINIC_SLT_DATE = generate_date()[0]
+        record.PERSON_ID = data_t_kc21[i].PERSON_ID
+        record.FLX_MED_ORG_ID = data_t_kc21[i].FLX_MED_ORG_ID
+        record.INSU_TYPE = data_t_kc21[i].INSU_TYPE
+        record.MED_AMOUT = data_t_kc21[i].MED_AMOUT
+        record.PER_ACC_PAY, record.OVE_PAY, record.ILL_PAY, record.CIVIL_SUBSIDY, record.PER_SOL, record.PER_EXP = random_split(record.MED_AMOUT, 6)
+        record.OUT_HOSP_DATE = data_t_kc21[i].OUT_HOSP_DATE
+        record.CLINIC_ID = data_t_kc21[i].CLINIC_ID
+        record.INSURED_STS = data_t_kc21[i].INSURED_STS
+        data.append(record)
     return data
+
+
+def update_database(database, cursor, table, data):
+    sql = f'INSERT INTO {table}('
+    for key in vars(data[0]):
+        sql += key + ', '
+    sql = sql[:-2] + ') VALUES(' + '%s, ' * len(vars(data[0]))
+    sql = sql[:-2] + ')'
+    for record in data:
+        cursor.execute(sql, list(vars(record).values()))
+        database.commit()
 
 
 def generate_yibao(value_sets):
     data_t_kc21 = generate_t_kc21(value_sets)
     data_t_kc22 = generate_t_kc22(value_sets, data_t_kc21)
     data_t_kc24 = generate_t_kc24(value_sets, data_t_kc21)
+    database = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='root', database='yibao')
+    cursor = database.cursor()
+    update_database(database, cursor, 't_kc21', data_t_kc21)
+    update_database(database, cursor, 't_kc22', data_t_kc22)
+    update_database(database, cursor, 't_kc24', data_t_kc24)

@@ -336,6 +336,7 @@ def generate_dataset():
                 else:
                     raise ValueError
             dataset.append({
+                'template': i,
                 'question': question,
                 'sql': sql,
                 'schema': data['数据库'][i],

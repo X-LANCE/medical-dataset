@@ -76,6 +76,7 @@ class t_kc22:
 class t_kc24:
     MED_SAFE_PAY_ID: str = ''
     MED_CLINIC_ID: str = ''
+    REF_SLT_FLG: int = 0
     CLINIC_SLT_DATE: str = ''
     PERSON_ID: str = ''
     FLX_MED_ORG_ID: str = ''
@@ -182,6 +183,7 @@ def generate_t_kc24(value_sets, data_t_kc21):
         record = t_kc24()
         record.MED_SAFE_PAY_ID = Xeger().xeger(r'\d{11}')
         record.MED_CLINIC_ID = data_t_kc21[i].MED_CLINIC_ID
+        record.REF_SLT_FLG = random.randint(0, 1)
         record.CLINIC_SLT_DATE = generate_date()[0]
         record.PERSON_ID = data_t_kc21[i].PERSON_ID
         record.FLX_MED_ORG_ID = data_t_kc21[i].FLX_MED_ORG_ID

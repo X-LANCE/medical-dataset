@@ -1,8 +1,8 @@
-import pymysql
 import random
 from dataclasses import dataclass
 from datetime import date
 from generate_dataset import generate_date, generate_two_dates, generate_name
+from utils import connect_database, update_database
 from xeger import Xeger
 
 
@@ -197,23 +197,11 @@ def generate_t_kc24(value_sets, data_t_kc21):
     return data
 
 
-def update_database(database, cursor, table, data):
-    sql = f'INSERT INTO {table}('
-    for key in vars(data[0]):
-        sql += key + ', '
-    sql = sql[:-2] + ') VALUES(' + '%s, ' * len(vars(data[0]))
-    sql = sql[:-2] + ')'
-    for record in data:
-        cursor.execute(sql, list(vars(record).values()))
-        database.commit()
-
-
 def generate_yibao(value_sets):
     data_t_kc21 = generate_t_kc21(value_sets)
     data_t_kc22 = generate_t_kc22(value_sets, data_t_kc21)
     data_t_kc24 = generate_t_kc24(value_sets, data_t_kc21)
-    database = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='root', database='yibao')
-    cursor = database.cursor()
+    database, cursor = connect_database('yibao')
     update_database(database, cursor, 't_kc21', data_t_kc21)
     update_database(database, cursor, 't_kc22', data_t_kc22)
     update_database(database, cursor, 't_kc24', data_t_kc24)

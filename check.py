@@ -1,7 +1,7 @@
 import argparse
 import json
 import os
-import pymysql
+from utils import connect_database
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--database', type=str, required=True)
@@ -10,8 +10,7 @@ arg_parser.add_argument('--start', default=0, type=int)
 args = arg_parser.parse_args()
 with open('dataset.json', 'r', encoding='utf-8') as file:
     dataset = json.load(file)
-database = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='root', database=args.database)
-cursor = database.cursor()
+database, cursor = connect_database(args.database)
 i = 0
 while i < len(dataset):
     if dataset[i]['template'] < args.start or dataset[i]['schema'] != args.schema:

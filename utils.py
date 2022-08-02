@@ -1,5 +1,11 @@
 import pymysql
 import random
+from datetime import date, datetime
+from generate_dataset import generate_date
+
+
+def generate_datetime():
+    return f'{generate_date()[0]} {str(random.randint(0, 23)).zfill(2)}:{str(random.randint(0, 59)).zfill(2)}:{str(random.randint(0, 59)).zfill(2)}'
 
 
 def generate_region():
@@ -5114,6 +5120,25 @@ def generate_region():
         ('820000', '澳门'),
         ('830000', '台湾省')
     ])
+
+
+def str_to_date(string):
+    return date(int(string[:4]), int(string[5:7]), int(string[8:]))
+
+
+def str_to_datetime(string):
+    return datetime(int(string[:4]), int(string[5:7]), int(string[8:10]), int(string[11:13]), int(string[14:16]), int(string[17:]))
+
+
+def random_split(number, segment):
+    points = [0, number]
+    for _ in range(segment - 1):
+        points.append(round(random.uniform(0, number), 2))
+    points.sort()
+    result = []
+    for i in range(segment):
+        result.append(round(points[i + 1] - points[i], 2))
+    return result
 
 
 def connect_database(database_name):

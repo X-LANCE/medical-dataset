@@ -1,8 +1,7 @@
 import random
 from dataclasses import dataclass
-from datetime import date
 from generate_dataset import generate_date, generate_two_dates, generate_name
-from utils import connect_database, update_database
+from utils import str_to_date, random_split, connect_database, update_database
 from xeger import Xeger
 
 
@@ -93,21 +92,6 @@ class t_kc24:
     INSURED_STS: int = 0
 
 
-def str_to_date(string):
-    return date(int(string[:4]), int(string[5:7]), int(string[8:]))
-
-
-def random_split(number, segment):
-    points = [0, number]
-    for _ in range(segment - 1):
-        points.append(round(random.uniform(0, number), 2))
-    points.sort()
-    result = []
-    for i in range(segment):
-        result.append(round(points[i + 1] - points[i], 2))
-    return result
-
-
 def generate_t_kc21(value_sets):
     data = []
     for i in range(len(value_sets['医疗就诊ID'])):
@@ -177,7 +161,7 @@ def generate_t_kc22(value_sets, data_t_kc21):
     return data
 
 
-def generate_t_kc24(value_sets, data_t_kc21):
+def generate_t_kc24(data_t_kc21):
     data = []
     for i in range(len(data_t_kc21)):
         record = t_kc24()
@@ -200,7 +184,7 @@ def generate_t_kc24(value_sets, data_t_kc21):
 def generate_yibao(value_sets):
     data_t_kc21 = generate_t_kc21(value_sets)
     data_t_kc22 = generate_t_kc22(value_sets, data_t_kc21)
-    data_t_kc24 = generate_t_kc24(value_sets, data_t_kc21)
+    data_t_kc24 = generate_t_kc24(data_t_kc21)
     database, cursor = connect_database('yibao')
     update_database(database, cursor, 't_kc21', data_t_kc21)
     update_database(database, cursor, 't_kc22', data_t_kc22)

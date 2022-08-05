@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 31/07/2022 16:37:20
+ Date: 03/08/2022 17:25:30
 */
 
 SET NAMES utf8mb4;
@@ -67,7 +67,7 @@ CREATE TABLE `jybgb`  (
   `BBDM` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `BBMC` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `JYBBH` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `BBZT` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `BBZT` int(11) NULL DEFAULT NULL,
   `BBCJBW` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `JSBBSJ` date NULL DEFAULT NULL,
   `JYXMMC` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,

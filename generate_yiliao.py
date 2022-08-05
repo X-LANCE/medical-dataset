@@ -1,6 +1,7 @@
 import random
 from dataclasses import dataclass
 from datetime import timedelta
+from generate_dataset import generate_name
 from string import ascii_uppercase
 from utils import generate_datetime, generate_region, str_to_date, str_to_datetime, connect_database, update_database
 from xeger import Xeger
@@ -89,6 +90,41 @@ class zyjzjlb:
     CYZTDM: int = 0
 
 
+@dataclass
+class jybgb:
+    YLJGDM: str = ''
+    BGDH: str = ''
+    BGRQ: str = ''
+    JYLX: int = 0
+    JZLSH: str = ''
+    JZLX: int = 0
+    KSBM: str = ''
+    KSMC: str = ''
+    SQRGH: str = ''
+    SQRXM: str = ''
+    BGRGH: str = ''
+    BGRXM: str = ''
+    SHRGH: str = ''
+    SHRXM: str = ''
+    SHSJ: str = ''
+    SQKS: str = ''
+    SQKSMC: str = ''
+    JYKSBM: str = ''
+    JYKSMC: str = ''
+    BGJGDM: str = ''
+    BGJGMC: str = ''
+    BBDM: str = ''
+    BBMC: str = ''
+    BBZT: int = 0
+    BBCJBW: str = ''
+    JYXMMC: str = ''
+    JYXMDM: str = ''
+    JYSQJGMC: str = ''
+    JYJGMC: str = ''
+    JYJSQM: str = ''
+    JYJSGH: str = ''
+
+
 def generate_person_info(value_sets):
     data = []
     for i in range(len(value_sets['人员ID'])):
@@ -102,7 +138,7 @@ def generate_person_info(value_sets):
 
 def generate_hz_info(value_sets, data_person_info):
     data = []
-    for _ in range(len(data_person_info) * 10):
+    for _ in range(len(data_person_info) * 2):
         j = random.randint(0, len(data_person_info) - 1)
         record = hz_info()
         record.KH = Xeger().xeger(r'\d{7}')
@@ -115,11 +151,16 @@ def generate_hz_info(value_sets, data_person_info):
 
 def generate_mzjzjlb(value_sets, data_hz_info):
     data = []
-    for i in range(len(value_sets['门诊就诊流水号']) + len(value_sets['门诊就诊流水号或住院就诊流水号']) // 2):
+    for i in range(len(data_hz_info) * 2):
         j = random.randint(0, len(data_hz_info) - 1)
         record = mzjzjlb()
         record.YLJGDM = data_hz_info[j].YLJGDM
-        record.JZLSH = value_sets['门诊就诊流水号'][i] if i < len(value_sets['门诊就诊流水号']) else value_sets['门诊就诊流水号或住院就诊流水号'][i - len(value_sets['门诊就诊流水号'])]
+        if i < len(value_sets['门诊就诊流水号']):
+            record.JZLSH = value_sets['门诊就诊流水号'][i]
+        elif i < len(value_sets['门诊就诊流水号']) + len(value_sets['门诊就诊流水号或住院就诊流水号']) // 2:
+            record.JZLSH = value_sets['门诊就诊流水号或住院就诊流水号'][i - len(value_sets['门诊就诊流水号'])]
+        else:
+            record.JZLSH = Xeger().xeger(r'\d{11}')
         record.KH = data_hz_info[j].KH
         record.KLX = data_hz_info[j].KLX
         record.ZSEBZ = 0 if random.randint(0, 9) < 9 else 1
@@ -165,11 +206,16 @@ def generate_mzjzjlb(value_sets, data_hz_info):
 
 def generate_zyjzjlb(value_sets, data_hz_info):
     data = []
-    for i in range(len(value_sets['住院就诊流水号']) + len(value_sets['门诊就诊流水号或住院就诊流水号']) // 2):
+    for i in range(len(data_hz_info) * 2):
         j = random.randint(0, len(data_hz_info) - 1)
         record = zyjzjlb()
         record.YLJGDM = data_hz_info[j].YLJGDM
-        record.JZLSH = value_sets['住院就诊流水号'][i] if i < len(value_sets['住院就诊流水号']) else value_sets['门诊就诊流水号或住院就诊流水号'][i - len(value_sets['住院就诊流水号']) + len(value_sets['门诊就诊流水号或住院就诊流水号']) // 2]
+        if i < len(value_sets['住院就诊流水号']):
+            record.JZLSH = value_sets['住院就诊流水号'][i]
+        elif i < len(value_sets['住院就诊流水号']) + len(value_sets['门诊就诊流水号或住院就诊流水号']) // 2:
+            record.JZLSH = value_sets['门诊就诊流水号或住院就诊流水号'][i - len(value_sets['住院就诊流水号']) + len(value_sets['门诊就诊流水号或住院就诊流水号']) // 2]
+        else:
+            record.JZLSH = Xeger().xeger(r'\d{11}')
         record.KH = data_hz_info[j].KH
         record.KLX = data_hz_info[j].KLX
         record.WDBZ = 0 if random.randint(0, 9) < 9 else 1
@@ -209,13 +255,56 @@ def generate_zyjzjlb(value_sets, data_hz_info):
     return data
 
 
+def generate_jybgb(value_sets, data_mzjzjlb, data_zyjzjlb):
+    data = []
+    for i in range((len(data_mzjzjlb) + len(data_zyjzjlb)) * 2):
+        record = jybgb()
+        record.JZLX = random.randint(0, 1)
+        j = random.randint(0, (len(data_mzjzjlb) if record.JZLX == 0 else len(data_zyjzjlb)) - 1)
+        record.YLJGDM = record.BGJGDM = data_mzjzjlb[j].YLJGDM if record.JZLX == 0 else data_zyjzjlb[j].YLJGDM
+        record.BGDH = value_sets['检验报告单号'][i] if i < len(value_sets['检验报告单号']) else Xeger().xeger(r'\d{11}')
+        if record.JZLX == 0:
+            record.BGRQ = data_mzjzjlb[j].JZJSSJ[:10]
+        else:
+            while 1:
+                record.BGRQ = str(str_to_datetime(data_zyjzjlb[j].RYSJ) + timedelta(days=random.randint(0, 30)))[:10]
+                if record.BGRQ <= data_zyjzjlb[j].CYSJ[:10]:
+                    break
+        record.JYLX = 0
+        record.JZLSH = data_mzjzjlb[j].JZLSH if record.JZLX == 0 else data_zyjzjlb[j].JZLSH
+        record.KSBM = record.SQKS = record.JYKSBM = random.choice(value_sets['科室编码'])
+        record.KSMC = record.SQKSMC = record.JYKSMC = random.choice(value_sets['科室名称'])
+        record.SQRGH = Xeger().xeger(r'\d{8}')
+        record.SQRXM = generate_name()[0]
+        record.BGRGH = Xeger().xeger(r'\d{8}')
+        record.BGRXM = generate_name()[0]
+        record.SHRGH = Xeger().xeger(r'\d{8}')
+        record.SHRXM = generate_name()[0]
+        record.SHSJ = f'{record.BGRQ} {str(random.randint(0, 23)).zfill(2)}:{str(random.randint(0, 59)).zfill(2)}:{str(random.randint(0, 59)).zfill(2)}'
+        record.BGJGMC = record.JYSQJGMC = record.JYJGMC = f"{generate_region()[1]}第{random.choice(['一', '二', '三'])}人民医院"
+        record.BBDM = Xeger().xeger(r'\d{11}')
+        record.JYXMMC = random.choice(['肝功能', '肾功能', '糖代谢', '血脂', '心肌酶', '离子类', '风湿三项', '特定蛋白', '铁代谢',
+            '淀粉酶', '尿蛋白', '治疗药物检测', '肿瘤标志物', '甲状腺', '激素', '产筛', '心肌', 'TORCH', '传染病', '骨标志物', '贫血',
+            '脓毒血症', '类风关'])
+        record.BBMC = record.JYXMMC + '标本'
+        record.BBZT = 0
+        record.BBCJBW = random.choice(value_sets['部位'])
+        record.JYXMDM = Xeger().xeger(r'\d{6}')
+        record.JYJSQM = generate_name()[0]
+        record.JYJSGH = Xeger().xeger(r'\d{8}')
+        data.append(record)
+    return data
+
+
 def generate_yiliao(value_sets):
     data_person_info = generate_person_info(value_sets)
     data_hz_info = generate_hz_info(value_sets, data_person_info)
     data_mzjzjlb = generate_mzjzjlb(value_sets, data_hz_info)
     data_zyjzjlb = generate_zyjzjlb(value_sets, data_hz_info)
+    data_jybgb = generate_jybgb(value_sets, data_mzjzjlb, data_zyjzjlb)
     database, cursor = connect_database('yiliao')
     update_database(database, cursor, 'person_info', data_person_info)
     update_database(database, cursor, 'hz_info', data_hz_info)
     update_database(database, cursor, 'mzjzjlb', data_mzjzjlb)
     update_database(database, cursor, 'zyjzjlb', data_zyjzjlb)
+    update_database(database, cursor, 'jybgb', data_jybgb)

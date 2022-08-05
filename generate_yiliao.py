@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 from generate_dataset import generate_name
 from string import ascii_uppercase
-from utils import generate_datetime, generate_region, str_to_date, str_to_datetime, connect_database, update_database
+from utils import generate_datetime, generate_region, generate_medical_index, str_to_date, str_to_datetime, connect_database, update_database
 from xeger import Xeger
 
 
@@ -123,6 +123,31 @@ class jybgb:
     JYJGMC: str = ''
     JYJSQM: str = ''
     JYJSGH: str = ''
+
+
+@dataclass
+class jyjgzbb:
+    JYZBLSH: str = ''
+    YLJGDM: str = ''
+    BGDH: str = ''
+    JYRQ: str = ''
+    JCRGH: str = ''
+    JCRXM: str = ''
+    SHRGH: str = ''
+    SHRXM: str = ''
+    JCXMMC: str = ''
+    JCZBDM: str = ''
+    JCFF: str = ''
+    JCZBMC: str = ''
+    JCZBJGDX: str = ''
+    JCZBJGDL: float = 0
+    JCZBJGDW: str = ''
+    SBBM: str = ''
+    YQBH: str = ''
+    YQMC: str = ''
+    CKZFWDX: str = ''
+    CKZFWXX: float = 0
+    CKZFWSX: float = 0
 
 
 def generate_person_info(value_sets):
@@ -284,8 +309,7 @@ def generate_jybgb(value_sets, data_mzjzjlb, data_zyjzjlb):
         record.BGJGMC = record.JYSQJGMC = record.JYJGMC = f"{generate_region()[1]}第{random.choice(['一', '二', '三'])}人民医院"
         record.BBDM = Xeger().xeger(r'\d{11}')
         record.JYXMMC = random.choice(['肝功能', '肾功能', '糖代谢', '血脂', '心肌酶', '离子类', '风湿三项', '特定蛋白', '铁代谢',
-            '淀粉酶', '尿蛋白', '治疗药物检测', '肿瘤标志物', '甲状腺', '激素', '产筛', '心肌', 'TORCH', '传染病', '骨标志物', '贫血',
-            '脓毒血症', '类风关'])
+            '尿蛋白', '治疗药物检测', '肿瘤标志物', '甲状腺', '激素', '产筛', '心肌', '传染病', '骨标志物', '贫血', '脓毒血症', '类风关'])
         record.BBMC = record.JYXMMC + '标本'
         record.BBZT = 0
         record.BBCJBW = random.choice(value_sets['部位'])
@@ -296,15 +320,51 @@ def generate_jybgb(value_sets, data_mzjzjlb, data_zyjzjlb):
     return data
 
 
+def generate_jyjgzbb(value_sets, data_jybgb):
+    data = []
+    for i in range(len(data_jybgb) * 2):
+        j = random.randint(0, len(data_jybgb) - 1)
+        record = jyjgzbb()
+        record.JYZBLSH = value_sets['检验指标流水号'][i] if i < len(value_sets['检验指标流水号']) else Xeger().xeger(r'\d{11}')
+        record.YLJGDM = data_jybgb[j].YLJGDM
+        record.BGDH = data_jybgb[j].BGDH
+        record.JYRQ = data_jybgb[j].BGRQ
+        record.JCRGH = random.choice(value_sets['检测人工号'])
+        record.JCRXM = random.choice(value_sets['检测人姓名'])
+        record.SHRGH = Xeger().xeger(r'\d{8}')
+        record.SHRXM = generate_name()[0]
+        record.JCXMMC = data_jybgb[j].JYXMMC
+        record.JCZBDM = random.choice(value_sets['检测指标代码'])
+        record.JCZBMC, record.JCFF, record.JCZBJGDW, record.CKZFWXX, record.CKZFWSX = generate_medical_index(record.JCXMMC)
+        if random.randint(0, 1) == 0:
+            record.JCZBJGDX = '正常'
+            record.JCZBJGDL = round(random.uniform(record.CKZFWXX, record.CKZFWSX), 2)
+        else:
+            record.JCZBJGDX = '异常'
+            if record.CKZFWXX > 0 and random.randint(0, 1) == 0:
+                while record.JCZBJGDL <= 0:
+                    record.JCZBJGDL = round(record.CKZFWXX - random.uniform(0, (record.CKZFWSX - record.CKZFWXX) / 10), 2)
+            else:
+                record.JCZBJGDL = round(record.CKZFWSX + random.uniform(0, (record.CKZFWSX - record.CKZFWXX) / 10), 2)
+        record.SBBM = Xeger().xeger(r'\d{6}')
+        record.YQBH = Xeger().xeger(r'\d{6}')
+        record.YQMC = '仪器' + record.YQBH
+        record.CKZFWDX = f'{record.CKZFWXX}-{record.CKZFWSX} {record.JCZBJGDW}'
+        data.append(record)
+    return data
+
+
 def generate_yiliao(value_sets):
     data_person_info = generate_person_info(value_sets)
     data_hz_info = generate_hz_info(value_sets, data_person_info)
     data_mzjzjlb = generate_mzjzjlb(value_sets, data_hz_info)
     data_zyjzjlb = generate_zyjzjlb(value_sets, data_hz_info)
     data_jybgb = generate_jybgb(value_sets, data_mzjzjlb, data_zyjzjlb)
+    data_jyjgzbb = generate_jyjgzbb(value_sets, data_jybgb)
     database, cursor = connect_database('yiliao')
     update_database(database, cursor, 'person_info', data_person_info)
     update_database(database, cursor, 'hz_info', data_hz_info)
     update_database(database, cursor, 'mzjzjlb', data_mzjzjlb)
     update_database(database, cursor, 'zyjzjlb', data_zyjzjlb)
     update_database(database, cursor, 'jybgb', data_jybgb)
+    update_database(database, cursor, 'jyjgzbb', data_jyjgzbb)

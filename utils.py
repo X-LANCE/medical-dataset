@@ -8,6 +8,20 @@ def generate_datetime():
     return f'{generate_date()[0]} {str(random.randint(0, 23)).zfill(2)}:{str(random.randint(0, 59)).zfill(2)}:{str(random.randint(0, 59)).zfill(2)}'
 
 
+def generate_date_of_birth(latest_date):
+    year = int(latest_date[:4]) - random.randint(1, 100)
+    month = random.randint(1, 12)
+    if month in [1, 3, 5, 7, 8, 10, 12]:
+        day = random.randint(1, 31)
+    elif month in [4, 6, 9, 11]:
+        day = random.randint(1, 30)
+    elif (year % 4 == 0 and year % 100 > 0) or year % 400 == 0:
+        day = random.randint(1, 29)
+    else:
+        day = random.randint(1, 28)
+    return f'{year}-{str(month).zfill(2)}-{str(day).zfill(2)}'
+
+
 def generate_region():
     return random.choice([
         ('130101', '河北省石家庄市市辖区'),
@@ -5252,6 +5266,15 @@ def generate_medical_index(medical_project):
     if medical_project == '类风关':
         return '抗环瓜氨酸肽抗体', 'IgG-捕获法', 'U/mL', 0, 17
     raise ValueError
+
+
+def calculate_code(id_number):
+    coefficients = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
+    code = 0
+    for i in range(len(coefficients)):
+        code += coefficients[i] * int(id_number[i])
+    code = (12 - code % 11) % 11
+    return str(code) if code < 10 else 'X'
 
 
 def str_to_date(string):

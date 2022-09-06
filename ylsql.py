@@ -308,6 +308,50 @@ TYPE_MAPPING = {
     'varchar': 'text'
 }
 
+PRIMARY_KEYS = {
+    'yibao': [
+        ('t_kc21', 'MED_CLINIC_ID'),
+        ('t_kc22', 'MED_EXP_DET_ID'),
+        ('t_kc24', 'MED_SAFE_PAY_ID')
+    ],
+    'yiliao': [
+        ('person_info', 'RYBH'),
+        ('hz_info', 'KH'),
+        ('hz_info', 'KLX'),
+        ('hz_info', 'YLJGDM'),
+        ('mzjzjlb', 'YLJGDM'),
+        ('mzjzjlb', 'JZLSH'),
+        ('zyjzjlb', 'YLJGDM'),
+        ('zyjzjlb', 'JZLSH'),
+        ('jybgb', 'YLJGDM'),
+        ('jybgb', 'BGDH'),
+        ('jyjgzbb', 'JYZBLSH'),
+        ('jyjgzbb', 'YLJGDM')
+    ]
+}
+
+FOREIGN_KEYS = {
+    'yibao': [
+        (('t_kc22', 'MED_CLINIC_ID'), ('t_kc21', 'MED_CLINIC_ID')),
+        (('t_kc24', 'MED_CLINIC_ID'), ('t_kc21', 'MED_CLINIC_ID'))
+    ],
+    'yiliao': [
+        (('hz_info', 'RYBH'), ('person_info', 'RYBH')),
+        (('mzjzjlb', 'YLJGDM'), ('hz_info', 'YLJGDM')),
+        (('mzjzjlb', 'KH'), ('hz_info', 'KH')),
+        (('mzjzjlb', 'KLX'), ('hz_info', 'KLX')),
+        (('zyjzjlb', 'YLJGDM'), ('hz_info', 'YLJGDM')),
+        (('zyjzjlb', 'KH'), ('hz_info', 'KH')),
+        (('zyjzjlb', 'KLX'), ('hz_info', 'KLX')),
+        (('jybgb', 'YLJGDM'), ('mzjzjlb', 'YLJGDM')),
+        (('jybgb', 'YLJGDM'), ('zyjzjlb', 'YLJGDM')),
+        (('jybgb', 'JZLSH'), ('mzjzjlb', 'JZLSH')),
+        (('jybgb', 'JZLSH'), ('zyjzjlb', 'JZLSH')),
+        (('jyjgzbb', 'YLJGDM'), ('jybgb', 'YLJGDM')),
+        (('jyjgzbb', 'BGDH'), ('jybgb', 'BGDH'))
+    ]
+}
+
 
 def generate_db_content():
     db_content = []
@@ -319,13 +363,13 @@ def generate_db_content():
         table_names = [item[0] for item in common_cursor.fetchall()]
         for table_name in table_names:
             cursor.execute(f'SELECT * FROM {table_name}')
-            cells = [[str(item) for item in cell] for cell in cursor.fetchall()]
+            cell = [[str(item) for item in record] for record in cursor.fetchall()]
             common_cursor.execute('SELECT column_name, data_type FROM columns WHERE table_schema = %s AND table_name = %s', [schema, table_name])
             columns = common_cursor.fetchall()
             header = [COLUMN_MAPPING[(table_name, column[0])] for column in columns]
             type = [TYPE_MAPPING[column[1]] for column in columns]
             tables[TABLE_MAPPING[table_name]] = {
-                'cell': cells,
+                'cell': cell,
                 'header': header,
                 'table_name': TABLE_MAPPING[table_name],
                 'type': type
@@ -338,6 +382,39 @@ def generate_db_content():
         json.dump(db_content, file, ensure_ascii=False, indent=4)
 
 
+def generate_db_schema():
+    db_schema = []
+    _, common_cursor = connect_database('information_schema')
+    for schema in ['yibao', 'yiliao']:
+        common_cursor.execute('SELECT table_name FROM tables WHERE table_schema = %s', [schema])
+        table_names = [item[0] for item in common_cursor.fetchall()]
+        column_names = []
+        column_types = ['text']
+        for i in range(len(table_names)):
+            common_cursor.execute('SELECT column_name, data_type FROM columns WHERE table_schema = %s AND table_name = %s', [schema, table_names[i]])
+            columns = common_cursor.fetchall()
+            column_names.extend([[i, column[0]] for column in columns])
+            column_types.extend([TYPE_MAPPING[column[1]] for column in columns])
+        column_ids = {}
+        for i in range(len(column_names)):
+            column_ids[(table_names[column_names[i][0]], column_names[i][1])] = i + 1
+        column_names = [[-1, '*']] + [[column_name[0], COLUMN_MAPPING[(table_names[column_name[0]], column_name[1])]] for column_name in column_names]
+        table_names = [TABLE_MAPPING[table_name] for table_name in table_names]
+        db_schema.append({
+            'db_id': SCHEMA_MAPPING[schema],
+            'table_names': table_names,
+            'column_names': column_names,
+            'table_names_original': table_names,
+            'column_names_original': column_names,
+            'column_types': column_types,
+            'foreign_keys': [[column_ids[foreign_key[0]], column_ids[foreign_key[1]]] for foreign_key in FOREIGN_KEYS[schema]],
+            'primary_keys': [column_ids[primary_key] for primary_key in PRIMARY_KEYS[schema]]
+        })
+    with open('ylsql/db_schema.json', 'w', encoding='utf-8') as file:
+        json.dump(db_schema, file, ensure_ascii=False, indent=4)
+
+
 with open('dataset.json', 'r', encoding='utf-8') as file:
     dataset = json.load(file)
 generate_db_content()
+generate_db_schema()

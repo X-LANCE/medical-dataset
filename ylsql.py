@@ -1,4 +1,6 @@
+import argparse
 import json
+import random
 from utils import connect_database
 
 SCHEMA_MAPPING = {
@@ -353,6 +355,26 @@ FOREIGN_KEYS = {
 }
 
 
+def random_split_array(array, ratios=[0.8, 0.1, 0.1]):
+    random.shuffle(array)
+    result = []
+    used_len = 0
+    for i in range(len(ratios)):
+        cur_len = int(len(array) * ratios[i])
+        if i == 0:
+            result.append(array[:cur_len])
+        elif i < len(ratios) - 1:
+            result.append(array[used_len:used_len + cur_len])
+        else:
+            result.append(array[used_len:])
+        used_len += cur_len
+    return result
+
+
+def parse_sql(schema, sql):
+    pass
+
+
 def generate_db_content():
     db_content = []
     _, common_cursor = connect_database('information_schema')
@@ -363,16 +385,13 @@ def generate_db_content():
         table_names = [item[0] for item in common_cursor.fetchall()]
         for table_name in table_names:
             cursor.execute(f'SELECT * FROM {table_name}')
-            cell = [[str(item) for item in record] for record in cursor.fetchall()]
             common_cursor.execute('SELECT column_name, data_type FROM columns WHERE table_schema = %s AND table_name = %s', [schema, table_name])
             columns = common_cursor.fetchall()
-            header = [COLUMN_MAPPING[(table_name, column[0])] for column in columns]
-            type = [TYPE_MAPPING[column[1]] for column in columns]
             tables[TABLE_MAPPING[table_name]] = {
-                'cell': cell,
-                'header': header,
-                'table_name': TABLE_MAPPING[table_name],
-                'type': type
+                'cell': [[str(item) for item in record] for record in cursor.fetchall()],
+                'header': [column[0] for column in columns],
+                'table_name': table_name,
+                'type': [TYPE_MAPPING[column[1]] for column in columns]
             }
         db_content.append({
             'db_id': SCHEMA_MAPPING[schema],
@@ -382,8 +401,9 @@ def generate_db_content():
         json.dump(db_content, file, ensure_ascii=False, indent=4)
 
 
-def generate_db_schema():
-    db_schema = []
+def generate_tables():
+    tables = []
+    schemata = {}
     _, common_cursor = connect_database('information_schema')
     for schema in ['yibao', 'yiliao']:
         common_cursor.execute('SELECT table_name FROM tables WHERE table_schema = %s', [schema])
@@ -398,23 +418,56 @@ def generate_db_schema():
         column_ids = {}
         for i in range(len(column_names)):
             column_ids[(table_names[column_names[i][0]], column_names[i][1])] = i + 1
-        column_names = [[-1, '*']] + [[column_name[0], COLUMN_MAPPING[(table_names[column_name[0]], column_name[1])]] for column_name in column_names]
-        table_names = [TABLE_MAPPING[table_name] for table_name in table_names]
-        db_schema.append({
+        tables.append({
             'db_id': SCHEMA_MAPPING[schema],
-            'table_names': table_names,
-            'column_names': column_names,
+            'table_names': [TABLE_MAPPING[table_name] for table_name in table_names],
+            'column_names': [[-1, '*']] + [[column_name[0], COLUMN_MAPPING[(table_names[column_name[0]], column_name[1])]] for column_name in column_names],
             'table_names_original': table_names,
-            'column_names_original': column_names,
+            'column_names_original': [[-1, '*']] + column_names,
             'column_types': column_types,
             'foreign_keys': [[column_ids[foreign_key[0]], column_ids[foreign_key[1]]] for foreign_key in FOREIGN_KEYS[schema]],
             'primary_keys': [column_ids[primary_key] for primary_key in PRIMARY_KEYS[schema]]
         })
-    with open('ylsql/db_schema.json', 'w', encoding='utf-8') as file:
-        json.dump(db_schema, file, ensure_ascii=False, indent=4)
+        schemata[schema] = column_ids
+    with open('ylsql/tables.json', 'w', encoding='utf-8') as file:
+        json.dump(tables, file, ensure_ascii=False, indent=4)
+    return schemata
 
 
+def generate_train_or_dev(train_or_dev_set, set_name, schemata):
+    pass
+
+
+def generate_train_or_dev_gold(train_or_dev_set, set_name):
+    pass
+
+
+def generate_test(test_set):
+    pass
+
+
+arg_parser = argparse.ArgumentParser()
+arg_parser.add_argument('--split', type=str, choices=['example', 'template'], required=True)
+args = arg_parser.parse_args()
 with open('dataset.json', 'r', encoding='utf-8') as file:
     dataset = json.load(file)
+if args.split == 'example':
+    train, dev, test = random_split_array(dataset)
+elif args.split == 'template':
+    templates = []
+    for example in dataset:
+        if len(templates) == 0 or example['template'] > templates[-1]:
+            templates.append(example['template'])
+    train_templates, dev_templates, test_templates = random_split_array(templates)
+    train = [example for example in dataset if example['template'] in train_templates]
+    dev = [example for example in dataset if example['template'] in dev_templates]
+    test = [example for example in dataset if example['template'] in test_templates]
+else:
+    raise ValueError(f'unknown split method {args.split}')
 generate_db_content()
-generate_db_schema()
+schemata = generate_tables()
+generate_train_or_dev(train, 'train', schemata)
+generate_train_or_dev(dev, 'dev', schemata)
+generate_train_or_dev_gold(train, 'train')
+generate_train_or_dev_gold(dev, 'dev')
+generate_test(test)

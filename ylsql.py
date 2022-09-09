@@ -359,8 +359,8 @@ def random_split_array(array, ratios=[0.8, 0.1, 0.1]):
     random.shuffle(array)
     result = []
     used_len = 0
-    for i in range(len(ratios)):
-        cur_len = int(len(array) * ratios[i])
+    for i, ratio in enumerate(ratios):
+        cur_len = int(len(array) * ratio)
         if i == 0:
             result.append(array[:cur_len])
         elif i < len(ratios) - 1:
@@ -410,14 +410,14 @@ def generate_tables():
         table_names = [item[0] for item in common_cursor.fetchall()]
         column_names = []
         column_types = ['text']
-        for i in range(len(table_names)):
-            common_cursor.execute('SELECT column_name, data_type FROM columns WHERE table_schema = %s AND table_name = %s', [schema, table_names[i]])
+        for i, table_name in enumerate(table_names):
+            common_cursor.execute('SELECT column_name, data_type FROM columns WHERE table_schema = %s AND table_name = %s', [schema, table_name])
             columns = common_cursor.fetchall()
             column_names.extend([[i, column[0]] for column in columns])
             column_types.extend([TYPE_MAPPING[column[1]] for column in columns])
         column_ids = {}
-        for i in range(len(column_names)):
-            column_ids[(table_names[column_names[i][0]], column_names[i][1])] = i + 1
+        for i, column_name in enumerate(column_names):
+            column_ids[(table_names[column_name[0]], column_name[1])] = i + 1
         tables.append({
             'db_id': SCHEMA_MAPPING[schema],
             'table_names': [TABLE_MAPPING[table_name] for table_name in table_names],
@@ -443,13 +443,23 @@ def generate_train_or_dev_gold(train_or_dev_set, set_name):
 
 
 def generate_test(test_set):
-    pass
+    result = []
+    for i, example in enumerate(test_set):
+        result.append({
+            'query': '',
+            'db_id': example['schema'],
+            'question': example['question'],
+            'sql': '',
+            'question_id': f'qid{str(i + 1).zfill(6)}'
+        })
+    with open('ylsql/test.json', 'w', encoding='utf-8') as file:
+        json.dump(result, file, ensure_ascii=False, indent=4)
 
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--split', type=str, choices=['example', 'template'], required=True)
 args = arg_parser.parse_args()
-with open('dataset.json', 'r', encoding='utf-8') as file:
+with open('dataset/dataset.json', 'r', encoding='utf-8') as file:
     dataset = json.load(file)
 if args.split == 'example':
     train, dev, test = random_split_array(dataset)

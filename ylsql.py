@@ -356,7 +356,7 @@ FOREIGN_KEYS = {
 
 SQL_KEYWORDS = [
     'SELECT', 'FROM', 'WHERE', 'BY', 'GROUP', 'HAVING', 'ORDER', 'INTERSECT', 'UNION', 'EXCEPT',
-    'AVG', 'COUNT', 'MAX', 'MIN', 'SUM', 'DISTINCT',
+    'AVG', 'COUNT', 'MAX', 'MIN', 'SUM', 'DISTINCT', 'DATEDIFF', 'MOD',
     'JOIN', 'ON', 'AS',
     'NOT', 'AND', 'OR', 'BETWEEN', 'IN', 'LIKE',
     'ASC', 'DESC', 'LIMIT'
@@ -380,13 +380,44 @@ def random_split_array(array, ratios=[0.8, 0.1, 0.1]):
 
 
 def preprocess_sql(sql):
-    tokens = sql.replace(',', ' , ').replace('(', ' ( ').replace(')', ' ) ').split()
+    is_value = False
+    i = 0
+    while i < len(sql):
+        if sql[i] in [',', '(', ')'] and (not is_value):
+            sql = f'{sql[:i]} {sql[i]} {sql[i + 1:]}'
+            i += 3
+        else:
+            if sql[i] == "'":
+                is_value = not is_value
+            i += 1
+    tokens = sql.split()
     while '' in tokens:
         tokens.remove('')
     for i in range(len(tokens)):
         if tokens[i] in SQL_KEYWORDS:
             tokens[i] = tokens[i].lower()
     return ' '.join(tokens)
+
+
+def tokenize_sql(sql):
+    tokens = []
+    i = 0
+    while i < len(sql):
+        if sql[i] == '(':
+            count = 1
+            j = i + 1
+            while count > 0:
+                if sql[j] == '(':
+                    count += 1
+                elif sql[j] == ')':
+                    count -= 1
+                j += 1
+            tokens.append(tokenize_sql(sql[i + 1:j - 1]))
+            i = j
+        else:
+            tokens.append(sql[i])
+            i += 1
+    return tokens
 
 
 def parse_sql(schema, sql):
@@ -446,14 +477,25 @@ def generate_tables():
             'foreign_keys': [[column_ids[foreign_key[0]], column_ids[foreign_key[1]]] for foreign_key in FOREIGN_KEYS[schema]],
             'primary_keys': [column_ids[primary_key] for primary_key in PRIMARY_KEYS[schema]]
         })
-        schemata[schema] = column_ids
+        schemata[SCHEMA_MAPPING[schema]] = column_ids
     with open('ylsql/tables.json', 'w', encoding='utf-8') as file:
         json.dump(tables, file, ensure_ascii=False, indent=4)
     return schemata
 
 
 def generate_train_or_dev(train_or_dev_set, set_name, schemata):
-    pass
+    result = []
+    for i, example in enumerate(train_or_dev_set):
+        sql = preprocess_sql(example['sql'])
+        result.append({
+            'query': sql,
+            'db_id': example['schema'],
+            'question': example['question'],
+            'question_id': f'qid{str(i + 1).zfill(6)}',
+            'sql': parse_sql(schemata[example['schema']], tokenize_sql(sql.split()))
+        })
+    with open(f'ylsql/{set_name}.json', 'w', encoding='utf-8') as file:
+        json.dump(result, file, ensure_ascii=False, indent=4)
 
 
 def generate_train_or_dev_gold(train_or_dev_set, set_name):

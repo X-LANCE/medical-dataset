@@ -354,6 +354,14 @@ FOREIGN_KEYS = {
     ]
 }
 
+SQL_KEYWORDS = [
+    'SELECT', 'FROM', 'WHERE', 'BY', 'GROUP', 'HAVING', 'ORDER', 'INTERSECT', 'UNION', 'EXCEPT',
+    'AVG', 'COUNT', 'MAX', 'MIN', 'SUM', 'DISTINCT',
+    'JOIN', 'ON', 'AS',
+    'NOT', 'AND', 'OR', 'BETWEEN', 'IN', 'LIKE',
+    'ASC', 'DESC', 'LIMIT'
+]
+
 
 def random_split_array(array, ratios=[0.8, 0.1, 0.1]):
     random.shuffle(array)
@@ -369,6 +377,16 @@ def random_split_array(array, ratios=[0.8, 0.1, 0.1]):
             result.append(array[used_len:])
         used_len += cur_len
     return result
+
+
+def preprocess_sql(sql):
+    tokens = sql.replace(',', ' , ').replace('(', ' ( ').replace(')', ' ) ').split()
+    while '' in tokens:
+        tokens.remove('')
+    for i in range(len(tokens)):
+        if tokens[i] in SQL_KEYWORDS:
+            tokens[i] = tokens[i].lower()
+    return ' '.join(tokens)
 
 
 def parse_sql(schema, sql):
@@ -439,7 +457,9 @@ def generate_train_or_dev(train_or_dev_set, set_name, schemata):
 
 
 def generate_train_or_dev_gold(train_or_dev_set, set_name):
-    pass
+    with open(f'ylsql/{set_name}_gold.sql', 'w', encoding='utf-8') as file:
+        for i, example in enumerate(train_or_dev_set):
+            file.write(f"qid{str(i + 1).zfill(6)}\t{preprocess_sql(example['sql'])}\t{example['schema']}\n")
 
 
 def generate_test(test_set):

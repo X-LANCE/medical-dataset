@@ -362,6 +362,8 @@ SQL_KEYWORDS = [
     'ASC', 'DESC', 'LIMIT'
 ]
 
+COLUMNS = set([column[1] for column in COLUMN_MAPPING])
+
 
 def random_split_array(array, ratios=[0.8, 0.1, 0.1]):
     random.shuffle(array)
@@ -403,9 +405,9 @@ def tokenize_sql(sql):
     tokens = []
     i = 0
     while i < len(sql):
-        if sql[i] == '(':
+        if sql[i] == '(' and sql[i + 1] == 'select':
             count = 1
-            j = i + 1
+            j = i + 2
             while count > 0:
                 if sql[j] == '(':
                     count += 1
@@ -417,11 +419,21 @@ def tokenize_sql(sql):
         else:
             tokens.append(sql[i])
             i += 1
+    if 'from' in tokens:
+        table_name = tokens[tokens.index('from') + 1]
+        for i in range(len(tokens)):
+            if isinstance(tokens[i], str) and tokens[i] in COLUMNS:
+                tokens[i] = f'{table_name}.{tokens[i]}'
     return tokens
 
 
 def parse_sql(schema, sql):
-    pass
+    if sql[1] in ['intersect', 'union', 'except']:
+        assert len(sql) == 3
+        result = parse_sql(schema, sql[0])
+        result[sql[1]] = parse_sql(schema, sql[2])
+        return result
+    return dict()
 
 
 def generate_db_content():

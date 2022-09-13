@@ -354,13 +354,16 @@ FOREIGN_KEYS = {
     ]
 }
 
+SQL_AGGS = ['MAX', 'MIN', 'COUNT', 'SUM', 'AVG']
+
 SQL_KEYWORDS = [
-    'SELECT', 'FROM', 'WHERE', 'BY', 'GROUP', 'HAVING', 'ORDER', 'INTERSECT', 'UNION', 'EXCEPT',
-    'AVG', 'COUNT', 'MAX', 'MIN', 'SUM', 'DISTINCT', 'DATEDIFF', 'MOD',
+    'SELECT', 'FROM', 'WHERE', 'BY', 'GROUP', 'HAVING', 'ORDER',
+    'INTERSECT', 'UNION', 'EXCEPT',
+    'DISTINCT', 'DATEDIFF', 'MOD',
     'JOIN', 'ON', 'AS',
     'NOT', 'AND', 'OR', 'BETWEEN', 'IN', 'LIKE',
     'ASC', 'DESC', 'LIMIT'
-]
+] + SQL_AGGS
 
 COLUMNS = set([column[1] for column in COLUMN_MAPPING])
 
@@ -428,12 +431,83 @@ def tokenize_sql(sql):
 
 
 def parse_sql(schema, sql):
-    if sql[1] in ['intersect', 'union', 'except']:
+    if isinstance(sql[1], str) and sql[1] in ['intersect', 'union', 'except']:
         assert len(sql) == 3
         result = parse_sql(schema, sql[0])
         result[sql[1]] = parse_sql(schema, sql[2])
         return result
-    return dict()
+    result = {
+        'select': [],
+        'from': None,
+        'where': [],
+        'groupBy': [],
+        'having': [],
+        'orderBy': [],
+        'limit': None,
+        'intersect': None,
+        'union': None,
+        'except': None
+    }
+    i = 1
+    while i < len(sql):
+        if isinstance(sql[i], str) and sql[i] == 'from':
+            break
+        i += 1
+    result['select'] = parse_select(schema, sql[:i])
+    return result
+
+
+def parse_select(schema, select):
+    assert isinstance(select[0], str) and select[0] == 'select'
+    result = []
+    i = 1
+    while i < len(select):
+        j = i + 1
+        while j < len(select):
+            if select[j] == ',':
+                break
+            j += 1
+        result.append(parse_val_unit(schema, select[i:j]))
+        i = j + 1
+    return result
+
+
+def parse_val_unit(schema, val_unit):
+    result = []
+    if isinstance(val_unit[0], str) and val_unit[0].upper() in SQL_AGGS:
+        result.append(SQL_AGGS.index(val_unit[0].upper()) + 1)
+        assert isinstance(val_unit[1], str) and val_unit[1] == '(' and isinstance(val_unit[-1], str) and val_unit[-1] == ')'
+        start = 2
+        end = len(val_unit) - 1
+    else:
+        result.append(0)
+        start = 0
+        end = len(val_unit)
+    assert end - start in [1, 2, 3]
+    if end - start < 3:
+        result.append([
+            0,
+            parse_col_unit(schema, val_unit[start:end]),
+            None
+        ])
+    else:
+        result.append([
+            ['-', '+', '*', '/'].index(val_unit[start + 1]) + 1,
+            parse_col_unit(schema, val_unit[start:start + 1]),
+            parse_col_unit(schema, val_unit[end - 1:end])
+        ])
+    return result
+
+
+def parse_col_unit(schema, col_unit):
+    assert len(col_unit) in [1, 2]
+    if len(col_unit) == 1:
+        col = col_unit[0]
+    else:
+        assert isinstance(col_unit[0], str) and col_unit[0] == 'distinct'
+        col = col_unit[1]
+    assert isinstance(col, str)
+    return [0, 0 if '*' in col else schema[(col[:col.find('.')], col[col.find('.') + 1:])], len(col_unit) > 1]
 
 
 def generate_db_content():
@@ -497,23 +571,29 @@ def generate_tables():
 
 def generate_train_or_dev(train_or_dev_set, set_name, schemata):
     result = []
-    for i, example in enumerate(train_or_dev_set):
+    qid = 1
+    for example in train_or_dev_set:
+        if example['template'] in [32, 175, 182, 183, 247, 248, 271, 272]:
+            continue
         sql = preprocess_sql(example['sql'])
         result.append({
             'query': sql,
             'db_id': example['schema'],
             'question': example['question'],
-            'question_id': f'qid{str(i + 1).zfill(6)}',
+            'question_id': f'qid{str(qid).zfill(6)}',
             'sql': parse_sql(schemata[example['schema']], tokenize_sql(sql.split()))
         })
+        qid += 1
     with open(f'ylsql/{set_name}.json', 'w', encoding='utf-8') as file:
         json.dump(result, file, ensure_ascii=False, indent=4)
 
 
-def generate_train_or_dev_gold(train_or_dev_set, set_name):
+def generate_train_or_dev_gold(set_name):
+    with open(f'ylsql/{set_name}.json', 'r', encoding='utf-8') as file:
+        train_or_dev_set = json.load(file)
     with open(f'ylsql/{set_name}_gold.sql', 'w', encoding='utf-8') as file:
-        for i, example in enumerate(train_or_dev_set):
-            file.write(f"qid{str(i + 1).zfill(6)}\t{preprocess_sql(example['sql'])}\t{example['schema']}\n")
+        for example in train_or_dev_set:
+            file.write(f"{example['question_id']}\t{example['query']}\t{example['db_id']}\n")
 
 
 def generate_test(test_set):
@@ -552,6 +632,6 @@ generate_db_content()
 schemata = generate_tables()
 generate_train_or_dev(train, 'train', schemata)
 generate_train_or_dev(dev, 'dev', schemata)
-generate_train_or_dev_gold(train, 'train')
-generate_train_or_dev_gold(dev, 'dev')
+generate_train_or_dev_gold('train')
+generate_train_or_dev_gold('dev')
 generate_test(test)

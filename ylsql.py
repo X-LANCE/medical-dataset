@@ -1,7 +1,7 @@
 import argparse
 import json
 import random
-from utils import connect_database
+from utils import connect_database, str_to_number
 
 SCHEMA_MAPPING = {
     'yibao': '医保表',
@@ -356,6 +356,8 @@ FOREIGN_KEYS = {
 
 SQL_AGGS = ['MAX', 'MIN', 'COUNT', 'SUM', 'AVG']
 
+SQL_CONDS = ['BETWEEN', '==', '>', '<', '>=', '<=', '!=', 'IN', 'LIKE']
+
 SQL_KEYWORDS = [
     'SELECT', 'FROM', 'WHERE', 'BY', 'GROUP', 'HAVING', 'ORDER',
     'INTERSECT', 'UNION', 'EXCEPT',
@@ -401,6 +403,10 @@ def preprocess_sql(sql):
     for i in range(len(tokens)):
         if tokens[i] in SQL_KEYWORDS:
             tokens[i] = tokens[i].lower()
+        elif tokens[i] == '=':
+            tokens[i] = '=='
+        elif tokens[i] == '<>':
+            tokens[i] = '!='
     return ' '.join(tokens)
 
 
@@ -448,12 +454,22 @@ def parse_sql(schema, sql):
         'union': None,
         'except': None
     }
-    i = 1
-    while i < len(sql):
-        if isinstance(sql[i], str) and sql[i] == 'from':
+    i = 0
+    j = 1
+    while j < len(sql):
+        if isinstance(sql[j], str) and sql[j] == 'from':
             break
-        i += 1
-    result['select'] = parse_select(schema, sql[:i])
+        j += 1
+    result['select'] = parse_select(schema, sql[i:j])
+    if j == len(sql):
+        return result
+    i = j
+    j += 1
+    while j < len(sql):
+        if isinstance(sql[j], str) and sql[j] in ['where', 'group', 'order']:
+            break
+        j += 1
+    result['from'] = parse_from(schema, sql[i:j])
     return result
 
 
@@ -469,6 +485,70 @@ def parse_select(schema, select):
             j += 1
         result.append(parse_val_unit(schema, select[i:j]))
         i = j + 1
+    return result
+
+
+def parse_from(schema, from_clause):
+    assert isinstance(from_clause[0], str) and from_clause[0] == 'from'
+    result = {
+        'table_units': [],
+        'conds': []
+    }
+    for i in range(1, len(from_clause), 2):
+        if isinstance(from_clause[i], str):
+            result['table_units'].append(['table_unit', schema['table_ids'][from_clause[i]]])
+        else:
+            result['table_units'].append(['sql', parse_sql(from_clause[i])])
+        if i < len(from_clause) - 1:
+            assert isinstance(from_clause[i + 1], str)
+            if from_clause[i + 1] == 'on':
+                result['conds'] = parse_conds(schema, from_clause[i + 2:])
+                break
+            assert from_clause[i + 1] == 'join'
+    return result
+
+
+def parse_conds(schema, conds):
+    result = []
+    i = 0
+    while i < len(conds):
+        is_between = False
+        j = i + 1
+        while j < len(conds):
+            if isinstance(conds[j], str):
+                if conds[j] == 'between':
+                    is_between = True
+                elif conds[j] == 'and' and is_between:
+                    is_between = False
+                elif conds[j] in ['and', 'or']:
+                    break
+            j += 1
+        result.append(parse_cond(schema, conds[i:j]))
+        if j < len(conds):
+            result.append(conds[j])
+        i = j + 1
+    return result
+
+
+def parse_cond(schema, cond):
+    def parse_value(value):
+        if isinstance(value, list):
+            return parse_sql(schema, value)
+        if '.' in value and value[value.find('.') + 1:] in COLUMNS:
+            return parse_col_unit(schema, [value])[1]
+        return value[1:-1] if "'" in value else str_to_number(value)
+
+    for i in range(len(cond)):
+        if isinstance(cond[i], str) and cond[i] in SQL_CONDS:
+            break
+    result = parse_val_unit(schema, cond[:i])
+    result.insert(1, SQL_CONDS.index(cond[i].upper()) + 1)
+    if cond[i] != 'between':
+        assert i == len(cond) - 2
+        result += [parse_value(cond[i + 1]), None]
+    else:
+        assert i == len(cond) - 4 and isinstance(cond[i + 2], str) and cond[i + 2] == 'and'
+        result += [parse_value(cond[i + 1]), parse_value(cond[i + 3])]
     return result
 
 
@@ -507,7 +587,7 @@ def parse_col_unit(schema, col_unit):
         assert isinstance(col_unit[0], str) and col_unit[0] == 'distinct'
         col = col_unit[1]
     assert isinstance(col, str)
-    return [0, 0 if '*' in col else schema[(col[:col.find('.')], col[col.find('.') + 1:])], len(col_unit) > 1]
+    return [0, 0 if '*' in col else schema['column_ids'][(col[:col.find('.')], col[col.find('.') + 1:])], len(col_unit) > 1]
 
 
 def generate_db_content():
@@ -545,11 +625,13 @@ def generate_tables():
         table_names = [item[0] for item in common_cursor.fetchall()]
         column_names = []
         column_types = ['text']
+        table_ids = {}
         for i, table_name in enumerate(table_names):
             common_cursor.execute('SELECT column_name, data_type FROM columns WHERE table_schema = %s AND table_name = %s', [schema, table_name])
             columns = common_cursor.fetchall()
             column_names.extend([[i, column[0]] for column in columns])
             column_types.extend([TYPE_MAPPING[column[1]] for column in columns])
+            table_ids[table_name] = i
         column_ids = {}
         for i, column_name in enumerate(column_names):
             column_ids[(table_names[column_name[0]], column_name[1])] = i + 1
@@ -563,7 +645,10 @@ def generate_tables():
             'foreign_keys': [[column_ids[foreign_key[0]], column_ids[foreign_key[1]]] for foreign_key in FOREIGN_KEYS[schema]],
             'primary_keys': [column_ids[primary_key] for primary_key in PRIMARY_KEYS[schema]]
         })
-        schemata[SCHEMA_MAPPING[schema]] = column_ids
+        schemata[SCHEMA_MAPPING[schema]] = {
+            'table_ids': table_ids,
+            'column_ids': column_ids
+        }
     with open('ylsql/tables.json', 'w', encoding='utf-8') as file:
         json.dump(tables, file, ensure_ascii=False, indent=4)
     return schemata

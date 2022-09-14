@@ -5285,6 +5285,13 @@ def str_to_datetime(string):
     return datetime(int(string[:4]), int(string[5:7]), int(string[8:10]), int(string[11:13]), int(string[14:16]), int(string[17:]))
 
 
+def str_to_number(string):
+    try:
+        return int(string)
+    except:
+        return float(string)
+
+
 def random_split(number, segment):
     points = [0, number]
     for _ in range(segment - 1):

@@ -437,6 +437,14 @@ def tokenize_sql(sql):
 
 
 def parse_sql(schema, sql):
+    def find_clause(start, end_keywords):
+        end = start + 1
+        while end < len(sql):
+            if isinstance(sql[end], str) and sql[end] in end_keywords:
+                break
+            end += 1
+        return start, end
+
     if isinstance(sql[1], str) and sql[1] in ['intersect', 'union', 'except']:
         assert len(sql) == 3
         result = parse_sql(schema, sql[0])
@@ -454,22 +462,25 @@ def parse_sql(schema, sql):
         'union': None,
         'except': None
     }
-    i = 0
-    j = 1
-    while j < len(sql):
-        if isinstance(sql[j], str) and sql[j] == 'from':
-            break
-        j += 1
-    result['select'] = parse_select(schema, sql[i:j])
-    if j == len(sql):
+    start, end = find_clause(0, ['from'])
+    result['select'] = parse_select(schema, sql[start:end])
+    if end == len(sql):
         return result
-    i = j
-    j += 1
-    while j < len(sql):
-        if isinstance(sql[j], str) and sql[j] in ['where', 'group', 'order']:
-            break
-        j += 1
-    result['from'] = parse_from(schema, sql[i:j])
+    start, end = find_clause(end, ['where', 'group', 'order'])
+    result['from'] = parse_from(schema, sql[start:end])
+    if end == len(sql):
+        return result
+    if sql[end] == 'where':
+        start, end = find_clause(end, ['group', 'order'])
+        result['where'] = parse_conds(schema, sql[start + 1:end])
+        if end == len(sql):
+            return result
+    if sql[end] == 'group':
+        start, end = find_clause(end, ['order'])
+        result['groupBy'], result['having'] = parse_group_by(schema, sql[start:end])
+        if end == len(sql):
+            return result
+    result['orderBy'], result['limit'] = parse_order_by(schema, sql[end:])
     return result
 
 
@@ -480,7 +491,7 @@ def parse_select(schema, select):
     while i < len(select):
         j = i + 1
         while j < len(select):
-            if select[j] == ',':
+            if isinstance(select[j], str) and select[j] == ',':
                 break
             j += 1
         result.append(parse_val_unit(schema, select[i:j]))
@@ -506,6 +517,40 @@ def parse_from(schema, from_clause):
                 break
             assert from_clause[i + 1] == 'join'
     return result
+
+
+def parse_group_by(schema, group_by):
+    assert isinstance(group_by[0], str) and group_by[0] == 'group' and isinstance(group_by[1], str) and group_by[1] == 'by'
+    result = []
+    for i in range(2, len(group_by), 2):
+        result.append(parse_col_unit(schema, [group_by[i]]))
+        if i < len(group_by) - 1:
+            assert isinstance(group_by[i + 1], str)
+            if group_by[i + 1] == 'having':
+                return result, parse_conds(schema, group_by[i + 2:])
+            assert group_by[i + 1] == ','
+    return result, []
+
+
+def parse_order_by(schema, order_by):
+    assert isinstance(order_by[0], str) and order_by[0] == 'order' and isinstance(order_by[1], str) and order_by[1] == 'by'
+    result = [[]]
+    i = 2
+    while i < len(order_by):
+        j = i + 1
+        while j < len(order_by):
+            if isinstance(order_by[j], str) and order_by[j] in [',', 'asc', 'desc']:
+                break
+            j += 1
+        result[0].append(parse_val_unit(schema, order_by[i:j]))
+        i = j + 1
+        if order_by[j] in ['asc', 'desc']:
+            result.insert(0, order_by[j])
+            break
+    if i < len(order_by):
+        assert i == len(order_by) - 2 and isinstance(order_by[i], str) and order_by[i] == 'limit'
+        return result, int(order_by[i + 1])
+    return result, None
 
 
 def parse_conds(schema, conds):
@@ -539,7 +584,7 @@ def parse_cond(schema, cond):
         return value[1:-1] if "'" in value else str_to_number(value)
 
     for i in range(len(cond)):
-        if isinstance(cond[i], str) and cond[i] in SQL_CONDS:
+        if isinstance(cond[i], str) and cond[i].upper() in SQL_CONDS:
             break
     result = parse_val_unit(schema, cond[:i])
     result.insert(1, SQL_CONDS.index(cond[i].upper()) + 1)
@@ -573,8 +618,8 @@ def parse_val_unit(schema, val_unit):
     else:
         result.append([
             ['-', '+', '*', '/'].index(val_unit[start + 1]) + 1,
-            parse_col_unit(schema, val_unit[start:start + 1]),
-            parse_col_unit(schema, val_unit[end - 1:end])
+            parse_col_unit(schema, [val_unit[start]]),
+            parse_col_unit(schema, [val_unit[end - 1]])
         ])
     return result
 
@@ -658,7 +703,11 @@ def generate_train_or_dev(train_or_dev_set, set_name, schemata):
     result = []
     qid = 1
     for example in train_or_dev_set:
-        if example['template'] in [32, 175, 182, 183, 247, 248, 271, 272]:
+        if example['template'] in [12, 13, 43, 91, 130, 176]: # cond AND (cond OR cond)
+            continue
+        if example['template'] in [32, 175, 182, 183, 247, 248, 271, 272]: # SELECT sql OP sql
+            continue
+        if example['template'] in [42, 217, 279, 280]: # DATEDIFF MOD
             continue
         sql = preprocess_sql(example['sql'])
         result.append({

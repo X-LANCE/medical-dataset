@@ -1,8 +1,8 @@
 import random
 from dataclasses import dataclass
 from datetime import timedelta
-from generate_dataset import generate_date, generate_name
-from utils import generate_date_of_birth, generate_region, calculate_code, str_to_date, random_split, connect_database, update_database
+from generate_dataset.generate_dataset import generate_date, generate_name
+from util.util import generate_date_of_birth, generate_region, calculate_code, str_to_date, random_split, connect_database, update_database
 from xeger import Xeger
 
 

@@ -1,7 +1,7 @@
 import argparse
 import json
 import random
-from utils import connect_database, str_to_number
+from util.util import connect_database, str_to_number
 
 SCHEMA_MAPPING = {
     'yibao': '医保表',

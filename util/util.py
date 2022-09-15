@@ -1,7 +1,7 @@
 import pymysql
 import random
 from datetime import date, datetime
-from generate_dataset import generate_date
+from generate_dataset.generate_dataset import generate_date
 
 
 def generate_datetime():

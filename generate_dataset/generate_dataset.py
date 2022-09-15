@@ -585,4 +585,4 @@ def generate_dataset():
         json.dump(dataset, file, ensure_ascii=False, indent=4)
     for key in value_sets:
         value_sets[key] = list(value_sets[key])
-    return value_sets
+    return dataset, value_sets

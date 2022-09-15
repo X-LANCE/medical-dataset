@@ -1,7 +1,7 @@
 import argparse
 import json
 import os
-from utils import connect_database
+from util.util import connect_database
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--database', type=str, required=True)

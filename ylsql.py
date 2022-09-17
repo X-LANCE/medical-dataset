@@ -764,6 +764,7 @@ else:
     raise ValueError(f'unknown split method {args.split}')
 generate_db_content()
 schemata = generate_tables()
+generate_train_or_dev(dataset, 'all', schemata)
 generate_train_or_dev(train, 'train', schemata)
 generate_train_or_dev(dev, 'dev', schemata)
 generate_train_or_dev_gold('train')

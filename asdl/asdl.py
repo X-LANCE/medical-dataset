@@ -17,6 +17,9 @@ class Grammar:
     def __init__(self, constructors):
         self.constructors = constructors
 
+    def __getitem__(self, key):
+        return self.constructors[key]
+
     @staticmethod
     def from_file(filepath):
         with open(filepath, 'r') as file:

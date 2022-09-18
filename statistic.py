@@ -8,6 +8,7 @@ grammar = Grammar.from_file('asdl/grammar/grammar.txt')
 ast_count = {}
 for example in dataset:
     ast = AbstractSyntaxTree.parse_sql(grammar, example['sql'])
+    ast.check(grammar)
     ast_count[ast] = ast_count.get(ast, 0) + 1
 ast_count = list(zip(ast_count.keys(), ast_count.values()))
 ast_count.sort(key=lambda x: x[1], reverse=True)

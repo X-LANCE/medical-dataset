@@ -39,27 +39,27 @@ class AbstractSyntaxTree:
     def parse_sql_unit(grammar, sql_unit):
         ast = AbstractSyntaxTree('sql_unit')
         ast.sons.append(AbstractSyntaxTree.parse_select(grammar, sql_unit['select']))
-        ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']))
+        ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']['table_units']))
         if sql_unit['where'] and sql_unit['groupBy'] and sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['Complete']
             ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, sql_unit['where']))
-            ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy']))
-            ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy']))
+            ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
+            ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         if sql_unit['groupBy'] and sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['NoWhere']
-            ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy']))
-            ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy']))
+            ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
+            ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         if sql_unit['where'] and sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['NoGroupBy']
             ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, sql_unit['where']))
-            ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy']))
+            ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         if sql_unit['where'] and sql_unit['groupBy']:
             ast.constructor = grammar['sql_unit']['NoOrderBy']
             ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, sql_unit['where']))
-            ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy']))
+            ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
             return ast
         if sql_unit['where']:
             ast.constructor = grammar['sql_unit']['OnlyWhere']
@@ -67,11 +67,11 @@ class AbstractSyntaxTree:
             return ast
         if sql_unit['groupBy']:
             ast.constructor = grammar['sql_unit']['OnlyGroupBy']
-            ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy']))
+            ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
             return ast
         if sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['OnlyOrderBy']
-            ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy']))
+            ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         ast.constructor = grammar['sql_unit']['Simple']
         return ast
@@ -85,16 +85,32 @@ class AbstractSyntaxTree:
         return ast
 
     @staticmethod
-    def parse_from(grammar, from_clause):
-        pass
+    def parse_from(grammar, table_units):
+        ast = AbstractSyntaxTree('from')
+        if table_units[0][0] == 'sql':
+            ast.constructor = grammar['from']['FromSQL']
+            ast.sons.append(AbstractSyntaxTree.parse_sql(table_units[0][1]))
+        else:
+            ast.constructor = grammar['from'][f'From{num2word.word(len(table_units))}Table']
+        return ast
 
     @staticmethod
-    def parse_group_by(grammar, group_by):
-        pass
+    def parse_group_by(grammar, group_by, having):
+        ast = AbstractSyntaxTree('group_by')
+        ast.constructor = grammar['group_by'][f"{num2word.word(len(group_by))}{'' if having else 'No'}Having"]
+        for col_unit in group_by:
+            ast.sons.append(AbstractSyntaxTree.parse_col_unit(grammar, col_unit))
+        if having:
+            ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, having))
+        return ast
 
     @staticmethod
-    def parse_order_by(grammar, order_by):
-        pass
+    def parse_order_by(grammar, order_by, limit):
+        ast = AbstractSyntaxTree('order_by')
+        ast.constructor = grammar['order_by'][f"{num2word.word(len(order_by[1]))}{order_by[0].title()}{'Limit' if limit else ''}"]
+        for val_unit in order_by[1]:
+            ast.sons.append(AbstractSyntaxTree.parse_val_unit(grammar, val_unit))
+        return ast
 
     @staticmethod
     def parse_cond(grammar, cond):
@@ -141,3 +157,11 @@ class AbstractSyntaxTree:
         else:
             raise ValueError(f'unknown aggregate function {col_unit[0]}')
         return ast
+
+    def check(self, grammar):
+        i = 0
+        for field in self.constructor.fields:
+            if field in grammar.constructors:
+                assert self.sons[i].type == field
+                self.sons[i].check(grammar)
+                i += 1

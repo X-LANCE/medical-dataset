@@ -8,20 +8,6 @@ class AbstractSyntaxTree:
         self.sons = []
         self.constructor: Constructor
 
-    def __eq__(self, ast):
-        if not (isinstance(ast, AbstractSyntaxTree) and self.type == ast.type and self.constructor == ast.constructor):
-            return False
-        for i in range(len(self.sons)):
-            if self.sons[i] != ast.sons[i]:
-                return False
-        return True
-
-    def __hash__(self):
-        result = hash(self.type) ^ hash(self.constructor)
-        for son in self.sons:
-            result ^= hash(son)
-        return result
-
     @staticmethod
     def parse_sql(grammar, sql):
         ast = AbstractSyntaxTree('sql')
@@ -114,7 +100,42 @@ class AbstractSyntaxTree:
 
     @staticmethod
     def parse_cond(grammar, cond):
-        pass
+        ast = AbstractSyntaxTree('cond')
+        if len(cond) > 1:
+            ast.constructor = grammar['cond'][cond[1].title()]
+            ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, [cond[0]]))
+            ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, cond[2:]))
+            return ast
+        cond = cond[0]
+        ast.sons.append(AbstractSyntaxTree.parse_val_unit(grammar, [cond[0], cond[2]]))
+        is_sql = 'SQL' if isinstance(cond[3], dict) else ''
+        if cond[1] == 1:
+            ast.constructor = grammar['cond'][f'Between{is_sql}']
+        elif cond[1] == 2:
+            ast.constructor = grammar['cond'][f'Eq{is_sql}']
+        elif cond[1] == 3:
+            ast.constructor = grammar['cond'][f'Gt{is_sql}']
+        elif cond[1] == 4:
+            ast.constructor = grammar['cond'][f'Lt{is_sql}']
+        elif cond[1] == 5:
+            ast.constructor = grammar['cond'][f'Ge{is_sql}']
+        elif cond[1] == 6:
+            ast.constructor = grammar['cond'][f'Le{is_sql}']
+        elif cond[1] == 7:
+            ast.constructor = grammar['cond'][f'Neq{is_sql}']
+        elif cond[1] == 8:
+            ast.constructor = grammar['cond'][f'In{is_sql}']
+        elif cond[1] == 9:
+            ast.constructor = grammar['cond'][f'Like{is_sql}']
+        elif cond[1] == 10:
+            ast.constructor = grammar['cond'][f'NotIn{is_sql}']
+        elif cond[1] == 11:
+            ast.constructor = grammar['cond'][f'NotLike{is_sql}']
+        else:
+            raise ValueError(f'unknown conditional operator {cond[1]}')
+        if is_sql:
+            ast.sons.append(AbstractSyntaxTree.parse_sql(cond[3]))
+        return ast
 
     @staticmethod
     def parse_val_unit(grammar, val_unit):
@@ -165,3 +186,133 @@ class AbstractSyntaxTree:
                 assert self.sons[i].type == field
                 self.sons[i].check(grammar)
                 i += 1
+
+    def unparse_sql(self):
+        assert self.type == 'sql'
+        sql_unit0 = self.sons[0].unparse_sql_unit()
+        if self.constructor.name == 'Single':
+            return sql_unit0
+        sql_unit1 = self.sons[1].unparse_sql_unit()
+        return f'({sql_unit0}) {self.constructor.name.upper()} ({sql_unit1})'
+
+    def unparse_sql_unit(self):
+        assert self.type == 'sql_unit'
+        select = self.sons[0].unparse_select()
+        from_clause = self.sons[1].unparse_from()
+        if self.constructor.name == 'Complete':
+            cond = self.sons[2].unparse_cond()
+            group_by = self.sons[3].unparse_group_by()
+            order_by = self.sons[4].unparse_order_by()
+            return f'{select} {from_clause} WHERE {cond} {group_by} {order_by}'
+        if self.constructor.name == 'NoWhere':
+            group_by = self.sons[2].unparse_group_by()
+            order_by = self.sons[3].unparse_order_by()
+            return f'{select} {from_clause} {group_by} {order_by}'
+        if self.constructor.name == 'NoGroupBy':
+            cond = self.sons[2].unparse_cond()
+            order_by = self.sons[3].unparse_order_by()
+            return f'{select} {from_clause} WHERE {cond} {order_by}'
+        if self.constructor.name == 'NoOrderBy':
+            cond = self.sons[2].unparse_cond()
+            group_by = self.sons[3].unparse_group_by()
+            return f'{select} {from_clause} WHERE {cond} {group_by}'
+        if self.constructor.name == 'OnlyWhere':
+            cond = self.sons[2].unparse_cond()
+            return f'{select} {from_clause} WHERE {cond}'
+        if self.constructor.name == 'OnlyGroupBy':
+            group_by = self.sons[2].unparse_group_by()
+            return f'{select} {from_clause} {group_by}'
+        if self.constructor.name == 'OnlyOrderBy':
+            order_by = self.sons[2].unparse_order_by()
+            return f'{select} {from_clause} {order_by}'
+        return f'{select} {from_clause}'
+
+    def unparse_select(self):
+        assert self.type == 'select'
+        val_units = []
+        for son in self.sons:
+            val_units.append(son.unparse_val_unit())
+        return f"SELECT {', '.join(val_units)}"
+
+    def unparse_from(self):
+        assert self.type == 'from'
+        if self.constructor.name == 'FromSQL':
+            return f'FROM ({self.sons[0].unparse_sql()})'
+        return f"FROM {', '.join(['tab'] * len(self.constructor.fields))}"
+
+    def unparse_group_by(self):
+        assert self.type == 'group_by'
+        col_units = []
+        for i, field in enumerate(self.constructor.fields):
+            if field == 'col_unit':
+                col_units.append(self.sons[i].unparse_col_unit())
+            else:
+                return f"GROUP BY {', '.join(col_units)} HAVING {self.sons[i].unparse_cond()}"
+        return f"GROUP BY {', '.join(col_units)}"
+
+    def unparse_order_by(self):
+        assert self.type == 'order_by'
+        val_units = []
+        for son in self.sons:
+            val_units.append(son.unparse_val_unit())
+        return f"ORDER BY {', '.join(val_units)} {'ASC' if 'Asc' in self.constructor.name else 'DESC'}{' LIMIT int' if 'Limit' in self.constructor.name else ''}"
+
+    def unparse_cond(self):
+        assert self.type == 'cond'
+        if self.constructor.name in ['And', 'Or']:
+            return f'{self.sons[0].unparse_cond()} {self.constructor.name.upper()} {self.sons[1].unparse_cond()}'
+        val_unit = self.sons[0].unparse_val_unit()
+        if self.constructor.name == 'Between':
+            return f'{val_unit} BETWEEN value AND value'
+        if self.constructor.name == 'Eq':
+            return f'{val_unit} == value'
+        if self.constructor.name == 'Gt':
+            return f'{val_unit} > value'
+        if self.constructor.name == 'Lt':
+            return f'{val_unit} < value'
+        if self.constructor.name == 'Ge':
+            return f'{val_unit} >= value'
+        if self.constructor.name == 'Le':
+            return f'{val_unit} <= value'
+        if self.constructor.name == 'Neq':
+            return f'{val_unit} != value'
+        if self.constructor.name == 'Like':
+            return f'{val_unit} LIKE value'
+        if self.constructor.name == 'NotLike':
+            return f'{val_unit} NOT LIKE value'
+        sql = self.sons[1].unparse_sql()
+        if self.constructor.name == 'EqSQL':
+            return f'{val_unit} == ({sql})'
+        if self.constructor.name == 'GtSQL':
+            return f'{val_unit} > ({sql})'
+        if self.constructor.name == 'LtSQL':
+            return f'{val_unit} < ({sql})'
+        if self.constructor.name == 'GeSQL':
+            return f'{val_unit} >= ({sql})'
+        if self.constructor.name == 'LeSQL':
+            return f'{val_unit} <= ({sql})'
+        if self.constructor.name == 'NeqSQL':
+            return f'{val_unit} != ({sql})'
+        if self.constructor.name == 'InSQL':
+            return f'{val_unit} IN ({sql})'
+        if self.constructor.name == 'NotInSQL':
+            return f'{val_unit} NOT IN ({sql})'
+
+    def unparse_val_unit(self):
+        assert self.type == 'val_unit'
+        col_unit0 = self.sons[0].unparse_col_unit()
+        if self.constructor.name == 'Unary':
+            return col_unit0
+        col_unit1 = self.sons[1].unparse_col_unit()
+        if self.constructor.name == 'Minus':
+            return f'{col_unit0} - {col_unit1}'
+        if self.constructor.name == 'Plus':
+            return f'{col_unit0} + {col_unit1}'
+        if self.constructor.name == 'Times':
+            return f'{col_unit0} * {col_unit1}'
+        if self.constructor.name == 'Divide':
+            return f'{col_unit0} / {col_unit1}'
+
+    def unparse_col_unit(self):
+        assert self.type == 'col_unit'
+        return 'col' if self.constructor.name == 'None' else f'{self.constructor.name.upper()}(col)'

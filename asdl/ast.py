@@ -109,7 +109,9 @@ class AbstractSyntaxTree:
         cond = cond[0]
         ast.sons.append(AbstractSyntaxTree.parse_val_unit(grammar, [cond[0], cond[2]]))
         is_sql = 'SQL' if isinstance(cond[3], dict) else ''
-        if cond[1] == 1:
+        if cond[1] == 0:
+            ast.constructor = grammar['cond'][f'NotIn{is_sql}']
+        elif cond[1] == 1:
             ast.constructor = grammar['cond'][f'Between{is_sql}']
         elif cond[1] == 2:
             ast.constructor = grammar['cond'][f'Eq{is_sql}']
@@ -128,8 +130,6 @@ class AbstractSyntaxTree:
         elif cond[1] == 9:
             ast.constructor = grammar['cond'][f'Like{is_sql}']
         elif cond[1] == 10:
-            ast.constructor = grammar['cond'][f'NotIn{is_sql}']
-        elif cond[1] == 11:
             ast.constructor = grammar['cond'][f'NotLike{is_sql}']
         else:
             raise ValueError(f'unknown conditional operator {cond[1]}')

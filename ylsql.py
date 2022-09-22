@@ -608,19 +608,36 @@ def parse_val_unit(schema, val_unit):
         result.append(0)
         start = 0
         end = len(val_unit)
-    assert end - start in [1, 2, 3]
+    assert end - start in [1, 2, 3, 6]
     if end - start < 3:
         result.append([
             0,
             parse_col_unit(schema, val_unit[start:end]),
             None
         ])
-    else:
+    elif end - start == 3:
         result.append([
             ['-', '+', '*', '/'].index(val_unit[start + 1]) + 1,
             parse_col_unit(schema, [val_unit[start]]),
             parse_col_unit(schema, [val_unit[end - 1]])
         ])
+    else:
+        assert isinstance(val_unit[start], str) and val_unit[start] in ['datediff', 'mod']
+        assert isinstance(val_unit[start + 1], str) and val_unit[start + 1] == '('
+        assert isinstance(val_unit[start + 3], str) and val_unit[start + 3] == ','
+        assert isinstance(val_unit[start + 5], str) and val_unit[start + 5] == ')'
+        if val_unit[start] == 'datediff':
+            result.append([
+                5,
+                parse_col_unit(schema, [val_unit[start + 2]]),
+                parse_col_unit(schema, [val_unit[start + 4]])
+            ])
+        else:
+            result.append([
+                6,
+                parse_col_unit(schema, [val_unit[start + 2]]),
+                str_to_number(val_unit[start + 4])
+            ])
     return result
 
 
@@ -707,14 +724,12 @@ def generate_train_or_dev(train_or_dev_set, set_name, schemata):
             continue
         if example['template'] in [32, 175, 182, 183, 247, 248, 271, 272]: # SELECT sql OP sql
             continue
-        if example['template'] in [42, 217, 279, 280]: # DATEDIFF MOD
-            continue
         sql = preprocess_sql(example['sql'])
         result.append({
             'query': sql,
             'db_id': example['schema'],
             'question': example['question'],
-            'question_id': f'qid{str(qid).zfill(6)}',
+            'question_id': f'qid{str(qid).zfill(5)}',
             'sql': parse_sql(schemata[example['schema']], tokenize_sql(sql.split()))
         })
         qid += 1
@@ -738,7 +753,7 @@ def generate_test(test_set):
             'db_id': example['schema'],
             'question': example['question'],
             'sql': '',
-            'question_id': f'qid{str(i + 1).zfill(6)}'
+            'question_id': f'qid{str(i + 1).zfill(5)}'
         })
     with open('ylsql/test.json', 'w', encoding='utf-8') as file:
         json.dump(result, file, ensure_ascii=False, indent=4)

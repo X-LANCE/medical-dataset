@@ -147,6 +147,9 @@ class AbstractSyntaxTree:
         if val_unit[0] == 0:
             ast.constructor = grammar['val_unit']['Unary']
             return ast
+        if val_unit[0] == 6:
+            ast.constructor = grammar['val_unit']['Mod']
+            return ast
         ast.sons.append(AbstractSyntaxTree.parse_col_unit(grammar, val_unit[2]))
         if val_unit[0] == 1:
             ast.constructor = grammar['val_unit']['Minus']
@@ -156,6 +159,8 @@ class AbstractSyntaxTree:
             ast.constructor = grammar['val_unit']['Times']
         elif val_unit[0] == 4:
             ast.constructor = grammar['val_unit']['Divide']
+        elif val_unit[0] == 5:
+            ast.constructor = grammar['val_unit']['DateDiff']
         else:
             raise ValueError(f'unknown operator {val_unit[0]}')
         return ast
@@ -255,7 +260,7 @@ class AbstractSyntaxTree:
         val_units = []
         for son in self.sons:
             val_units.append(son.unparse_val_unit())
-        return f"ORDER BY {', '.join(val_units)} {'ASC' if 'Asc' in self.constructor.name else 'DESC'}{' LIMIT int' if 'Limit' in self.constructor.name else ''}"
+        return f"ORDER BY {', '.join(val_units)} {'ASC' if 'Asc' in self.constructor.name else 'DESC'}{' LIMIT value' if 'Limit' in self.constructor.name else ''}"
 
     def unparse_cond(self):
         assert self.type == 'cond'
@@ -303,6 +308,8 @@ class AbstractSyntaxTree:
         col_unit0 = self.sons[0].unparse_col_unit()
         if self.constructor.name == 'Unary':
             return col_unit0
+        if self.constructor.name == 'Mod':
+            return f'MOD({col_unit0}, value)'
         col_unit1 = self.sons[1].unparse_col_unit()
         if self.constructor.name == 'Minus':
             return f'{col_unit0} - {col_unit1}'
@@ -312,7 +319,13 @@ class AbstractSyntaxTree:
             return f'{col_unit0} * {col_unit1}'
         if self.constructor.name == 'Divide':
             return f'{col_unit0} / {col_unit1}'
+        if self.constructor.name == 'DateDiff':
+            return f'DATEDIFF({col_unit0}, {col_unit1})'
 
     def unparse_col_unit(self):
         assert self.type == 'col_unit'
-        return 'col' if self.constructor.name == 'None' else f'{self.constructor.name.upper()}(col)'
+        if self.constructor.name == 'None':
+            return 'col'
+        if self.constructor.name == 'CountDistinct':
+            return 'COUNT(DISTINCT col)'
+        return f'{self.constructor.name.upper()}(col)'

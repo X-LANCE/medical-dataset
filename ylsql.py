@@ -557,18 +557,30 @@ def parse_conds(schema, conds):
     result = []
     i = 0
     while i < len(conds):
-        is_between = False
-        j = i + 1
-        while j < len(conds):
-            if isinstance(conds[j], str):
-                if conds[j] == 'between':
-                    is_between = True
-                elif conds[j] == 'and' and is_between:
-                    is_between = False
-                elif conds[j] in ['and', 'or']:
-                    break
-            j += 1
-        result.append(parse_cond(schema, conds[i:j]))
+        if isinstance(conds[i], str) and conds[i] == '(':
+            count = 1
+            j = i + 1
+            while count > 0:
+                if isinstance(conds[j], str):
+                    if conds[j] == '(':
+                        count += 1
+                    elif conds[j] == ')':
+                        count -= 1
+                j += 1
+            result.append(parse_conds(schema, conds[i + 1:j - 1]))
+        else:
+            is_between = False
+            j = i + 1
+            while j < len(conds):
+                if isinstance(conds[j], str):
+                    if conds[j] == 'between':
+                        is_between = True
+                    elif conds[j] == 'and' and is_between:
+                        is_between = False
+                    elif conds[j] in ['and', 'or']:
+                        break
+                j += 1
+            result.append(parse_cond(schema, conds[i:j]))
         if j < len(conds):
             result.append(conds[j])
         i = j + 1
@@ -720,8 +732,6 @@ def generate_train_or_dev(train_or_dev_set, set_name, schemata):
     result = []
     qid = 1
     for example in train_or_dev_set:
-        if example['template'] in [12, 13, 43, 91, 130, 176]: # cond AND (cond OR cond)
-            continue
         if example['template'] in [32, 175, 182, 183, 247, 248, 271, 272]: # SELECT sql OP sql
             continue
         sql = preprocess_sql(example['sql'])

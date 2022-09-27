@@ -101,12 +101,13 @@ class AbstractSyntaxTree:
     @staticmethod
     def parse_cond(grammar, cond):
         ast = AbstractSyntaxTree('cond')
-        if len(cond) > 1:
-            ast.constructor = grammar['cond'][cond[1].title()]
-            ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, [cond[0]]))
-            ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, cond[2:]))
+        if len(cond) == 1:
+            cond = cond[0]
+        elif cond[1] in ['and', 'or']:
+            ast.constructor = grammar['cond'][f'{cond[1].title()}{num2word.word((len(cond) + 1) // 2)}']
+            for i in range(0, len(cond), 2):
+                ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, cond[i]))
             return ast
-        cond = cond[0]
         ast.sons.append(AbstractSyntaxTree.parse_val_unit(grammar, [cond[0], cond[2]]))
         is_sql = 'SQL' if isinstance(cond[3], dict) else ''
         if cond[1] == 0:
@@ -205,7 +206,7 @@ class AbstractSyntaxTree:
         select = self.sons[0].unparse_select()
         from_clause = self.sons[1].unparse_from()
         if self.constructor.name == 'Complete':
-            cond = self.sons[2].unparse_cond()
+            cond = self.sons[2].unparse_cond()[1:-1]
             group_by = self.sons[3].unparse_group_by()
             order_by = self.sons[4].unparse_order_by()
             return f'{select} {from_clause} WHERE {cond} {group_by} {order_by}'
@@ -214,15 +215,15 @@ class AbstractSyntaxTree:
             order_by = self.sons[3].unparse_order_by()
             return f'{select} {from_clause} {group_by} {order_by}'
         if self.constructor.name == 'NoGroupBy':
-            cond = self.sons[2].unparse_cond()
+            cond = self.sons[2].unparse_cond()[1:-1]
             order_by = self.sons[3].unparse_order_by()
             return f'{select} {from_clause} WHERE {cond} {order_by}'
         if self.constructor.name == 'NoOrderBy':
-            cond = self.sons[2].unparse_cond()
+            cond = self.sons[2].unparse_cond()[1:-1]
             group_by = self.sons[3].unparse_group_by()
             return f'{select} {from_clause} WHERE {cond} {group_by}'
         if self.constructor.name == 'OnlyWhere':
-            cond = self.sons[2].unparse_cond()
+            cond = self.sons[2].unparse_cond()[1:-1]
             return f'{select} {from_clause} WHERE {cond}'
         if self.constructor.name == 'OnlyGroupBy':
             group_by = self.sons[2].unparse_group_by()
@@ -252,7 +253,7 @@ class AbstractSyntaxTree:
             if field == 'col_unit':
                 col_units.append(self.sons[i].unparse_col_unit())
             else:
-                return f"GROUP BY {', '.join(col_units)} HAVING {self.sons[i].unparse_cond()}"
+                return f"GROUP BY {', '.join(col_units)} HAVING {self.sons[i].unparse_cond()[1:-1]}"
         return f"GROUP BY {', '.join(col_units)}"
 
     def unparse_order_by(self):
@@ -264,8 +265,17 @@ class AbstractSyntaxTree:
 
     def unparse_cond(self):
         assert self.type == 'cond'
-        if self.constructor.name in ['And', 'Or']:
-            return f'{self.sons[0].unparse_cond()} {self.constructor.name.upper()} {self.sons[1].unparse_cond()}'
+        if self.constructor.name[:3] == 'And':
+            cond_op = ' AND '
+        elif self.constructor.name[:2] == 'Or':
+            cond_op = ' OR '
+        else:
+            cond_op = None
+        if cond_op:
+            conds = []
+            for son in self.sons:
+                conds.append(son.unparse_cond())
+            return f'({cond_op.join(conds)})'
         val_unit = self.sons[0].unparse_val_unit()
         if self.constructor.name == 'Between':
             return f'{val_unit} BETWEEN value AND value'

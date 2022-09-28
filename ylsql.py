@@ -661,7 +661,7 @@ def parse_col_unit(schema, col_unit):
         assert isinstance(col_unit[0], str) and col_unit[0] == 'distinct'
         col = col_unit[1]
     assert isinstance(col, str)
-    return [0, 0 if '*' in col else schema['column_ids'][(col[:col.find('.')], col[col.find('.') + 1:])], len(col_unit) > 1]
+    return [0, 0 if col == '*' else schema['column_ids'][(col[:col.find('.')], col[col.find('.') + 1:])], len(col_unit) > 1]
 
 
 def generate_db_content():
@@ -774,6 +774,12 @@ arg_parser.add_argument('--split', type=str, choices=['example', 'template'], re
 args = arg_parser.parse_args()
 with open('dataset/dataset.json', 'r', encoding='utf-8') as file:
     dataset = json.load(file)
+for example in dataset:
+    tokens = example['sql'].split()
+    for i in range(len(tokens)):
+        if '.*' in tokens[i]:
+            tokens[i] = '*'
+    example['sql'] = ' '.join(tokens)
 if args.split == 'example':
     train, dev, test = random_split_array(dataset)
 elif args.split == 'template':

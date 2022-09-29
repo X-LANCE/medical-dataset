@@ -11902,70 +11902,70 @@
     {
         "template": 175,
         "question": "医疗就诊07939746423中所有费用明细项目是否都已结算完成",
-        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '07939746423') > 0",
+        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '07939746423') = (SELECT COUNT(*) FROM t_kc22 WHERE MED_CLINIC_ID = '07939746423')",
         "schema": "医保表",
         "level": "简单"
     },
     {
         "template": 175,
         "question": "医疗就诊58706774628中所有费用明细项目是否都已结算完成",
-        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '58706774628') > 0",
+        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '58706774628') = (SELECT COUNT(*) FROM t_kc22 WHERE MED_CLINIC_ID = '58706774628')",
         "schema": "医保表",
         "level": "简单"
     },
     {
         "template": 175,
         "question": "医疗就诊44281842337中所有费用明细项目是否都已结算完成",
-        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '44281842337') > 0",
+        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '44281842337') = (SELECT COUNT(*) FROM t_kc22 WHERE MED_CLINIC_ID = '44281842337')",
         "schema": "医保表",
         "level": "简单"
     },
     {
         "template": 175,
         "question": "医疗就诊26720741499中所有费用明细项目是否都已结算完成",
-        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '26720741499') > 0",
+        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '26720741499') = (SELECT COUNT(*) FROM t_kc22 WHERE MED_CLINIC_ID = '26720741499')",
         "schema": "医保表",
         "level": "简单"
     },
     {
         "template": 175,
         "question": "医疗就诊15347986984中所有费用明细项目是否都已结算完成",
-        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '15347986984') > 0",
+        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '15347986984') = (SELECT COUNT(*) FROM t_kc22 WHERE MED_CLINIC_ID = '15347986984')",
         "schema": "医保表",
         "level": "简单"
     },
     {
         "template": 175,
         "question": "医疗就诊62711360563中所有费用明细项目是否都已结算完成",
-        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '62711360563') > 0",
+        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '62711360563') = (SELECT COUNT(*) FROM t_kc22 WHERE MED_CLINIC_ID = '62711360563')",
         "schema": "医保表",
         "level": "简单"
     },
     {
         "template": 175,
         "question": "医疗就诊55783182009中所有费用明细项目是否都已结算完成",
-        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '55783182009') > 0",
+        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '55783182009') = (SELECT COUNT(*) FROM t_kc22 WHERE MED_CLINIC_ID = '55783182009')",
         "schema": "医保表",
         "level": "简单"
     },
     {
         "template": 175,
         "question": "医疗就诊54012419771中所有费用明细项目是否都已结算完成",
-        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '54012419771') > 0",
+        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '54012419771') = (SELECT COUNT(*) FROM t_kc22 WHERE MED_CLINIC_ID = '54012419771')",
         "schema": "医保表",
         "level": "简单"
     },
     {
         "template": 175,
         "question": "医疗就诊14043545660中所有费用明细项目是否都已结算完成",
-        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '14043545660') > 0",
+        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '14043545660') = (SELECT COUNT(*) FROM t_kc22 WHERE MED_CLINIC_ID = '14043545660')",
         "schema": "医保表",
         "level": "简单"
     },
     {
         "template": 175,
         "question": "医疗就诊68772320905中所有费用明细项目是否都已结算完成",
-        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '68772320905') > 0",
+        "sql": "SELECT (SELECT SUM(STA_FLG) FROM t_kc22 WHERE MED_CLINIC_ID = '68772320905') = (SELECT COUNT(*) FROM t_kc22 WHERE MED_CLINIC_ID = '68772320905')",
         "schema": "医保表",
         "level": "简单"
     },

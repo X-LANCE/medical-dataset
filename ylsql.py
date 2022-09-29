@@ -386,6 +386,18 @@ def random_split_array(array, ratios=[0.8, 0.1, 0.1]):
     return result
 
 
+def skip_nested(tokens, start):
+    count = 1
+    end = start
+    while count > 0:
+        if tokens[end] == '(':
+            count += 1
+        elif tokens[end] == ')':
+            count -= 1
+        end += 1
+    return end
+
+
 def preprocess_sql(sql):
     is_value = False
     i = 0
@@ -415,14 +427,7 @@ def tokenize_sql(sql):
     i = 0
     while i < len(sql):
         if sql[i] == '(' and sql[i + 1] == 'select':
-            count = 1
-            j = i + 2
-            while count > 0:
-                if sql[j] == '(':
-                    count += 1
-                elif sql[j] == ')':
-                    count -= 1
-                j += 1
+            j = skip_nested(sql, i + 2)
             tokens.append(tokenize_sql(sql[i + 1:j - 1]))
             i = j
         else:
@@ -558,15 +563,7 @@ def parse_conds(schema, conds):
     i = 0
     while i < len(conds):
         if isinstance(conds[i], str) and conds[i] == '(':
-            count = 1
-            j = i + 1
-            while count > 0:
-                if isinstance(conds[j], str):
-                    if conds[j] == '(':
-                        count += 1
-                    elif conds[j] == ')':
-                        count -= 1
-                j += 1
+            j = skip_nested(conds, i + 1)
             result.append(parse_conds(schema, conds[i + 1:j - 1]))
         else:
             is_between = False
@@ -629,7 +626,7 @@ def parse_val_unit(schema, val_unit):
         ])
     elif end - start == 3:
         result.append([
-            ['-', '+', '*', '/'].index(val_unit[start + 1]) + 1,
+            [None, '-', '+', '*', '/', None, None, '=='].index(val_unit[start + 1]),
             parse_col_unit(schema, [val_unit[start]]),
             parse_col_unit(schema, [val_unit[end - 1]])
         ])
@@ -660,6 +657,8 @@ def parse_col_unit(schema, col_unit):
     else:
         assert isinstance(col_unit[0], str) and col_unit[0] == 'distinct'
         col = col_unit[1]
+    if isinstance(col, list):
+        return parse_sql(schema, col)
     assert isinstance(col, str)
     return [0, 0 if col == '*' else schema['column_ids'][(col[:col.find('.')], col[col.find('.') + 1:])], len(col_unit) > 1]
 
@@ -732,8 +731,6 @@ def generate_train_or_dev(train_or_dev_set, set_name, schemata):
     result = []
     qid = 1
     for example in train_or_dev_set:
-        if example['template'] in [32, 175, 182, 183, 247, 248, 271, 272]: # SELECT sql OP sql
-            continue
         sql = preprocess_sql(example['sql'])
         result.append({
             'query': sql,

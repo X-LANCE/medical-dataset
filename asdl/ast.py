@@ -25,41 +25,51 @@ class AbstractSyntaxTree:
     def parse_sql_unit(grammar, sql_unit):
         ast = AbstractSyntaxTree('sql_unit')
         ast.sons.append(AbstractSyntaxTree.parse_select(grammar, sql_unit['select']))
-        ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']['table_units']))
         if sql_unit['where'] and sql_unit['groupBy'] and sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['Complete']
+            ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']['table_units']))
             ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, sql_unit['where']))
             ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
             ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         if sql_unit['groupBy'] and sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['NoWhere']
+            ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']['table_units']))
             ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
             ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         if sql_unit['where'] and sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['NoGroupBy']
+            ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']['table_units']))
             ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, sql_unit['where']))
             ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         if sql_unit['where'] and sql_unit['groupBy']:
             ast.constructor = grammar['sql_unit']['NoOrderBy']
+            ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']['table_units']))
             ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, sql_unit['where']))
             ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
             return ast
         if sql_unit['where']:
             ast.constructor = grammar['sql_unit']['OnlyWhere']
+            ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']['table_units']))
             ast.sons.append(AbstractSyntaxTree.parse_cond(grammar, sql_unit['where']))
             return ast
         if sql_unit['groupBy']:
             ast.constructor = grammar['sql_unit']['OnlyGroupBy']
+            ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']['table_units']))
             ast.sons.append(AbstractSyntaxTree.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
             return ast
         if sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['OnlyOrderBy']
+            ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']['table_units']))
             ast.sons.append(AbstractSyntaxTree.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
-        ast.constructor = grammar['sql_unit']['Simple']
+        if sql_unit['from']:
+            ast.constructor = grammar['sql_unit']['Simple']
+            ast.sons.append(AbstractSyntaxTree.parse_from(grammar, sql_unit['from']['table_units']))
+            return ast
+        ast.constructor = grammar['sql_unit']['VerySimple']
         return ast
 
     @staticmethod
@@ -162,6 +172,8 @@ class AbstractSyntaxTree:
             ast.constructor = grammar['val_unit']['Divide']
         elif val_unit[0] == 5:
             ast.constructor = grammar['val_unit']['DateDiff']
+        elif val_unit[0] == 7:
+            ast.constructor = grammar['val_unit']['Equal']
         else:
             raise ValueError(f'unknown operator {val_unit[0]}')
         return ast
@@ -169,6 +181,10 @@ class AbstractSyntaxTree:
     @staticmethod
     def parse_col_unit(grammar, col_unit):
         ast = AbstractSyntaxTree('col_unit')
+        if isinstance(col_unit, dict):
+            ast.constructor = grammar['col_unit']['SQL']
+            ast.sons.append(AbstractSyntaxTree.parse_sql_unit(grammar, col_unit))
+            return ast
         if col_unit[0] == 0:
             ast.constructor = grammar['col_unit']['None']
         elif col_unit[0] == 1:
@@ -204,34 +220,51 @@ class AbstractSyntaxTree:
     def unparse_sql_unit(self):
         assert self.type == 'sql_unit'
         select = self.sons[0].unparse_select()
-        from_clause = self.sons[1].unparse_from()
         if self.constructor.name == 'Complete':
-            cond = self.sons[2].unparse_cond()[1:-1]
+            from_clause = self.sons[1].unparse_from()
+            cond = self.sons[2].unparse_cond()
+            if cond[0] == '(' and cond[-1] == ')':
+                cond = cond[1:-1]
             group_by = self.sons[3].unparse_group_by()
             order_by = self.sons[4].unparse_order_by()
             return f'{select} {from_clause} WHERE {cond} {group_by} {order_by}'
         if self.constructor.name == 'NoWhere':
+            from_clause = self.sons[1].unparse_from()
             group_by = self.sons[2].unparse_group_by()
             order_by = self.sons[3].unparse_order_by()
             return f'{select} {from_clause} {group_by} {order_by}'
         if self.constructor.name == 'NoGroupBy':
-            cond = self.sons[2].unparse_cond()[1:-1]
+            from_clause = self.sons[1].unparse_from()
+            cond = self.sons[2].unparse_cond()
+            if cond[0] == '(' and cond[-1] == ')':
+                cond = cond[1:-1]
             order_by = self.sons[3].unparse_order_by()
             return f'{select} {from_clause} WHERE {cond} {order_by}'
         if self.constructor.name == 'NoOrderBy':
-            cond = self.sons[2].unparse_cond()[1:-1]
+            from_clause = self.sons[1].unparse_from()
+            cond = self.sons[2].unparse_cond()
+            if cond[0] == '(' and cond[-1] == ')':
+                cond = cond[1:-1]
             group_by = self.sons[3].unparse_group_by()
             return f'{select} {from_clause} WHERE {cond} {group_by}'
         if self.constructor.name == 'OnlyWhere':
-            cond = self.sons[2].unparse_cond()[1:-1]
+            from_clause = self.sons[1].unparse_from()
+            cond = self.sons[2].unparse_cond()
+            if cond[0] == '(' and cond[-1] == ')':
+                cond = cond[1:-1]
             return f'{select} {from_clause} WHERE {cond}'
         if self.constructor.name == 'OnlyGroupBy':
+            from_clause = self.sons[1].unparse_from()
             group_by = self.sons[2].unparse_group_by()
             return f'{select} {from_clause} {group_by}'
         if self.constructor.name == 'OnlyOrderBy':
+            from_clause = self.sons[1].unparse_from()
             order_by = self.sons[2].unparse_order_by()
             return f'{select} {from_clause} {order_by}'
-        return f'{select} {from_clause}'
+        if self.constructor.name == 'Simple':
+            from_clause = self.sons[1].unparse_from()
+            return f'{select} {from_clause}'
+        return select
 
     def unparse_select(self):
         assert self.type == 'select'
@@ -253,7 +286,10 @@ class AbstractSyntaxTree:
             if field == 'col_unit':
                 col_units.append(self.sons[i].unparse_col_unit())
             else:
-                return f"GROUP BY {', '.join(col_units)} HAVING {self.sons[i].unparse_cond()[1:-1]}"
+                having = self.sons[i].unparse_cond()
+                if having[0] == '(' and having[-1] == ')':
+                    having = having[1:-1]
+                return f"GROUP BY {', '.join(col_units)} HAVING {having}"
         return f"GROUP BY {', '.join(col_units)}"
 
     def unparse_order_by(self):
@@ -320,6 +356,8 @@ class AbstractSyntaxTree:
             return col_unit0
         if self.constructor.name == 'Mod':
             return f'MOD({col_unit0}, value)'
+        if self.constructor.name == 'Equal':
+            return f'{col_unit0} == value'
         col_unit1 = self.sons[1].unparse_col_unit()
         if self.constructor.name == 'Minus':
             return f'{col_unit0} - {col_unit1}'
@@ -338,4 +376,6 @@ class AbstractSyntaxTree:
             return 'col'
         if self.constructor.name == 'CountDistinct':
             return 'COUNT(DISTINCT col)'
+        if self.constructor.name == 'SQL':
+            return f'({self.sons[0].unparse_sql_unit()})'
         return f'{self.constructor.name.upper()}(col)'

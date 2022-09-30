@@ -72,7 +72,7 @@ val_unit = Unary(col_unit)
         | Divide(col_unit, col_unit)
         | DateDiff(col_unit, col_unit)
         | Mod(col_unit)
-        | Equal(col_unit)
+        | Equal(col_unit, col_unit)
 
 col_unit = None(col)
         | Max(col)

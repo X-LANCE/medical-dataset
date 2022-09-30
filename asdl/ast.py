@@ -356,8 +356,6 @@ class AbstractSyntaxTree:
             return col_unit0
         if self.constructor.name == 'Mod':
             return f'MOD({col_unit0}, value)'
-        if self.constructor.name == 'Equal':
-            return f'{col_unit0} == value'
         col_unit1 = self.sons[1].unparse_col_unit()
         if self.constructor.name == 'Minus':
             return f'{col_unit0} - {col_unit1}'
@@ -369,6 +367,8 @@ class AbstractSyntaxTree:
             return f'{col_unit0} / {col_unit1}'
         if self.constructor.name == 'DateDiff':
             return f'DATEDIFF({col_unit0}, {col_unit1})'
+        if self.constructor.name == 'Equal':
+            return f'{col_unit0} == {col_unit1}'
 
     def unparse_col_unit(self):
         assert self.type == 'col_unit'

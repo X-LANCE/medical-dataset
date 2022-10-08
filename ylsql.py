@@ -356,7 +356,7 @@ FOREIGN_KEYS = {
 
 SQL_AGGS = ['MAX', 'MIN', 'COUNT', 'SUM', 'AVG']
 
-SQL_CONDS = ['BETWEEN', '==', '>', '<', '>=', '<=', '!=', 'IN', 'LIKE']
+SQL_CONDS = ['NOT IN', 'BETWEEN', '==', '>', '<', '>=', '<=', '!=', 'IN', 'LIKE', 'NOT LIKE']
 
 SQL_KEYWORDS = [
     'SELECT', 'FROM', 'WHERE', 'BY', 'GROUP', 'HAVING', 'ORDER',
@@ -430,6 +430,10 @@ def tokenize_sql(sql):
             j = skip_nested(sql, i + 2)
             tokens.append(tokenize_sql(sql[i + 1:j - 1]))
             i = j
+        elif sql[i] == 'not':
+            assert sql[i + 1] in ['in', 'like']
+            tokens.append(f'not {sql[i + 1]}')
+            i += 2
         else:
             tokens.append(sql[i])
             i += 1
@@ -514,11 +518,13 @@ def parse_from(schema, from_clause):
         if isinstance(from_clause[i], str):
             result['table_units'].append(['table_unit', schema['table_ids'][from_clause[i]]])
         else:
-            result['table_units'].append(['sql', parse_sql(from_clause[i])])
+            result['table_units'].append(['sql', parse_sql(schema, from_clause[i])])
         if i < len(from_clause) - 1:
             assert isinstance(from_clause[i + 1], str)
             if from_clause[i + 1] == 'on':
                 result['conds'] = parse_conds(schema, from_clause[i + 2:])
+                break
+            if from_clause[i + 1] == 'as':
                 break
             assert from_clause[i + 1] == 'join'
     return result
@@ -596,7 +602,7 @@ def parse_cond(schema, cond):
         if isinstance(cond[i], str) and cond[i].upper() in SQL_CONDS:
             break
     result = parse_val_unit(schema, cond[:i])
-    result.insert(1, SQL_CONDS.index(cond[i].upper()) + 1)
+    result.insert(1, SQL_CONDS.index(cond[i].upper()))
     if cond[i] != 'between':
         assert i == len(cond) - 2
         result += [parse_value(cond[i + 1]), None]

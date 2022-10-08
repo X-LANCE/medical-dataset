@@ -85,7 +85,7 @@ class AbstractSyntaxTree:
         ast = AbstractSyntaxTree('from')
         if table_units[0][0] == 'sql':
             ast.constructor = grammar['from']['FromSQL']
-            ast.sons.append(AbstractSyntaxTree.parse_sql(table_units[0][1]))
+            ast.sons.append(AbstractSyntaxTree.parse_sql(grammar, table_units[0][1]))
         else:
             ast.constructor = grammar['from'][f'From{num2word.word(len(table_units))}Table']
         return ast
@@ -145,7 +145,7 @@ class AbstractSyntaxTree:
         else:
             raise ValueError(f'unknown conditional operator {cond[1]}')
         if is_sql:
-            ast.sons.append(AbstractSyntaxTree.parse_sql(cond[3]))
+            ast.sons.append(AbstractSyntaxTree.parse_sql(grammar, cond[3]))
         return ast
 
     @staticmethod

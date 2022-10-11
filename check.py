@@ -16,11 +16,12 @@ while i < len(dataset):
     if dataset[i]['template'] < args.start or dataset[i]['schema'] != args.schema:
         i += 1
         continue
-    cursor.execute(dataset[i]['sql'])
-    result = cursor.fetchall()
     os.system('cls')
     print(json.dumps(dataset[i], ensure_ascii=False, indent=4))
-    print(result)
+    if 'INTERSECT' not in dataset[i]['sql']:
+        cursor.execute(dataset[i]['sql'])
+        result = cursor.fetchall()
+        print(result)
     command = input()
     i += 1
     if command != '':

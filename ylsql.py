@@ -387,6 +387,7 @@ def random_split_array(array, ratios=[0.8, 0.1, 0.1]):
 
 
 def skip_nested(tokens, start):
+    assert tokens[start - 1] == '('
     count = 1
     end = start
     while count > 0:
@@ -426,11 +427,16 @@ def tokenize_sql(sql):
     tokens = []
     i = 0
     while i < len(sql):
-        if sql[i] == '(' and sql[i + 1] == 'select':
-            j = skip_nested(sql, i + 2)
-            tokens.append(tokenize_sql(sql[i + 1:j - 1]))
-            i = j
-        elif sql[i] == 'not':
+        if sql[i] == '(':
+            j = i + 1
+            while sql[j] == '(':
+                j += 1
+            if sql[j] == 'select':
+                j = skip_nested(sql, i + 1)
+                tokens.append(tokenize_sql(sql[i + 1:j - 1]))
+                i = j
+                continue
+        if sql[i] == 'not':
             assert sql[i + 1] in ['in', 'like']
             tokens.append(f'not {sql[i + 1]}')
             i += 2

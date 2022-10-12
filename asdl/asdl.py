@@ -12,6 +12,9 @@ class Constructor:
             result ^= hash(field)
         return result
 
+    def __repr__(self):
+        return f"{self.name}({', '.join(self.fields)})"
+
 
 class Grammar:
     def __init__(self, constructors):

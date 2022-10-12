@@ -209,6 +209,11 @@ class AbstractSyntaxTree:
                 self.sons[i].check(grammar)
                 i += 1
 
+    def count_grammar(self, counter):
+        counter[(self.type, self.constructor.name)] += 1
+        for son in self.sons:
+            son.count_grammar(counter)
+
     def unparse_sql(self):
         assert self.type == 'sql'
         sql_unit0 = self.sons[0].unparse_sql_unit()

@@ -1,9 +1,8 @@
 import random
 from dataclasses import dataclass
 from datetime import timedelta
-from generate_dataset.generate_dataset import generate_name
 from string import ascii_uppercase
-from util.util import generate_datetime, generate_region, generate_medical_index, str_to_date, str_to_datetime, connect_database, update_database
+from util.util import generate_name, generate_datetime, generate_region, generate_medical_index, str_to_date, str_to_datetime, connect_database, update_database
 from xeger import Xeger
 
 
@@ -300,11 +299,11 @@ def generate_jybgb(value_sets, data_mzjzjlb, data_zyjzjlb):
         record.KSBM = record.SQKS = record.JYKSBM = random.choice(value_sets['科室编码'])
         record.KSMC = record.SQKSMC = record.JYKSMC = random.choice(value_sets['科室名称'])
         record.SQRGH = Xeger().xeger(r'\d{8}')
-        record.SQRXM = generate_name()[0]
+        record.SQRXM = generate_name()
         record.BGRGH = Xeger().xeger(r'\d{8}')
-        record.BGRXM = generate_name()[0]
+        record.BGRXM = generate_name()
         record.SHRGH = Xeger().xeger(r'\d{8}')
-        record.SHRXM = generate_name()[0]
+        record.SHRXM = generate_name()
         record.SHSJ = f'{record.BGRQ} {str(random.randint(0, 23)).zfill(2)}:{str(random.randint(0, 59)).zfill(2)}:{str(random.randint(0, 59)).zfill(2)}'
         record.BGJGMC = record.JYSQJGMC = record.JYJGMC = f"{generate_region()[1]}第{random.choice(['一', '二', '三'])}人民医院"
         record.BBDM = Xeger().xeger(r'\d{11}')
@@ -314,7 +313,7 @@ def generate_jybgb(value_sets, data_mzjzjlb, data_zyjzjlb):
         record.BBZT = 0
         record.BBCJBW = random.choice(value_sets['部位'])
         record.JYXMDM = Xeger().xeger(r'\d{6}')
-        record.JYJSQM = generate_name()[0]
+        record.JYJSQM = generate_name()
         record.JYJSGH = Xeger().xeger(r'\d{8}')
         data.append(record)
     return data
@@ -332,7 +331,7 @@ def generate_jyjgzbb(value_sets, data_jybgb):
         record.JCRGH = random.choice(value_sets['检测人工号'])
         record.JCRXM = random.choice(value_sets['检测人姓名'])
         record.SHRGH = Xeger().xeger(r'\d{8}')
-        record.SHRXM = generate_name()[0]
+        record.SHRXM = generate_name()
         record.JCXMMC = data_jybgb[j].JYXMMC
         record.JCZBDM = random.choice(value_sets['检测指标代码'])
         record.JCZBMC, record.JCFF, record.JCZBJGDW, record.CKZFWXX, record.CKZFWSX = generate_medical_index(record.JCXMMC)

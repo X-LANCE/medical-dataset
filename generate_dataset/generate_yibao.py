@@ -1,8 +1,7 @@
 import random
 from dataclasses import dataclass
 from datetime import timedelta
-from generate_dataset.generate_dataset import generate_date, generate_name
-from util.util import generate_date_of_birth, generate_region, calculate_code, str_to_date, random_split, connect_database, update_database
+from util.util import generate_date, generate_name, generate_date_of_birth, generate_region, calculate_code, str_to_date, random_split_number, connect_database, update_database
 from xeger import Xeger
 
 
@@ -101,7 +100,7 @@ def generate_t_kc21(value_sets):
         record.PERSON_ID = random.choice(value_sets['人员ID'])
         record.PERSON_NM = random.choice(value_sets['人员姓名'])
         record.PERSON_SEX = random.randint(1, 2)
-        record.IN_HOSP_DATE = generate_date()[0]
+        record.IN_HOSP_DATE = generate_date()
         date_of_birth = generate_date_of_birth(record.IN_HOSP_DATE)
         record.IDENTITY_CARD = generate_region()[0] + date_of_birth.replace('-', '') + Xeger().xeger(r'\d{2}') + str(random.randint(1, 5) * 2 - record.PERSON_SEX)
         record.IDENTITY_CARD += calculate_code(record.IDENTITY_CARD)
@@ -121,7 +120,7 @@ def generate_t_kc21(value_sets):
         record.MED_ORG_DEPT_CD = random.choice(value_sets['科室编码'])
         record.MED_ORG_DEPT_NM = random.choice(value_sets['科室名称'])
         record.OUT_DIAG_DOC_CD = Xeger().xeger(r'\d{8}')
-        record.OUT_DIAG_DOC_NM = generate_name()[0]
+        record.OUT_DIAG_DOC_NM = generate_name()
         record.MAIN_COND_DES = random.choice(['良性', '中性', '恶性'])
         record.INSU_TYPE = random.choice([0, 51])
         record.IN_HOSP_DAYS = (str_to_date(record.OUT_HOSP_DATE) - str_to_date(record.IN_HOSP_DATE)).days
@@ -161,7 +160,7 @@ def generate_t_kc22(value_sets, data_t_kc21):
         record.MED_ORG_DEPT_CD = data_t_kc21[j].MED_ORG_DEPT_CD
         record.MED_ORG_DEPT_NM = data_t_kc21[j].MED_ORG_DEPT_NM
         record.HOSP_DOC_CD = Xeger().xeger(r'\d{8}')
-        record.HOSP_DOC_NM = generate_name()[0]
+        record.HOSP_DOC_NM = generate_name()
         record.PRESCRIPTION_CODE = Xeger().xeger(r'\d{11}')
         record.PRESCRIPTION_ID = Xeger().xeger(r'\d{11}')
         record.STA_FLG = random.randint(0, 1)
@@ -187,7 +186,7 @@ def generate_t_kc24(data_t_kc21):
         record.FLX_MED_ORG_ID = data_t_kc21[i].FLX_MED_ORG_ID
         record.INSU_TYPE = data_t_kc21[i].INSU_TYPE
         record.MED_AMOUT = data_t_kc21[i].MED_AMOUT
-        record.PER_ACC_PAY, record.OVE_PAY, record.ILL_PAY, record.CIVIL_SUBSIDY, record.PER_SOL, record.PER_EXP = random_split(record.MED_AMOUT, 6)
+        record.PER_ACC_PAY, record.OVE_PAY, record.ILL_PAY, record.CIVIL_SUBSIDY, record.PER_SOL, record.PER_EXP = random_split_number(record.MED_AMOUT, 6)
         record.OUT_HOSP_DATE = data_t_kc21[i].OUT_HOSP_DATE
         record.CLINIC_ID = data_t_kc21[i].CLINIC_ID
         record.INSURED_STS = data_t_kc21[i].INSURED_STS

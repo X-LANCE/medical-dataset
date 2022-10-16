@@ -2,7 +2,7 @@ import json
 from asdl.asdl import Grammar
 from asdl.ast import AbstractSyntaxTree
 
-with open('ylsql/all.json', 'r', encoding='utf-8') as file:
+with open('data/ylsql/all.json', 'r', encoding='utf-8') as file:
     dataset = json.load(file)
 grammar = Grammar.from_file('asdl/grammar/grammar.txt')
 grammar_count = {}

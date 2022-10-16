@@ -17,4 +17,4 @@ def generate_excel(dataset):
         worksheet[f'C{i + 2}'] = example['schema']
         worksheet[f'D{i + 2}'] = example['sql']
         worksheet[f'E{i + 2}'] = example['question']
-    workbook.save('dataset/医疗数据集.xlsx')
+    workbook.save('resource/医疗数据集.xlsx')

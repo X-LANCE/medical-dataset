@@ -315,7 +315,7 @@ def generate_db_content():
             'db_id': SCHEMA_MAPPING[schema],
             'tables': tables
         })
-    with open('ylsql/db_content.json', 'w', encoding='utf-8') as file:
+    with open('data/ylsql/db_content.json', 'w', encoding='utf-8') as file:
         json.dump(db_content, file, ensure_ascii=False, indent=4)
 
 
@@ -352,7 +352,7 @@ def generate_tables():
             'table_ids': table_ids,
             'column_ids': column_ids
         }
-    with open('ylsql/tables.json', 'w', encoding='utf-8') as file:
+    with open('data/ylsql/tables.json', 'w', encoding='utf-8') as file:
         json.dump(tables, file, ensure_ascii=False, indent=4)
     return schemata
 
@@ -370,14 +370,14 @@ def generate_train_or_dev(train_or_dev_set, set_name, schemata):
             'sql': parse_sql(schemata[example['schema']], tokenize_sql(sql.split()))
         })
         qid += 1
-    with open(f'ylsql/{set_name}.json', 'w', encoding='utf-8') as file:
+    with open(f'data/ylsql/{set_name}.json', 'w', encoding='utf-8') as file:
         json.dump(result, file, ensure_ascii=False, indent=4)
 
 
 def generate_train_or_dev_gold(set_name):
-    with open(f'ylsql/{set_name}.json', 'r', encoding='utf-8') as file:
+    with open(f'data/ylsql/{set_name}.json', 'r', encoding='utf-8') as file:
         train_or_dev_set = json.load(file)
-    with open(f'ylsql/{set_name}_gold.sql', 'w', encoding='utf-8') as file:
+    with open(f'data/ylsql/{set_name}_gold.sql', 'w', encoding='utf-8') as file:
         for example in train_or_dev_set:
             file.write(f"{example['question_id']}\t{example['query']}\t{example['db_id']}\n")
 
@@ -392,14 +392,15 @@ def generate_test(test_set):
             'sql': '',
             'question_id': f'qid{str(i + 1).zfill(5)}'
         })
-    with open('ylsql/test.json', 'w', encoding='utf-8') as file:
+    with open('data/ylsql/test.json', 'w', encoding='utf-8') as file:
         json.dump(result, file, ensure_ascii=False, indent=4)
 
 
 arg_parser = argparse.ArgumentParser()
+arg_parser.add_argument('--filename', type=str, required=True)
 arg_parser.add_argument('--split', type=str, choices=['example', 'template'], required=True)
 args = arg_parser.parse_args()
-with open('dataset/dataset.json', 'r', encoding='utf-8') as file:
+with open(f'resource/{args.filename}.json', 'r', encoding='utf-8') as file:
     dataset = json.load(file)
 for example in dataset:
     tokens = example['sql'].split()

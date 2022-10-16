@@ -8,7 +8,7 @@ arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--schema', type=str, required=True)
 arg_parser.add_argument('--start', default=0, type=int)
 args = arg_parser.parse_args()
-with open('dataset/dataset.json', 'r', encoding='utf-8') as file:
+with open('resource/dataset.json', 'r', encoding='utf-8') as file:
     dataset = json.load(file)
 _, cursor = connect_database(args.schema)
 i = 0

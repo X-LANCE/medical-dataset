@@ -95,17 +95,17 @@ def generate_dataset():
         '检测指标名称': PlaceHolder('$', ['text'], values=TESTING_INDEX_NAMES),
         '部位': PlaceHolder('$', ['text'], values=BODY_PART_NAMES)
     }
-    if os.path.exists('dataset/dataset.json') and os.path.exists('dataset/value_sets.bin'):
-        with open('dataset/dataset.json', 'r', encoding='utf-8') as file:
+    if os.path.exists('resource/dataset.json') and os.path.exists('resource/value_sets.bin'):
+        with open('resource/dataset.json', 'r', encoding='utf-8') as file:
             dataset = json.load(file)
-        with open('dataset/value_sets.bin', 'rb') as file:
+        with open('resource/value_sets.bin', 'rb') as file:
             value_sets = pickle.load(file)
     else:
         dataset = []
         value_sets = {}
         for key in place_holders:
             value_sets[key] = set()
-    data = pd.read_excel('dataset/templates.xlsx', skiprows=10)
+    data = pd.read_excel('resource/templates.xlsx', skiprows=10)
     example_id = 0
     for i in range(len(data)):
         if (len(dataset) > 0 and i <= dataset[-1]['template']) or data['难度'][i] == '不可回答':
@@ -165,9 +165,9 @@ def generate_dataset():
                 'level': data['难度'][i]
             })
             example_id += 1
-    with open('dataset/dataset.json', 'w', encoding='utf-8') as file:
+    with open('resource/dataset.json', 'w', encoding='utf-8') as file:
         json.dump(dataset, file, ensure_ascii=False, indent=4)
-    with open('dataset/value_sets.bin', 'wb') as file:
+    with open('resource/value_sets.bin', 'wb') as file:
         pickle.dump(value_sets, file)
     for key in value_sets:
         value_sets[key] = list(value_sets[key])

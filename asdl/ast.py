@@ -15,6 +15,7 @@ class AbstractSyntaxTree:
                 assert self.sons[i].type == field
                 self.sons[i].check(grammar)
                 i += 1
+        assert i == len(self.sons)
 
     def count_grammar(self, counter):
         counter[(self.type, self.constructor.name)] += 1
@@ -83,6 +84,7 @@ class AbstractSyntaxTree:
         val_units = []
         for son in self.sons:
             val_units.append(son.unparse_val_unit())
+        val_units.sort()
         return f"SELECT {', '.join(val_units)}"
 
     def unparse_from(self):
@@ -123,6 +125,7 @@ class AbstractSyntaxTree:
             conds = []
             for son in self.sons:
                 conds.append(son.unparse_cond())
+            conds.sort()
             return f'({cond_op.join(conds)})'
         val_unit = self.sons[0].unparse_val_unit()
         if self.constructor.name == 'Between':
@@ -495,7 +498,7 @@ class AbstractSyntaxTreeSpider(AbstractSyntaxTree):
         if len(cond) == 1:
             cond = cond[0]
         elif cond[1] in ['and', 'or']:
-            ast.constructor = grammar['cond'][cond[1].title()]
+            ast.constructor = grammar['cond'][f'{cond[1].title()}{num2word.word((len(cond) + 1) // 2)}']
             for i in range(0, len(cond), 2):
                 ast.sons.append(AbstractSyntaxTreeSpider.parse_cond(grammar, cond[i]))
             return ast
@@ -561,6 +564,181 @@ class AbstractSyntaxTreeSpider(AbstractSyntaxTree):
             ast.constructor = grammar['col_unit']['Min']
         elif col_unit[0] == 3:
             ast.constructor = grammar['col_unit']['CountDistinct'] if is_distinct else grammar['col_unit']['Count']
+        elif col_unit[0] == 4:
+            ast.constructor = grammar['col_unit']['Sum']
+        elif col_unit[0] == 5:
+            ast.constructor = grammar['col_unit']['Avg']
+        else:
+            raise ValueError(f'unknown aggregate function {col_unit[0]}')
+        return ast
+
+
+class AbstractSyntaxTreeDusql(AbstractSyntaxTree):
+    def __init__(self, type):
+        super().__init__(type)
+
+    @staticmethod
+    def parse_sql(grammar, sql):
+        ast = AbstractSyntaxTreeDusql('sql')
+        for sql_keyword in ['intersect', 'union', 'except']:
+            if sql[sql_keyword]:
+                ast.constructor = grammar['sql'][sql_keyword.title()]
+                ast.sons.append(AbstractSyntaxTreeDusql.parse_sql_unit(grammar, sql))
+                ast.sons.append(AbstractSyntaxTreeDusql.parse_sql_unit(grammar, sql[sql_keyword]))
+                return ast
+        ast.constructor = grammar['sql']['Single']
+        ast.sons.append(AbstractSyntaxTreeDusql.parse_sql_unit(grammar, sql))
+        return ast
+
+    @staticmethod
+    def parse_sql_unit(grammar, sql_unit):
+        ast = AbstractSyntaxTreeDusql('sql_unit')
+        ast.sons.append(AbstractSyntaxTreeDusql.parse_select(grammar, sql_unit['select']))
+        ast.sons.append(AbstractSyntaxTreeDusql.parse_from(grammar, sql_unit['from']['table_units']))
+        if sql_unit['where'] and sql_unit['groupBy'] and sql_unit['orderBy']:
+            ast.constructor = grammar['sql_unit']['Complete']
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_cond(grammar, sql_unit['where']))
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
+            return ast
+        if sql_unit['groupBy'] and sql_unit['orderBy']:
+            ast.constructor = grammar['sql_unit']['NoWhere']
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
+            return ast
+        if sql_unit['where'] and sql_unit['orderBy']:
+            ast.constructor = grammar['sql_unit']['NoGroupBy']
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_cond(grammar, sql_unit['where']))
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
+            return ast
+        if sql_unit['where'] and sql_unit['groupBy']:
+            ast.constructor = grammar['sql_unit']['NoOrderBy']
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_cond(grammar, sql_unit['where']))
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
+            return ast
+        if sql_unit['where']:
+            ast.constructor = grammar['sql_unit']['OnlyWhere']
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_cond(grammar, sql_unit['where']))
+            return ast
+        if sql_unit['groupBy']:
+            ast.constructor = grammar['sql_unit']['OnlyGroupBy']
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
+            return ast
+        if sql_unit['orderBy']:
+            ast.constructor = grammar['sql_unit']['OnlyOrderBy']
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
+            return ast
+        ast.constructor = grammar['sql_unit']['Simple']
+        return ast
+
+    @staticmethod
+    def parse_select(grammar, select):
+        ast = AbstractSyntaxTreeDusql('select')
+        ast.constructor = grammar['select'][f'Select{num2word.word(len(select))}']
+        for val_unit in select:
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_val_unit(grammar, val_unit))
+        return ast
+
+    @staticmethod
+    def parse_from(grammar, table_units):
+        ast = AbstractSyntaxTreeDusql('from')
+        if table_units[0][0] == 'sql':
+            ast.constructor = grammar['from']['FromSQL']
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_sql(grammar, table_units[0][1]))
+        else:
+            ast.constructor = grammar['from'][f'From{num2word.word(len(table_units))}Table']
+        return ast
+
+    @staticmethod
+    def parse_group_by(grammar, group_by, having):
+        ast = AbstractSyntaxTreeDusql('group_by')
+        ast.constructor = grammar['group_by'][f"{num2word.word(len(group_by))}{'' if having else 'No'}Having"]
+        for col_unit in group_by:
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_col_unit(grammar, col_unit))
+        if having:
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_cond(grammar, having))
+        return ast
+
+    @staticmethod
+    def parse_order_by(grammar, order_by, limit):
+        ast = AbstractSyntaxTreeDusql('order_by')
+        ast.constructor = grammar['order_by'][f"{num2word.word(len(order_by[1]))}{order_by[0].title()}{'Limit' if limit else ''}"]
+        for val_unit in order_by[1]:
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_val_unit(grammar, val_unit))
+        return ast
+
+    @staticmethod
+    def parse_cond(grammar, cond):
+        ast = AbstractSyntaxTreeDusql('cond')
+        if len(cond) == 1:
+            cond = cond[0]
+        elif cond[1] in ['and', 'or']:
+            ast.constructor = grammar['cond'][cond[1].title()]
+            for i in range(0, len(cond), 2):
+                ast.sons.append(AbstractSyntaxTreeDusql.parse_cond(grammar, cond[i]))
+            return ast
+        ast.sons.append(AbstractSyntaxTreeDusql.parse_val_unit(grammar, [cond[0], cond[2]]))
+        is_sql = 'SQL' if isinstance(cond[3], dict) else ''
+        if cond[1] == 0:
+            ast.constructor = grammar['cond'][f'NotIn{is_sql}']
+        elif cond[1] == 1:
+            ast.constructor = grammar['cond'][f'Between{is_sql}']
+        elif cond[1] == 2:
+            ast.constructor = grammar['cond'][f'Eq{is_sql}']
+        elif cond[1] == 3:
+            ast.constructor = grammar['cond'][f'Gt{is_sql}']
+        elif cond[1] == 4:
+            ast.constructor = grammar['cond'][f'Lt{is_sql}']
+        elif cond[1] == 5:
+            ast.constructor = grammar['cond'][f'Ge{is_sql}']
+        elif cond[1] == 6:
+            ast.constructor = grammar['cond'][f'Le{is_sql}']
+        elif cond[1] == 7:
+            ast.constructor = grammar['cond'][f'Neq{is_sql}']
+        elif cond[1] == 8:
+            ast.constructor = grammar['cond'][f'In{is_sql}']
+        elif cond[1] == 9:
+            ast.constructor = grammar['cond'][f'Like{is_sql}']
+        else:
+            raise ValueError(f'unknown conditional operator {cond[1]}')
+        if is_sql:
+            ast.sons.append(AbstractSyntaxTreeDusql.parse_sql(grammar, cond[3]))
+        return ast
+
+    @staticmethod
+    def parse_val_unit(grammar, val_unit):
+        ast = AbstractSyntaxTreeDusql('val_unit')
+        if val_unit[0] > 0:
+            val_unit[1][1][0] = val_unit[0]
+        val_unit = val_unit[1]
+        ast.sons.append(AbstractSyntaxTreeDusql.parse_col_unit(grammar, val_unit[1]))
+        if val_unit[0] == 0:
+            ast.constructor = grammar['val_unit']['Unary']
+            return ast
+        ast.sons.append(AbstractSyntaxTreeDusql.parse_col_unit(grammar, val_unit[2]))
+        if val_unit[0] == 1:
+            ast.constructor = grammar['val_unit']['Minus']
+        elif val_unit[0] == 2:
+            ast.constructor = grammar['val_unit']['Plus']
+        elif val_unit[0] == 3:
+            ast.constructor = grammar['val_unit']['Times']
+        elif val_unit[0] == 4:
+            ast.constructor = grammar['val_unit']['Divide']
+        else:
+            raise ValueError(f'unknown operator {val_unit[0]}')
+        return ast
+
+    @staticmethod
+    def parse_col_unit(grammar, col_unit):
+        ast = AbstractSyntaxTreeDusql('col_unit')
+        if col_unit[0] == 0:
+            ast.constructor = grammar['col_unit']['None']
+        elif col_unit[0] == 1:
+            ast.constructor = grammar['col_unit']['Max']
+        elif col_unit[0] == 2:
+            ast.constructor = grammar['col_unit']['Min']
+        elif col_unit[0] == 3:
+            ast.constructor = grammar['col_unit']['Count']
         elif col_unit[0] == 4:
             ast.constructor = grammar['col_unit']['Sum']
         elif col_unit[0] == 5:

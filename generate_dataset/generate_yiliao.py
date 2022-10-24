@@ -2,7 +2,8 @@ import random
 from dataclasses import dataclass
 from datetime import timedelta
 from string import ascii_uppercase
-from util.util import generate_name, generate_datetime, generate_region, generate_medical_index, str_to_date, str_to_datetime, connect_database, update_database
+from util.util import generate_name, generate_datetime, generate_region, generate_medical_index, \
+    str_to_date, str_to_datetime, connect_database, update_database
 from xeger import Xeger
 
 

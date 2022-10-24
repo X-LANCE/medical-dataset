@@ -1,7 +1,10 @@
 import random
 from dataclasses import dataclass
 from datetime import timedelta
-from util.util import generate_date, generate_name, generate_date_of_birth, generate_region, calculate_code, str_to_date, random_split_number, connect_database, update_database
+from util.constant import INSU_TYPE_MAPPING, INSURED_STS_MAPPING, SERVANT_FLG_MAPPING, \
+    CLINIC_TYPE_MAPPING, REMOTE_SETTLE_FLG_MAPPING, MED_INV_ITEM_TYPE_MAPPING
+from util.util import generate_date, generate_name, generate_date_of_birth, generate_region, \
+    calculate_code, str_to_date, random_split_number, connect_database, update_database
 from xeger import Xeger
 
 
@@ -107,7 +110,7 @@ def generate_t_kc21(value_sets):
         record.PERSON_AGE = (str_to_date(record.IN_HOSP_DATE) - str_to_date(date_of_birth)).days // 365
         record.OUT_HOSP_DATE = str(str_to_date(record.IN_HOSP_DATE) + timedelta(days=random.randint(1, 30)))
         record.FLX_MED_ORG_ID = record.MED_SER_ORG_NO = random.choice(value_sets['医疗机构代码'])
-        record.CLINIC_TYPE = random.randint(1, 4)
+        record.CLINIC_TYPE = random.choice(list(CLINIC_TYPE_MAPPING.values()))
         record.CLINIC_ID = random.choice(value_sets['门诊就诊流水号或住院就诊流水号'])
         record.IN_DIAG_DIS_CD = random.choice(value_sets['疾病编码'])
         record.IN_DIAG_DIS_NM = random.choice(value_sets['疾病名称'])
@@ -122,13 +125,13 @@ def generate_t_kc21(value_sets):
         record.OUT_DIAG_DOC_CD = Xeger().xeger(r'\d{8}')
         record.OUT_DIAG_DOC_NM = generate_name()
         record.MAIN_COND_DES = random.choice(['良性', '中性', '恶性'])
-        record.INSU_TYPE = random.choice([0, 51])
+        record.INSU_TYPE = random.choice(list(INSU_TYPE_MAPPING.values()))
         record.IN_HOSP_DAYS = (str_to_date(record.OUT_HOSP_DATE) - str_to_date(record.IN_HOSP_DATE)).days
         record.MED_AMOUT = 0
         record.HOSP_STS = random.randint(0, 1)
-        record.SERVANT_FLG = random.randint(0, 1)
-        record.INSURED_STS = random.randint(0, 1)
-        record.REMOTE_SETTLE_FLG = random.randint(0, 2)
+        record.SERVANT_FLG = random.choice(list(SERVANT_FLG_MAPPING.values()))
+        record.INSURED_STS = random.choice(list(INSURED_STS_MAPPING.values()))
+        record.REMOTE_SETTLE_FLG = random.choice(list(REMOTE_SETTLE_FLG_MAPPING.values()))
         data.append(record)
     return data
 
@@ -144,7 +147,7 @@ def generate_t_kc22(value_sets, data_t_kc21):
         record.SOC_SRT_DIRE_NM = record.MED_DIRE_NM = random.choice(value_sets['社保三大目录名称'])
         record.DIRE_TYPE = random.randint(0, 1)
         record.CHA_ITEM_LEV = random.randint(0, 1)
-        record.MED_INV_ITEM_TYPE = random.choice([11, 21, 22, 24])
+        record.MED_INV_ITEM_TYPE = random.choice(list(MED_INV_ITEM_TYPE_MAPPING.values()))
         record.DOSE_FORM = random.choice(['汤', '酒', '丸', '散', '膏', '丹', '锭', '片', '露', '霜', '胶', '茶', '曲'])
         record.SPEC = f'{random.randint(10, 50)}mg*{random.randint(10, 20)}'
         record.USE_FRE = random.choice(['每天', '日两次', '日三次'])

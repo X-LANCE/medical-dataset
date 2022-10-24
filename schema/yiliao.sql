@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 05/08/2022 20:38:06
+ Date: 24/10/2022 23:21:34
 */
 
 SET NAMES utf8mb4;
@@ -32,7 +32,7 @@ CREATE TABLE `hz_info`  (
   INDEX `KH`(`KH`) USING BTREE,
   INDEX `KLX`(`KLX`) USING BTREE,
   CONSTRAINT `hz_info_ibfk_1` FOREIGN KEY (`RYBH`) REFERENCES `person_info` (`RYBH`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jybgb
@@ -81,7 +81,7 @@ CREATE TABLE `jybgb`  (
   INDEX `JZLSH`(`JZLSH`) USING BTREE,
   INDEX `YLJGDM`(`YLJGDM`) USING BTREE,
   INDEX `BGDH`(`BGDH`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jyjgzbb
@@ -116,7 +116,7 @@ CREATE TABLE `jyjgzbb`  (
   INDEX `BGDH`(`BGDH`) USING BTREE,
   CONSTRAINT `jyjgzbb_ibfk_1` FOREIGN KEY (`YLJGDM`) REFERENCES `jybgb` (`YLJGDM`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `jyjgzbb_ibfk_2` FOREIGN KEY (`BGDH`) REFERENCES `jybgb` (`BGDH`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for mzjzjlb
@@ -164,7 +164,7 @@ CREATE TABLE `mzjzjlb`  (
   CONSTRAINT `mzjzjlb_ibfk_1` FOREIGN KEY (`YLJGDM`) REFERENCES `hz_info` (`YLJGDM`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `mzjzjlb_ibfk_2` FOREIGN KEY (`KH`) REFERENCES `hz_info` (`KH`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `mzjzjlb_ibfk_3` FOREIGN KEY (`KLX`) REFERENCES `hz_info` (`KLX`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for person_info
@@ -188,7 +188,7 @@ CREATE TABLE `person_info`  (
   `ZYLBDM` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `ZYMC` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`RYBH`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for zyjzjlb
@@ -235,6 +235,6 @@ CREATE TABLE `zyjzjlb`  (
   CONSTRAINT `zyjzjlb_ibfk_1` FOREIGN KEY (`YLJGDM`) REFERENCES `hz_info` (`YLJGDM`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `zyjzjlb_ibfk_2` FOREIGN KEY (`KH`) REFERENCES `hz_info` (`KH`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `zyjzjlb_ibfk_3` FOREIGN KEY (`KLX`) REFERENCES `hz_info` (`KLX`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

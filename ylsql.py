@@ -1,6 +1,9 @@
 import argparse
 import json
-from util.constant import SCHEMA_MAPPING, TABLE_MAPPING, COLUMN_MAPPING, TYPE_MAPPING, COLUMNS, PRIMARY_KEYS, FOREIGN_KEYS, SQL_AGGS, SQL_CONDS, SQL_KEYWORDS
+from util.constant import INSU_TYPE_MAPPING, INSURED_STS_MAPPING, SERVANT_FLG_MAPPING, \
+    CLINIC_TYPE_MAPPING, REMOTE_SETTLE_FLG_MAPPING, MED_INV_ITEM_TYPE_MAPPING, \
+    SCHEMA_MAPPING, TABLE_MAPPING, COLUMN_MAPPING, TYPE_MAPPING, COLUMNS, PRIMARY_KEYS, FOREIGN_KEYS, \
+    SQL_AGGS, SQL_CONDS, SQL_KEYWORDS
 from util.util import str_to_number, random_split_array, connect_database
 
 
@@ -38,6 +41,19 @@ def preprocess_sql(sql):
             tokens[i] = '=='
         elif tokens[i] == '<>':
             tokens[i] = '!='
+        if tokens[i] in SQL_CONDS:
+            if 'INSU_TYPE' in tokens[i - 1]:
+                tokens[i + 1] = f"'{INSU_TYPE_MAPPING[tokens[i + 1]]}'"
+            elif 'INSURED_STS' in tokens[i - 1]:
+                tokens[i + 1] = f"'{INSURED_STS_MAPPING[tokens[i + 1]]}'"
+            elif 'SERVANT_FLG' in tokens[i - 1]:
+                tokens[i + 1] = f"'{SERVANT_FLG_MAPPING[tokens[i + 1]]}'"
+            elif 'CLINIC_TYPE' in tokens[i - 1]:
+                tokens[i + 1] = f"'{CLINIC_TYPE_MAPPING[tokens[i + 1]]}'"
+            elif 'REMOTE_SETTLE_FLG' in tokens[i - 1]:
+                tokens[i + 1] = f"'{REMOTE_SETTLE_FLG_MAPPING[tokens[i + 1]]}'"
+            elif 'MED_INV_ITEM_TYPE' in tokens[i - 1]:
+                tokens[i + 1] = f"'{MED_INV_ITEM_TYPE_MAPPING[tokens[i + 1]]}'"
     return ' '.join(tokens)
 
 

@@ -32878,5 +32878,2565 @@
         "sql": "SELECT OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '4420698' GROUP BY OUT_DIAG_DIS_NM",
         "schema": "医保表",
         "level": "简单"
+    },
+    {
+        "id": 4110,
+        "template": 424,
+        "question": "列出医院0057877在2000-12-30到2012-05-22内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '0057877' AND BGRQ BETWEEN '2000-12-30' AND '2012-05-22' GROUP BY JCZBMC, JCZBJGDW",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4111,
+        "template": 424,
+        "question": "列出医院7215353在2001-03-12到2021-04-26内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '7215353' AND BGRQ BETWEEN '2001-03-12' AND '2021-04-26' GROUP BY JCZBMC, JCZBJGDW",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4112,
+        "template": 424,
+        "question": "列出医院7224356在2001-02-23到2018-06-30内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '7224356' AND BGRQ BETWEEN '2001-02-23' AND '2018-06-30' GROUP BY JCZBMC, JCZBJGDW",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4113,
+        "template": 424,
+        "question": "列出医院2693551在2003-02-17到2014-08-04内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '2693551' AND BGRQ BETWEEN '2003-02-17' AND '2014-08-04' GROUP BY JCZBMC, JCZBJGDW",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4114,
+        "template": 424,
+        "question": "列出医院6544632在2000-01-12到2021-05-11内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '6544632' AND BGRQ BETWEEN '2000-01-12' AND '2021-05-11' GROUP BY JCZBMC, JCZBJGDW",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4115,
+        "template": 424,
+        "question": "列出医院4999678在2002-01-01到2002-12-07内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '4999678' AND BGRQ BETWEEN '2002-01-01' AND '2002-12-07' GROUP BY JCZBMC, JCZBJGDW",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4116,
+        "template": 424,
+        "question": "列出医院0656795在2002-01-26到2007-11-14内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '0656795' AND BGRQ BETWEEN '2002-01-26' AND '2007-11-14' GROUP BY JCZBMC, JCZBJGDW",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4117,
+        "template": 424,
+        "question": "列出医院7089893在2007-02-02到2014-12-08内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '7089893' AND BGRQ BETWEEN '2007-02-02' AND '2014-12-08' GROUP BY JCZBMC, JCZBJGDW",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4118,
+        "template": 424,
+        "question": "列出医院3268267在2010-10-16到2016-04-14内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '3268267' AND BGRQ BETWEEN '2010-10-16' AND '2016-04-14' GROUP BY JCZBMC, JCZBJGDW",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4119,
+        "template": 424,
+        "question": "列出医院9510699在2005-11-03到2017-01-12内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '9510699' AND BGRQ BETWEEN '2005-11-03' AND '2017-01-12' GROUP BY JCZBMC, JCZBJGDW",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4120,
+        "template": 425,
+        "question": "列出医院5844379在2001-09-29到2016-09-29内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值升序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '5844379' AND BGRQ BETWEEN '2001-09-29' AND '2016-09-29' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4121,
+        "template": 425,
+        "question": "列出医院2298937在2000-02-17到2009-07-01内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值升序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '2298937' AND BGRQ BETWEEN '2000-02-17' AND '2009-07-01' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4122,
+        "template": 425,
+        "question": "列出医院1206278在2008-01-12到2015-05-24内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值升序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '1206278' AND BGRQ BETWEEN '2008-01-12' AND '2015-05-24' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4123,
+        "template": 425,
+        "question": "列出医院4713891在2004-03-01到2015-01-04内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值升序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '4713891' AND BGRQ BETWEEN '2004-03-01' AND '2015-01-04' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4124,
+        "template": 425,
+        "question": "列出医院2634197在2001-06-14到2007-01-18内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值升序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '2634197' AND BGRQ BETWEEN '2001-06-14' AND '2007-01-18' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4125,
+        "template": 425,
+        "question": "列出医院8054634在2009-07-03到2014-12-19内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值升序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '8054634' AND BGRQ BETWEEN '2009-07-03' AND '2014-12-19' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4126,
+        "template": 425,
+        "question": "列出医院3965640在2006-03-22到2009-01-02内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值升序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '3965640' AND BGRQ BETWEEN '2006-03-22' AND '2009-01-02' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4127,
+        "template": 425,
+        "question": "列出医院5321103在2005-05-21到2021-04-28内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值升序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '5321103' AND BGRQ BETWEEN '2005-05-21' AND '2021-04-28' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4128,
+        "template": 425,
+        "question": "列出医院5808487在2007-09-15到2018-07-23内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值升序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '5808487' AND BGRQ BETWEEN '2007-09-15' AND '2018-07-23' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4129,
+        "template": 425,
+        "question": "列出医院1965642在2014-02-26到2019-03-02内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值升序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '1965642' AND BGRQ BETWEEN '2014-02-26' AND '2019-03-02' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4130,
+        "template": 426,
+        "question": "列出医院9758334在2005-03-27到2009-07-23内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值降序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '9758334' AND BGRQ BETWEEN '2005-03-27' AND '2009-07-23' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4131,
+        "template": 426,
+        "question": "列出医院6821167在2004-12-07到2018-11-28内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值降序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '6821167' AND BGRQ BETWEEN '2004-12-07' AND '2018-11-28' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4132,
+        "template": 426,
+        "question": "列出医院7050726在2010-02-23到2017-06-20内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值降序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '7050726' AND BGRQ BETWEEN '2010-02-23' AND '2017-06-20' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4133,
+        "template": 426,
+        "question": "列出医院3701997在2001-05-22到2007-11-06内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值降序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '3701997' AND BGRQ BETWEEN '2001-05-22' AND '2007-11-06' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4134,
+        "template": 426,
+        "question": "列出医院0230965在2019-05-30到2020-09-10内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值降序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '0230965' AND BGRQ BETWEEN '2019-05-30' AND '2020-09-10' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4135,
+        "template": 426,
+        "question": "列出医院9361498在2000-04-17到2017-11-26内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值降序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '9361498' AND BGRQ BETWEEN '2000-04-17' AND '2017-11-26' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4136,
+        "template": 426,
+        "question": "列出医院6850713在2009-07-28到2015-01-21内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值降序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '6850713' AND BGRQ BETWEEN '2009-07-28' AND '2015-01-21' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4137,
+        "template": 426,
+        "question": "列出医院5643321在2000-08-28到2021-01-18内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值降序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '5643321' AND BGRQ BETWEEN '2000-08-28' AND '2021-01-18' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4138,
+        "template": 426,
+        "question": "列出医院6930520在2005-06-06到2009-07-07内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值降序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '6930520' AND BGRQ BETWEEN '2005-06-06' AND '2009-07-07' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4139,
+        "template": 426,
+        "question": "列出医院0678334在2012-02-08到2019-02-20内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，并按平均值降序排序",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '0678334' AND BGRQ BETWEEN '2012-02-08' AND '2019-02-20' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4140,
+        "template": 427,
+        "question": "列出医院2203428在2002-06-28到2011-08-03内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最小的20项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '2203428' AND BGRQ BETWEEN '2002-06-28' AND '2011-08-03' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC LIMIT 20",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4141,
+        "template": 427,
+        "question": "列出医院4893807在2008-12-29到2009-02-23内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最小的30项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '4893807' AND BGRQ BETWEEN '2008-12-29' AND '2009-02-23' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC LIMIT 30",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4142,
+        "template": 427,
+        "question": "列出医院7418379在2008-06-02到2011-05-19内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最小的1项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '7418379' AND BGRQ BETWEEN '2008-06-02' AND '2011-05-19' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC LIMIT 1",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4143,
+        "template": 427,
+        "question": "列出医院4972688在2004-08-25到2006-05-08内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最小的14项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '4972688' AND BGRQ BETWEEN '2004-08-25' AND '2006-05-08' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC LIMIT 14",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4144,
+        "template": 427,
+        "question": "列出医院8996226在2010-06-14到2013-12-07内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最小的26项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '8996226' AND BGRQ BETWEEN '2010-06-14' AND '2013-12-07' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC LIMIT 26",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4145,
+        "template": 427,
+        "question": "列出医院0917655在2012-09-25到2015-06-26内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最小的28项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '0917655' AND BGRQ BETWEEN '2012-09-25' AND '2015-06-26' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC LIMIT 28",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4146,
+        "template": 427,
+        "question": "列出医院3425088在2001-09-12到2013-10-13内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最小的13项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '3425088' AND BGRQ BETWEEN '2001-09-12' AND '2013-10-13' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC LIMIT 13",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4147,
+        "template": 427,
+        "question": "列出医院4155340在2009-03-22到2009-08-17内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最小的27项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '4155340' AND BGRQ BETWEEN '2009-03-22' AND '2009-08-17' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC LIMIT 27",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4148,
+        "template": 427,
+        "question": "列出医院4651944在2006-10-08到2007-11-01内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最小的1项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '4651944' AND BGRQ BETWEEN '2006-10-08' AND '2007-11-01' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC LIMIT 1",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4149,
+        "template": 427,
+        "question": "列出医院4285739在2004-12-12到2005-04-19内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最小的2项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '4285739' AND BGRQ BETWEEN '2004-12-12' AND '2005-04-19' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) ASC LIMIT 2",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4150,
+        "template": 428,
+        "question": "列出医院7357865在2020-08-17到2020-08-29内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最大的30项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '7357865' AND BGRQ BETWEEN '2020-08-17' AND '2020-08-29' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC LIMIT 30",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4151,
+        "template": 428,
+        "question": "列出医院9382970在2016-02-24到2021-01-15内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最大的23项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '9382970' AND BGRQ BETWEEN '2016-02-24' AND '2021-01-15' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC LIMIT 23",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4152,
+        "template": 428,
+        "question": "列出医院5086789在2013-02-09到2015-06-07内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最大的12项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '5086789' AND BGRQ BETWEEN '2013-02-09' AND '2015-06-07' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC LIMIT 12",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4153,
+        "template": 428,
+        "question": "列出医院4189636在2013-06-16到2020-03-24内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最大的11项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '4189636' AND BGRQ BETWEEN '2013-06-16' AND '2020-03-24' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC LIMIT 11",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4154,
+        "template": 428,
+        "question": "列出医院1827360在2003-03-10到2010-02-09内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最大的22项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '1827360' AND BGRQ BETWEEN '2003-03-10' AND '2010-02-09' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC LIMIT 22",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4155,
+        "template": 428,
+        "question": "列出医院1807626在2005-06-08到2021-05-03内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最大的6项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '1807626' AND BGRQ BETWEEN '2005-06-08' AND '2021-05-03' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC LIMIT 6",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4156,
+        "template": 428,
+        "question": "列出医院5457416在2002-06-14到2015-02-10内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最大的25项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '5457416' AND BGRQ BETWEEN '2002-06-14' AND '2015-02-10' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC LIMIT 25",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4157,
+        "template": 428,
+        "question": "列出医院0049779在2002-10-26到2004-11-22内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最大的9项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '0049779' AND BGRQ BETWEEN '2002-10-26' AND '2004-11-22' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC LIMIT 9",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4158,
+        "template": 428,
+        "question": "列出医院5039596在2002-08-17到2020-01-25内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最大的1项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '5039596' AND BGRQ BETWEEN '2002-08-17' AND '2020-01-25' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC LIMIT 1",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4159,
+        "template": 428,
+        "question": "列出医院5826320在2010-02-23到2014-09-26内开出的检验报告单中，不同检测指标名称以及不同检测指标结果定量单位下，检测指标结果定量的平均值，保留平均值最大的19项",
+        "sql": "SELECT JCZBMC, JCZBJGDW, AVG(JCZBJGDL) FROM jyjgzbb WHERE YLJGDM = '5826320' AND BGRQ BETWEEN '2010-02-23' AND '2014-09-26' GROUP BY JCZBMC, JCZBJGDW ORDER BY AVG(JCZBJGDL) DESC LIMIT 19",
+        "schema": "医疗表",
+        "level": "简单"
+    },
+    {
+        "id": 4160,
+        "template": 429,
+        "question": "医院3887170在2001-11-17到2005-06-14内入院诊断疾病结果与出院诊断疾病结果不同的次数",
+        "sql": "SELECT (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '3887170' AND IN_HOSP_DATE BETWEEN '2001-11-17' AND '2005-06-14') - (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '3887170' AND IN_HOSP_DATE BETWEEN '2001-11-17' AND '2005-06-14' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4161,
+        "template": 429,
+        "question": "医院9935119在2004-07-29到2012-06-20内入院诊断疾病结果与出院诊断疾病结果不同的次数",
+        "sql": "SELECT (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '9935119' AND IN_HOSP_DATE BETWEEN '2004-07-29' AND '2012-06-20') - (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '9935119' AND IN_HOSP_DATE BETWEEN '2004-07-29' AND '2012-06-20' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4162,
+        "template": 429,
+        "question": "医院9399745在2011-08-19到2013-05-30内入院诊断疾病结果与出院诊断疾病结果不同的次数",
+        "sql": "SELECT (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '9399745' AND IN_HOSP_DATE BETWEEN '2011-08-19' AND '2013-05-30') - (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '9399745' AND IN_HOSP_DATE BETWEEN '2011-08-19' AND '2013-05-30' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4163,
+        "template": 429,
+        "question": "医院0323169在2000-01-05到2007-11-28内入院诊断疾病结果与出院诊断疾病结果不同的次数",
+        "sql": "SELECT (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '0323169' AND IN_HOSP_DATE BETWEEN '2000-01-05' AND '2007-11-28') - (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '0323169' AND IN_HOSP_DATE BETWEEN '2000-01-05' AND '2007-11-28' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4164,
+        "template": 429,
+        "question": "医院2282076在2017-06-13到2021-12-22内入院诊断疾病结果与出院诊断疾病结果不同的次数",
+        "sql": "SELECT (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '2282076' AND IN_HOSP_DATE BETWEEN '2017-06-13' AND '2021-12-22') - (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '2282076' AND IN_HOSP_DATE BETWEEN '2017-06-13' AND '2021-12-22' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4165,
+        "template": 429,
+        "question": "医院7543247在2011-06-26到2014-08-15内入院诊断疾病结果与出院诊断疾病结果不同的次数",
+        "sql": "SELECT (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '7543247' AND IN_HOSP_DATE BETWEEN '2011-06-26' AND '2014-08-15') - (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '7543247' AND IN_HOSP_DATE BETWEEN '2011-06-26' AND '2014-08-15' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4166,
+        "template": 429,
+        "question": "医院8738214在2000-02-09到2015-04-09内入院诊断疾病结果与出院诊断疾病结果不同的次数",
+        "sql": "SELECT (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '8738214' AND IN_HOSP_DATE BETWEEN '2000-02-09' AND '2015-04-09') - (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '8738214' AND IN_HOSP_DATE BETWEEN '2000-02-09' AND '2015-04-09' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4167,
+        "template": 429,
+        "question": "医院0864899在2006-09-23到2013-12-06内入院诊断疾病结果与出院诊断疾病结果不同的次数",
+        "sql": "SELECT (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '0864899' AND IN_HOSP_DATE BETWEEN '2006-09-23' AND '2013-12-06') - (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '0864899' AND IN_HOSP_DATE BETWEEN '2006-09-23' AND '2013-12-06' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4168,
+        "template": 429,
+        "question": "医院0981491在2018-10-16到2020-04-15内入院诊断疾病结果与出院诊断疾病结果不同的次数",
+        "sql": "SELECT (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '0981491' AND IN_HOSP_DATE BETWEEN '2018-10-16' AND '2020-04-15') - (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '0981491' AND IN_HOSP_DATE BETWEEN '2018-10-16' AND '2020-04-15' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4169,
+        "template": 429,
+        "question": "医院9920378在2014-07-27到2020-02-28内入院诊断疾病结果与出院诊断疾病结果不同的次数",
+        "sql": "SELECT (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '9920378' AND IN_HOSP_DATE BETWEEN '2014-07-27' AND '2020-02-28') - (SELECT COUNT(*) FROM t_kc21 WHERE MED_SER_ORG_NO = '9920378' AND IN_HOSP_DATE BETWEEN '2014-07-27' AND '2020-02-28' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4170,
+        "template": 430,
+        "question": "医院2960817在2002-01-29到2003-11-22内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2960817' AND IN_HOSP_DATE BETWEEN '2002-01-29' AND '2003-11-22' AND IN_DIAG_DIS_CD <> OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4171,
+        "template": 430,
+        "question": "医院3414261在2001-07-05到2017-12-09内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3414261' AND IN_HOSP_DATE BETWEEN '2001-07-05' AND '2017-12-09' AND IN_DIAG_DIS_CD <> OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4172,
+        "template": 430,
+        "question": "医院8520442在2012-12-29到2020-03-23内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '8520442' AND IN_HOSP_DATE BETWEEN '2012-12-29' AND '2020-03-23' AND IN_DIAG_DIS_CD <> OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4173,
+        "template": 430,
+        "question": "医院5093398在2000-04-10到2008-11-20内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5093398' AND IN_HOSP_DATE BETWEEN '2000-04-10' AND '2008-11-20' AND IN_DIAG_DIS_CD <> OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4174,
+        "template": 430,
+        "question": "医院9034385在2000-12-27到2017-12-02内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '9034385' AND IN_HOSP_DATE BETWEEN '2000-12-27' AND '2017-12-02' AND IN_DIAG_DIS_CD <> OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4175,
+        "template": 430,
+        "question": "医院6291571在2014-03-19到2016-02-21内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6291571' AND IN_HOSP_DATE BETWEEN '2014-03-19' AND '2016-02-21' AND IN_DIAG_DIS_CD <> OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4176,
+        "template": 430,
+        "question": "医院0397728在2001-10-24到2015-01-03内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0397728' AND IN_HOSP_DATE BETWEEN '2001-10-24' AND '2015-01-03' AND IN_DIAG_DIS_CD <> OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4177,
+        "template": 430,
+        "question": "医院0391835在2003-02-04到2018-02-25内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0391835' AND IN_HOSP_DATE BETWEEN '2003-02-04' AND '2018-02-25' AND IN_DIAG_DIS_CD <> OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4178,
+        "template": 430,
+        "question": "医院5870464在2005-06-28到2014-08-03内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5870464' AND IN_HOSP_DATE BETWEEN '2005-06-28' AND '2014-08-03' AND IN_DIAG_DIS_CD <> OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4179,
+        "template": 430,
+        "question": "医院5253085在2001-08-02到2018-04-04内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5253085' AND IN_HOSP_DATE BETWEEN '2001-08-02' AND '2018-04-04' AND IN_DIAG_DIS_CD <> OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4180,
+        "template": 431,
+        "question": "医院2875436在2001-01-02到2017-04-12内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2875436' AND IN_HOSP_DATE BETWEEN '2001-01-02' AND '2017-04-12') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2875436' AND IN_HOSP_DATE BETWEEN '2001-01-02' AND '2017-04-12' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4181,
+        "template": 431,
+        "question": "医院3713663在2008-07-24到2015-01-04内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3713663' AND IN_HOSP_DATE BETWEEN '2008-07-24' AND '2015-01-04') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3713663' AND IN_HOSP_DATE BETWEEN '2008-07-24' AND '2015-01-04' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4182,
+        "template": 431,
+        "question": "医院5930977在2004-11-28到2012-07-27内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5930977' AND IN_HOSP_DATE BETWEEN '2004-11-28' AND '2012-07-27') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5930977' AND IN_HOSP_DATE BETWEEN '2004-11-28' AND '2012-07-27' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4183,
+        "template": 431,
+        "question": "医院5161684在2000-11-17到2007-11-12内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5161684' AND IN_HOSP_DATE BETWEEN '2000-11-17' AND '2007-11-12') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5161684' AND IN_HOSP_DATE BETWEEN '2000-11-17' AND '2007-11-12' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4184,
+        "template": 431,
+        "question": "医院4255215在2000-07-01到2012-09-17内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4255215' AND IN_HOSP_DATE BETWEEN '2000-07-01' AND '2012-09-17') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4255215' AND IN_HOSP_DATE BETWEEN '2000-07-01' AND '2012-09-17' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4185,
+        "template": 431,
+        "question": "医院3472324在2005-03-11到2006-10-26内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3472324' AND IN_HOSP_DATE BETWEEN '2005-03-11' AND '2006-10-26') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3472324' AND IN_HOSP_DATE BETWEEN '2005-03-11' AND '2006-10-26' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4186,
+        "template": 431,
+        "question": "医院8000303在2009-08-01到2015-07-07内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '8000303' AND IN_HOSP_DATE BETWEEN '2009-08-01' AND '2015-07-07') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '8000303' AND IN_HOSP_DATE BETWEEN '2009-08-01' AND '2015-07-07' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4187,
+        "template": 431,
+        "question": "医院0795185在2005-08-27到2019-02-22内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0795185' AND IN_HOSP_DATE BETWEEN '2005-08-27' AND '2019-02-22') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0795185' AND IN_HOSP_DATE BETWEEN '2005-08-27' AND '2019-02-22' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4188,
+        "template": 431,
+        "question": "医院4368636在2006-09-30到2016-08-13内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4368636' AND IN_HOSP_DATE BETWEEN '2006-09-30' AND '2016-08-13') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4368636' AND IN_HOSP_DATE BETWEEN '2006-09-30' AND '2016-08-13' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4189,
+        "template": 431,
+        "question": "医院9146044在2005-10-14到2021-03-06内入院诊断疾病结果与出院诊断疾病结果不同的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '9146044' AND IN_HOSP_DATE BETWEEN '2005-10-14' AND '2021-03-06') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '9146044' AND IN_HOSP_DATE BETWEEN '2005-10-14' AND '2021-03-06' AND IN_DIAG_DIS_CD = OUT_DIAG_DIS_CD)",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4190,
+        "template": 432,
+        "question": "医院0097117在2005-02-21到2021-07-29内非科室977负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0097117' AND IN_HOSP_DATE BETWEEN '2005-02-21' AND '2021-07-29' AND MED_ORG_DEPT_CD <> '977'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4191,
+        "template": 432,
+        "question": "医院5664909在2015-08-19到2019-03-24内非科室3157负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5664909' AND IN_HOSP_DATE BETWEEN '2015-08-19' AND '2019-03-24' AND MED_ORG_DEPT_CD <> '3157'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4192,
+        "template": 432,
+        "question": "医院5229029在2016-06-27到2018-03-06内非科室587负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5229029' AND IN_HOSP_DATE BETWEEN '2016-06-27' AND '2018-03-06' AND MED_ORG_DEPT_CD <> '587'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4193,
+        "template": 432,
+        "question": "医院3317447在2014-11-27到2020-01-02内非科室546负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3317447' AND IN_HOSP_DATE BETWEEN '2014-11-27' AND '2020-01-02' AND MED_ORG_DEPT_CD <> '546'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4194,
+        "template": 432,
+        "question": "医院2851164在2011-05-04到2020-05-10内非科室281负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2851164' AND IN_HOSP_DATE BETWEEN '2011-05-04' AND '2020-05-10' AND MED_ORG_DEPT_CD <> '281'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4195,
+        "template": 432,
+        "question": "医院0390755在2007-01-29到2009-02-18内非科室80496负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0390755' AND IN_HOSP_DATE BETWEEN '2007-01-29' AND '2009-02-18' AND MED_ORG_DEPT_CD <> '80496'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4196,
+        "template": 432,
+        "question": "医院7340337在2010-09-12到2016-06-17内非科室4580负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '7340337' AND IN_HOSP_DATE BETWEEN '2010-09-12' AND '2016-06-17' AND MED_ORG_DEPT_CD <> '4580'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4197,
+        "template": 432,
+        "question": "医院9270200在2000-04-03到2018-02-04内非科室9971负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '9270200' AND IN_HOSP_DATE BETWEEN '2000-04-03' AND '2018-02-04' AND MED_ORG_DEPT_CD <> '9971'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4198,
+        "template": 432,
+        "question": "医院4172203在2007-03-01到2013-10-23内非科室4914负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4172203' AND IN_HOSP_DATE BETWEEN '2007-03-01' AND '2013-10-23' AND MED_ORG_DEPT_CD <> '4914'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4199,
+        "template": 432,
+        "question": "医院9297152在2002-06-13到2021-01-01内非科室881负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '9297152' AND IN_HOSP_DATE BETWEEN '2002-06-13' AND '2021-01-01' AND MED_ORG_DEPT_CD <> '881'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4200,
+        "template": 433,
+        "question": "医院4350123在2005-07-03到2021-04-26内非科室41598负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4350123' AND IN_HOSP_DATE BETWEEN '2005-07-03' AND '2021-04-26') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4350123' AND IN_HOSP_DATE BETWEEN '2005-07-03' AND '2021-04-26' AND MED_ORG_DEPT_CD = '41598')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4201,
+        "template": 433,
+        "question": "医院1407398在2007-08-14到2011-07-31内非科室675负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1407398' AND IN_HOSP_DATE BETWEEN '2007-08-14' AND '2011-07-31') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1407398' AND IN_HOSP_DATE BETWEEN '2007-08-14' AND '2011-07-31' AND MED_ORG_DEPT_CD = '675')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4202,
+        "template": 433,
+        "question": "医院6367701在2009-05-23到2019-05-26内非科室1908负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6367701' AND IN_HOSP_DATE BETWEEN '2009-05-23' AND '2019-05-26') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6367701' AND IN_HOSP_DATE BETWEEN '2009-05-23' AND '2019-05-26' AND MED_ORG_DEPT_CD = '1908')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4203,
+        "template": 433,
+        "question": "医院7734587在2004-02-19到2021-08-21内非科室42244负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '7734587' AND IN_HOSP_DATE BETWEEN '2004-02-19' AND '2021-08-21') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '7734587' AND IN_HOSP_DATE BETWEEN '2004-02-19' AND '2021-08-21' AND MED_ORG_DEPT_CD = '42244')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4204,
+        "template": 433,
+        "question": "医院0611704在2012-09-14到2016-11-27内非科室4564负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0611704' AND IN_HOSP_DATE BETWEEN '2012-09-14' AND '2016-11-27') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0611704' AND IN_HOSP_DATE BETWEEN '2012-09-14' AND '2016-11-27' AND MED_ORG_DEPT_CD = '4564')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4205,
+        "template": 433,
+        "question": "医院9698019在2001-11-15到2014-12-27内非科室3455负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '9698019' AND IN_HOSP_DATE BETWEEN '2001-11-15' AND '2014-12-27') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '9698019' AND IN_HOSP_DATE BETWEEN '2001-11-15' AND '2014-12-27' AND MED_ORG_DEPT_CD = '3455')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4206,
+        "template": 433,
+        "question": "医院3995688在2000-07-01到2011-06-19内非科室4512负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3995688' AND IN_HOSP_DATE BETWEEN '2000-07-01' AND '2011-06-19') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3995688' AND IN_HOSP_DATE BETWEEN '2000-07-01' AND '2011-06-19' AND MED_ORG_DEPT_CD = '4512')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4207,
+        "template": 433,
+        "question": "医院2674806在2000-05-19到2004-09-02内非科室3452负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2674806' AND IN_HOSP_DATE BETWEEN '2000-05-19' AND '2004-09-02') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2674806' AND IN_HOSP_DATE BETWEEN '2000-05-19' AND '2004-09-02' AND MED_ORG_DEPT_CD = '3452')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4208,
+        "template": 433,
+        "question": "医院1388267在2007-02-06到2018-12-21内非科室72353负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1388267' AND IN_HOSP_DATE BETWEEN '2007-02-06' AND '2018-12-21') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1388267' AND IN_HOSP_DATE BETWEEN '2007-02-06' AND '2018-12-21' AND MED_ORG_DEPT_CD = '72353')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4209,
+        "template": 433,
+        "question": "医院2507652在2011-06-26到2011-10-09内非科室02592负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2507652' AND IN_HOSP_DATE BETWEEN '2011-06-26' AND '2011-10-09') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2507652' AND IN_HOSP_DATE BETWEEN '2011-06-26' AND '2011-10-09' AND MED_ORG_DEPT_CD = '02592')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4210,
+        "template": 434,
+        "question": "医院1306684在2010-07-19到2015-04-05内非科室小儿肿瘤内科负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1306684' AND IN_HOSP_DATE BETWEEN '2010-07-19' AND '2015-04-05' AND MED_ORG_DEPT_NM <> '小儿化疗科'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4211,
+        "template": 434,
+        "question": "医院6471297在2002-02-22到2010-05-02内非科室角膜病科负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6471297' AND IN_HOSP_DATE BETWEEN '2002-02-22' AND '2010-05-02' AND MED_ORG_DEPT_NM <> '角膜病科'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4212,
+        "template": 434,
+        "question": "医院0288994在2001-05-16到2003-12-30内非科室烧伤负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0288994' AND IN_HOSP_DATE BETWEEN '2001-05-16' AND '2003-12-30' AND MED_ORG_DEPT_NM <> '烧伤科'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4213,
+        "template": 434,
+        "question": "医院4133563在2001-10-29到2016-09-16内非科室屈光科负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4133563' AND IN_HOSP_DATE BETWEEN '2001-10-29' AND '2016-09-16' AND MED_ORG_DEPT_NM <> '屈光科'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4214,
+        "template": 434,
+        "question": "医院1240868在2004-04-12到2005-12-18内非科室泌尿肿瘤外科负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1240868' AND IN_HOSP_DATE BETWEEN '2004-04-12' AND '2005-12-18' AND MED_ORG_DEPT_NM <> '泌尿肿瘤科'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4215,
+        "template": 434,
+        "question": "医院1362507在2009-09-14到2019-04-20内非科室脊柱科负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1362507' AND IN_HOSP_DATE BETWEEN '2009-09-14' AND '2019-04-20' AND MED_ORG_DEPT_NM <> '脊柱外科'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4216,
+        "template": 434,
+        "question": "医院3187417在2009-07-31到2010-05-21内非科室行政科负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3187417' AND IN_HOSP_DATE BETWEEN '2009-07-31' AND '2010-05-21' AND MED_ORG_DEPT_NM <> '行政科'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4217,
+        "template": 434,
+        "question": "医院5402426在2000-07-12到2009-10-04内非科室牙体牙髓负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5402426' AND IN_HOSP_DATE BETWEEN '2000-07-12' AND '2009-10-04' AND MED_ORG_DEPT_NM <> '牙体牙髓科'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4218,
+        "template": 434,
+        "question": "医院0958858在2005-06-14到2017-07-23内非科室感染病负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0958858' AND IN_HOSP_DATE BETWEEN '2005-06-14' AND '2017-07-23' AND MED_ORG_DEPT_NM <> '感染科'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4219,
+        "template": 434,
+        "question": "医院6189571在2018-07-22到2021-03-24内非科室妇女保健负责的所有医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6189571' AND IN_HOSP_DATE BETWEEN '2018-07-22' AND '2021-03-24' AND MED_ORG_DEPT_NM <> '妇女保健科'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4220,
+        "template": 435,
+        "question": "医院5003066在2012-10-01到2019-11-24内非科室小儿屈光科负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5003066' AND IN_HOSP_DATE BETWEEN '2012-10-01' AND '2019-11-24') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5003066' AND IN_HOSP_DATE BETWEEN '2012-10-01' AND '2019-11-24' AND MED_ORG_DEPT_NM = '小儿屈光科')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4221,
+        "template": 435,
+        "question": "医院7721090在2013-07-27到2015-08-15内非科室儿科呼吸负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '7721090' AND IN_HOSP_DATE BETWEEN '2013-07-27' AND '2015-08-15') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '7721090' AND IN_HOSP_DATE BETWEEN '2013-07-27' AND '2015-08-15' AND MED_ORG_DEPT_NM = '小儿呼吸内科')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4222,
+        "template": 435,
+        "question": "医院4112809在2002-05-16到2019-10-05内非科室儿科呼吸内科负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4112809' AND IN_HOSP_DATE BETWEEN '2002-05-16' AND '2019-10-05') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4112809' AND IN_HOSP_DATE BETWEEN '2002-05-16' AND '2019-10-05' AND MED_ORG_DEPT_NM = '小儿呼吸内科')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4223,
+        "template": 435,
+        "question": "医院4040000在2000-10-19到2016-12-23内非科室慢病科负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4040000' AND IN_HOSP_DATE BETWEEN '2000-10-19' AND '2016-12-23') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4040000' AND IN_HOSP_DATE BETWEEN '2000-10-19' AND '2016-12-23' AND MED_ORG_DEPT_NM = '慢病科')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4224,
+        "template": 435,
+        "question": "医院7538137在2017-06-01到2020-11-13内非科室介入治疗负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '7538137' AND IN_HOSP_DATE BETWEEN '2017-06-01' AND '2020-11-13') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '7538137' AND IN_HOSP_DATE BETWEEN '2017-06-01' AND '2020-11-13' AND MED_ORG_DEPT_NM = '介入医学科')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4225,
+        "template": 435,
+        "question": "医院4141380在2016-11-09到2019-04-09内非科室小儿营养科负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4141380' AND IN_HOSP_DATE BETWEEN '2016-11-09' AND '2019-04-09') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4141380' AND IN_HOSP_DATE BETWEEN '2016-11-09' AND '2019-04-09' AND MED_ORG_DEPT_NM = '小儿营养科')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4226,
+        "template": 435,
+        "question": "医院1303547在2003-02-21到2005-09-08内非科室乳腺负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1303547' AND IN_HOSP_DATE BETWEEN '2003-02-21' AND '2005-09-08') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1303547' AND IN_HOSP_DATE BETWEEN '2003-02-21' AND '2005-09-08' AND MED_ORG_DEPT_NM = '乳腺外科')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4227,
+        "template": 435,
+        "question": "医院2609401在2006-07-02到2021-01-28内非科室麻醉负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2609401' AND IN_HOSP_DATE BETWEEN '2006-07-02' AND '2021-01-28') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2609401' AND IN_HOSP_DATE BETWEEN '2006-07-02' AND '2021-01-28' AND MED_ORG_DEPT_NM = '麻醉科')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4228,
+        "template": 435,
+        "question": "医院3266292在2007-09-14到2018-06-15内非科室小儿口腔科负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3266292' AND IN_HOSP_DATE BETWEEN '2007-09-14' AND '2018-06-15') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3266292' AND IN_HOSP_DATE BETWEEN '2007-09-14' AND '2018-06-15' AND MED_ORG_DEPT_NM = '儿童口腔科')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4229,
+        "template": 435,
+        "question": "医院4723266在2005-06-17到2018-05-08内非科室小儿神经外科负责的所有医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4723266' AND IN_HOSP_DATE BETWEEN '2005-06-17' AND '2018-05-08') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4723266' AND IN_HOSP_DATE BETWEEN '2005-06-17' AND '2018-05-08' AND MED_ORG_DEPT_NM = '小儿神经外科')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4230,
+        "template": 436,
+        "question": "列出医院4305936在2003-03-13到2015-04-18内所有非异地结算的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4305936' AND IN_HOSP_DATE BETWEEN '2003-03-13' AND '2015-04-18' AND REMOTE_SETTLE_FLG = 0",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4231,
+        "template": 436,
+        "question": "列出医院4090080在2001-11-04到2015-04-28内所有非异地结算的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4090080' AND IN_HOSP_DATE BETWEEN '2001-11-04' AND '2015-04-28' AND REMOTE_SETTLE_FLG = 0",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4232,
+        "template": 436,
+        "question": "列出医院6457739在2008-12-20到2011-03-11内所有非异地结算的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6457739' AND IN_HOSP_DATE BETWEEN '2008-12-20' AND '2011-03-11' AND REMOTE_SETTLE_FLG = 0",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4233,
+        "template": 436,
+        "question": "列出医院3236856在2008-09-10到2013-05-14内所有非异地结算的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '3236856' AND IN_HOSP_DATE BETWEEN '2008-09-10' AND '2013-05-14' AND REMOTE_SETTLE_FLG = 0",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4234,
+        "template": 436,
+        "question": "列出医院1587025在2002-09-29到2012-11-19内所有非异地结算的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1587025' AND IN_HOSP_DATE BETWEEN '2002-09-29' AND '2012-11-19' AND REMOTE_SETTLE_FLG = 0",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4235,
+        "template": 436,
+        "question": "列出医院7322663在2007-12-07到2011-02-15内所有非异地结算的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '7322663' AND IN_HOSP_DATE BETWEEN '2007-12-07' AND '2011-02-15' AND REMOTE_SETTLE_FLG = 0",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4236,
+        "template": 436,
+        "question": "列出医院4942353在2000-07-22到2005-09-01内所有非异地结算的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4942353' AND IN_HOSP_DATE BETWEEN '2000-07-22' AND '2005-09-01' AND REMOTE_SETTLE_FLG = 0",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4237,
+        "template": 436,
+        "question": "列出医院5369822在2016-07-18到2018-08-16内所有非异地结算的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5369822' AND IN_HOSP_DATE BETWEEN '2016-07-18' AND '2018-08-16' AND REMOTE_SETTLE_FLG = 0",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4238,
+        "template": 436,
+        "question": "列出医院5331657在2016-05-09到2020-02-09内所有非异地结算的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5331657' AND IN_HOSP_DATE BETWEEN '2016-05-09' AND '2020-02-09' AND REMOTE_SETTLE_FLG = 0",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4239,
+        "template": 436,
+        "question": "列出医院0677655在2009-10-21到2014-12-16内所有非异地结算的医疗就诊记录",
+        "sql": "SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '0677655' AND IN_HOSP_DATE BETWEEN '2009-10-21' AND '2014-12-16' AND REMOTE_SETTLE_FLG = 0",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4240,
+        "template": 437,
+        "question": "列出医院6196587在2006-08-31到2016-04-05内所有非异地结算的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6196587' AND IN_HOSP_DATE BETWEEN '2006-08-31' AND '2016-04-05') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6196587' AND IN_HOSP_DATE BETWEEN '2006-08-31' AND '2016-04-05' AND (REMOTE_SETTLE_FLG = 1 OR REMOTE_SETTLE_FLG = 2))",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4241,
+        "template": 437,
+        "question": "列出医院4525816在2006-11-17到2020-11-06内所有非异地结算的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4525816' AND IN_HOSP_DATE BETWEEN '2006-11-17' AND '2020-11-06') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '4525816' AND IN_HOSP_DATE BETWEEN '2006-11-17' AND '2020-11-06' AND (REMOTE_SETTLE_FLG = 1 OR REMOTE_SETTLE_FLG = 2))",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4242,
+        "template": 437,
+        "question": "列出医院9209968在2008-09-08到2010-01-16内所有非异地结算的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '9209968' AND IN_HOSP_DATE BETWEEN '2008-09-08' AND '2010-01-16') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '9209968' AND IN_HOSP_DATE BETWEEN '2008-09-08' AND '2010-01-16' AND (REMOTE_SETTLE_FLG = 1 OR REMOTE_SETTLE_FLG = 2))",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4243,
+        "template": 437,
+        "question": "列出医院6291859在2004-06-24到2014-06-10内所有非异地结算的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6291859' AND IN_HOSP_DATE BETWEEN '2004-06-24' AND '2014-06-10') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6291859' AND IN_HOSP_DATE BETWEEN '2004-06-24' AND '2014-06-10' AND (REMOTE_SETTLE_FLG = 1 OR REMOTE_SETTLE_FLG = 2))",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4244,
+        "template": 437,
+        "question": "列出医院5188854在2010-07-06到2021-06-21内所有非异地结算的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5188854' AND IN_HOSP_DATE BETWEEN '2010-07-06' AND '2021-06-21') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '5188854' AND IN_HOSP_DATE BETWEEN '2010-07-06' AND '2021-06-21' AND (REMOTE_SETTLE_FLG = 1 OR REMOTE_SETTLE_FLG = 2))",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4245,
+        "template": 437,
+        "question": "列出医院2376078在2013-06-11到2014-03-10内所有非异地结算的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2376078' AND IN_HOSP_DATE BETWEEN '2013-06-11' AND '2014-03-10') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '2376078' AND IN_HOSP_DATE BETWEEN '2013-06-11' AND '2014-03-10' AND (REMOTE_SETTLE_FLG = 1 OR REMOTE_SETTLE_FLG = 2))",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4246,
+        "template": 437,
+        "question": "列出医院8244564在2010-05-23到2020-01-11内所有非异地结算的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '8244564' AND IN_HOSP_DATE BETWEEN '2010-05-23' AND '2020-01-11') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '8244564' AND IN_HOSP_DATE BETWEEN '2010-05-23' AND '2020-01-11' AND (REMOTE_SETTLE_FLG = 1 OR REMOTE_SETTLE_FLG = 2))",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4247,
+        "template": 437,
+        "question": "列出医院6264917在2001-05-03到2011-04-15内所有非异地结算的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6264917' AND IN_HOSP_DATE BETWEEN '2001-05-03' AND '2011-04-15') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6264917' AND IN_HOSP_DATE BETWEEN '2001-05-03' AND '2011-04-15' AND (REMOTE_SETTLE_FLG = 1 OR REMOTE_SETTLE_FLG = 2))",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4248,
+        "template": 437,
+        "question": "列出医院1054385在2003-03-19到2008-05-29内所有非异地结算的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1054385' AND IN_HOSP_DATE BETWEEN '2003-03-19' AND '2008-05-29') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '1054385' AND IN_HOSP_DATE BETWEEN '2003-03-19' AND '2008-05-29' AND (REMOTE_SETTLE_FLG = 1 OR REMOTE_SETTLE_FLG = 2))",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4249,
+        "template": 437,
+        "question": "列出医院6389409在2004-09-26到2012-04-01内所有非异地结算的医疗就诊记录",
+        "sql": "(SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6389409' AND IN_HOSP_DATE BETWEEN '2004-09-26' AND '2012-04-01') EXCEPT (SELECT * FROM t_kc21 WHERE MED_SER_ORG_NO = '6389409' AND IN_HOSP_DATE BETWEEN '2004-09-26' AND '2012-04-01' AND (REMOTE_SETTLE_FLG = 1 OR REMOTE_SETTLE_FLG = 2))",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4250,
+        "template": 438,
+        "question": "根据不同的科室编码和入院诊断疾病编码，列出医院1830315所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1830315' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4251,
+        "template": 438,
+        "question": "根据不同的科室编码和入院诊断疾病编码，列出医院1511465所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1511465' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4252,
+        "template": 438,
+        "question": "根据不同的科室编码和入院诊断疾病编码，列出医院5766627所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5766627' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4253,
+        "template": 438,
+        "question": "根据不同的科室编码和入院诊断疾病编码，列出医院2806498所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '2806498' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4254,
+        "template": 438,
+        "question": "根据不同的科室编码和入院诊断疾病编码，列出医院1153407所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1153407' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4255,
+        "template": 438,
+        "question": "根据不同的科室编码和入院诊断疾病编码，列出医院7856907所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '7856907' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4256,
+        "template": 438,
+        "question": "根据不同的科室编码和入院诊断疾病编码，列出医院6293946所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '6293946' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4257,
+        "template": 438,
+        "question": "根据不同的科室编码和入院诊断疾病编码，列出医院3120762所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '3120762' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4258,
+        "template": 438,
+        "question": "根据不同的科室编码和入院诊断疾病编码，列出医院1685355所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1685355' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4259,
+        "template": 438,
+        "question": "根据不同的科室编码和入院诊断疾病编码，列出医院7880116所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '7880116' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4260,
+        "template": 439,
+        "question": "根据不同的科室编码和入院诊断疾病名称，列出医院9028795所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9028795' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4261,
+        "template": 439,
+        "question": "根据不同的科室编码和入院诊断疾病名称，列出医院7831903所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '7831903' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4262,
+        "template": 439,
+        "question": "根据不同的科室编码和入院诊断疾病名称，列出医院9146406所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9146406' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4263,
+        "template": 439,
+        "question": "根据不同的科室编码和入院诊断疾病名称，列出医院1104291所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1104291' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4264,
+        "template": 439,
+        "question": "根据不同的科室编码和入院诊断疾病名称，列出医院9224891所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9224891' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4265,
+        "template": 439,
+        "question": "根据不同的科室编码和入院诊断疾病名称，列出医院0314561所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0314561' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4266,
+        "template": 439,
+        "question": "根据不同的科室编码和入院诊断疾病名称，列出医院8629605所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '8629605' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4267,
+        "template": 439,
+        "question": "根据不同的科室编码和入院诊断疾病名称，列出医院1150862所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1150862' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4268,
+        "template": 439,
+        "question": "根据不同的科室编码和入院诊断疾病名称，列出医院0923184所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0923184' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4269,
+        "template": 439,
+        "question": "根据不同的科室编码和入院诊断疾病名称，列出医院2125522所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '2125522' GROUP BY MED_ORG_DEPT_CD, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4270,
+        "template": 440,
+        "question": "根据不同的科室编码和出院诊断疾病编码，列出医院0081088所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0081088' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4271,
+        "template": 440,
+        "question": "根据不同的科室编码和出院诊断疾病编码，列出医院5248115所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5248115' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4272,
+        "template": 440,
+        "question": "根据不同的科室编码和出院诊断疾病编码，列出医院4313090所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '4313090' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4273,
+        "template": 440,
+        "question": "根据不同的科室编码和出院诊断疾病编码，列出医院4124660所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '4124660' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4274,
+        "template": 440,
+        "question": "根据不同的科室编码和出院诊断疾病编码，列出医院8332581所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '8332581' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4275,
+        "template": 440,
+        "question": "根据不同的科室编码和出院诊断疾病编码，列出医院3425465所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '3425465' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4276,
+        "template": 440,
+        "question": "根据不同的科室编码和出院诊断疾病编码，列出医院9593496所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9593496' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4277,
+        "template": 440,
+        "question": "根据不同的科室编码和出院诊断疾病编码，列出医院0255519所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0255519' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4278,
+        "template": 440,
+        "question": "根据不同的科室编码和出院诊断疾病编码，列出医院7430610所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '7430610' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4279,
+        "template": 440,
+        "question": "根据不同的科室编码和出院诊断疾病编码，列出医院9480840所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9480840' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4280,
+        "template": 441,
+        "question": "根据不同的科室编码和出院诊断疾病名称，列出医院5280788所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5280788' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4281,
+        "template": 441,
+        "question": "根据不同的科室编码和出院诊断疾病名称，列出医院8450909所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '8450909' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4282,
+        "template": 441,
+        "question": "根据不同的科室编码和出院诊断疾病名称，列出医院8988209所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '8988209' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4283,
+        "template": 441,
+        "question": "根据不同的科室编码和出院诊断疾病名称，列出医院6135153所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '6135153' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4284,
+        "template": 441,
+        "question": "根据不同的科室编码和出院诊断疾病名称，列出医院1692026所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1692026' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4285,
+        "template": 441,
+        "question": "根据不同的科室编码和出院诊断疾病名称，列出医院1534416所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1534416' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4286,
+        "template": 441,
+        "question": "根据不同的科室编码和出院诊断疾病名称，列出医院7124001所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '7124001' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4287,
+        "template": 441,
+        "question": "根据不同的科室编码和出院诊断疾病名称，列出医院0297464所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0297464' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4288,
+        "template": 441,
+        "question": "根据不同的科室编码和出院诊断疾病名称，列出医院3667285所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '3667285' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4289,
+        "template": 441,
+        "question": "根据不同的科室编码和出院诊断疾病名称，列出医院4355063所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '4355063' GROUP BY MED_ORG_DEPT_CD, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4290,
+        "template": 442,
+        "question": "根据不同的科室名称和入院诊断疾病编码，列出医院9492924所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9492924' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4291,
+        "template": 442,
+        "question": "根据不同的科室名称和入院诊断疾病编码，列出医院6776631所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '6776631' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4292,
+        "template": 442,
+        "question": "根据不同的科室名称和入院诊断疾病编码，列出医院5031026所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5031026' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4293,
+        "template": 442,
+        "question": "根据不同的科室名称和入院诊断疾病编码，列出医院8754336所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '8754336' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4294,
+        "template": 442,
+        "question": "根据不同的科室名称和入院诊断疾病编码，列出医院5728238所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5728238' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4295,
+        "template": 442,
+        "question": "根据不同的科室名称和入院诊断疾病编码，列出医院9645673所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9645673' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4296,
+        "template": 442,
+        "question": "根据不同的科室名称和入院诊断疾病编码，列出医院5532316所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5532316' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4297,
+        "template": 442,
+        "question": "根据不同的科室名称和入院诊断疾病编码，列出医院2686792所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '2686792' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4298,
+        "template": 442,
+        "question": "根据不同的科室名称和入院诊断疾病编码，列出医院4876950所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '4876950' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4299,
+        "template": 442,
+        "question": "根据不同的科室名称和入院诊断疾病编码，列出医院8040470所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '8040470' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4300,
+        "template": 443,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院4149956所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '4149956' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4301,
+        "template": 443,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院5056458所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5056458' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4302,
+        "template": 443,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院9841208所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9841208' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4303,
+        "template": 443,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院5349528所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5349528' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4304,
+        "template": 443,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院6110651所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '6110651' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4305,
+        "template": 443,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院5826228所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5826228' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4306,
+        "template": 443,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院5848199所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5848199' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4307,
+        "template": 443,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院4652099所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '4652099' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4308,
+        "template": 443,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院7863848所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '7863848' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4309,
+        "template": 443,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院3111269所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '3111269' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4310,
+        "template": 444,
+        "question": "根据不同的科室名称和出院诊断疾病编码，列出医院5932040所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5932040' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4311,
+        "template": 444,
+        "question": "根据不同的科室名称和出院诊断疾病编码，列出医院1537137所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1537137' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4312,
+        "template": 444,
+        "question": "根据不同的科室名称和出院诊断疾病编码，列出医院3166992所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '3166992' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4313,
+        "template": 444,
+        "question": "根据不同的科室名称和出院诊断疾病编码，列出医院7700550所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '7700550' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4314,
+        "template": 444,
+        "question": "根据不同的科室名称和出院诊断疾病编码，列出医院1383573所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1383573' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4315,
+        "template": 444,
+        "question": "根据不同的科室名称和出院诊断疾病编码，列出医院7449354所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '7449354' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4316,
+        "template": 444,
+        "question": "根据不同的科室名称和出院诊断疾病编码，列出医院5091059所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5091059' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4317,
+        "template": 444,
+        "question": "根据不同的科室名称和出院诊断疾病编码，列出医院9564037所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9564037' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4318,
+        "template": 444,
+        "question": "根据不同的科室名称和出院诊断疾病编码，列出医院0529710所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0529710' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4319,
+        "template": 444,
+        "question": "根据不同的科室名称和出院诊断疾病编码，列出医院5697273所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5697273' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4320,
+        "template": 445,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院2256042所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '2256042' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4321,
+        "template": 445,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院0781537所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0781537' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4322,
+        "template": 445,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院9579618所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9579618' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4323,
+        "template": 445,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院7580986所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '7580986' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4324,
+        "template": 445,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院9557781所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9557781' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4325,
+        "template": 445,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院6501681所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '6501681' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4326,
+        "template": 445,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院9073767所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9073767' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4327,
+        "template": 445,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院5033672所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5033672' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4328,
+        "template": 445,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院5262038所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5262038' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4329,
+        "template": 445,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院7434409所有医疗就诊记录中患者的平均年龄",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '7434409' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4330,
+        "template": 446,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院4300893所有医疗就诊记录中患者的平均年龄，保留平均年龄小于17岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '4300893' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM HAVING AVG(PERSON_AGE) < 17",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4331,
+        "template": 446,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院3385540所有医疗就诊记录中患者的平均年龄，保留平均年龄小于14岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '3385540' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM HAVING AVG(PERSON_AGE) < 14",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4332,
+        "template": 446,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院0655431所有医疗就诊记录中患者的平均年龄，保留平均年龄小于3岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0655431' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM HAVING AVG(PERSON_AGE) < 3",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4333,
+        "template": 446,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院0671916所有医疗就诊记录中患者的平均年龄，保留平均年龄小于30岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0671916' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM HAVING AVG(PERSON_AGE) < 30",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4334,
+        "template": 446,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院8435928所有医疗就诊记录中患者的平均年龄，保留平均年龄小于29岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '8435928' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM HAVING AVG(PERSON_AGE) < 29",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4335,
+        "template": 446,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院2402730所有医疗就诊记录中患者的平均年龄，保留平均年龄小于14岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '2402730' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM HAVING AVG(PERSON_AGE) < 14",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4336,
+        "template": 446,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院8862206所有医疗就诊记录中患者的平均年龄，保留平均年龄小于5岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '8862206' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM HAVING AVG(PERSON_AGE) < 5",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4337,
+        "template": 446,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院9861939所有医疗就诊记录中患者的平均年龄，保留平均年龄小于3岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '9861939' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM HAVING AVG(PERSON_AGE) < 3",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4338,
+        "template": 446,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院5583587所有医疗就诊记录中患者的平均年龄，保留平均年龄小于5岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5583587' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM HAVING AVG(PERSON_AGE) < 5",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4339,
+        "template": 446,
+        "question": "根据不同的科室名称和入院诊断疾病名称，列出医院3966295所有医疗就诊记录中患者的平均年龄，保留平均年龄小于27岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, IN_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '3966295' GROUP BY MED_ORG_DEPT_NM, IN_DIAG_DIS_NM HAVING AVG(PERSON_AGE) < 27",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4340,
+        "template": 447,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院5387444所有医疗就诊记录中患者的平均年龄，保留平均年龄大于24岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5387444' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM HAVING AVG(PERSON_AGE) > 24",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4341,
+        "template": 447,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院5230823所有医疗就诊记录中患者的平均年龄，保留平均年龄大于29岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5230823' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM HAVING AVG(PERSON_AGE) > 29",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4342,
+        "template": 447,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院2261260所有医疗就诊记录中患者的平均年龄，保留平均年龄大于9岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '2261260' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM HAVING AVG(PERSON_AGE) > 9",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4343,
+        "template": 447,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院3985817所有医疗就诊记录中患者的平均年龄，保留平均年龄大于23岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '3985817' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM HAVING AVG(PERSON_AGE) > 23",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4344,
+        "template": 447,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院4970864所有医疗就诊记录中患者的平均年龄，保留平均年龄大于21岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '4970864' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM HAVING AVG(PERSON_AGE) > 21",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4345,
+        "template": 447,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院5211360所有医疗就诊记录中患者的平均年龄，保留平均年龄大于10岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '5211360' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM HAVING AVG(PERSON_AGE) > 10",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4346,
+        "template": 447,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院0738029所有医疗就诊记录中患者的平均年龄，保留平均年龄大于1岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0738029' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM HAVING AVG(PERSON_AGE) > 1",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4347,
+        "template": 447,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院0101657所有医疗就诊记录中患者的平均年龄，保留平均年龄大于23岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '0101657' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM HAVING AVG(PERSON_AGE) > 23",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4348,
+        "template": 447,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院3290779所有医疗就诊记录中患者的平均年龄，保留平均年龄大于29岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '3290779' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM HAVING AVG(PERSON_AGE) > 29",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4349,
+        "template": 447,
+        "question": "根据不同的科室名称和出院诊断疾病名称，列出医院1393736所有医疗就诊记录中患者的平均年龄，保留平均年龄大于10岁的记录",
+        "sql": "SELECT MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM, AVG(PERSON_AGE) FROM t_kc21 WHERE MED_SER_ORG_NO = '1393736' GROUP BY MED_ORG_DEPT_NM, OUT_DIAG_DIS_NM HAVING AVG(PERSON_AGE) > 10",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4350,
+        "template": 448,
+        "question": "医院3795332在2007-03-16到2007-04-28内所有医疗记录的个人账户支出与医疗费总额的平均比值",
+        "sql": "SELECT AVG(t_kc24.PER_ACC_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '3795332' AND t_kc24.CLINIC_SLT_DATE BETWEEN '2007-03-16' AND '2007-04-28'",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4351,
+        "template": 448,
+        "question": "医院4991184在2005-07-04到2020-04-04内所有医疗记录的个人账户支出与医疗费总额的平均比值",
+        "sql": "SELECT AVG(t_kc24.PER_ACC_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '4991184' AND t_kc24.CLINIC_SLT_DATE BETWEEN '2005-07-04' AND '2020-04-04'",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4352,
+        "template": 448,
+        "question": "医院1409067在2010-02-01到2011-06-01内所有医疗记录的个人账户支出与医疗费总额的平均比值",
+        "sql": "SELECT AVG(t_kc24.PER_ACC_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '1409067' AND t_kc24.CLINIC_SLT_DATE BETWEEN '2010-02-01' AND '2011-06-01'",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4353,
+        "template": 448,
+        "question": "医院3003256在2011-07-03到2013-04-26内所有医疗记录的个人账户支出与医疗费总额的平均比值",
+        "sql": "SELECT AVG(t_kc24.PER_ACC_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '3003256' AND t_kc24.CLINIC_SLT_DATE BETWEEN '2011-07-03' AND '2013-04-26'",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4354,
+        "template": 448,
+        "question": "医院8739090在2003-04-09到2019-11-24内所有医疗记录的个人账户支出与医疗费总额的平均比值",
+        "sql": "SELECT AVG(t_kc24.PER_ACC_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '8739090' AND t_kc24.CLINIC_SLT_DATE BETWEEN '2003-04-09' AND '2019-11-24'",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4355,
+        "template": 448,
+        "question": "医院2313711在2002-11-01到2015-04-30内所有医疗记录的个人账户支出与医疗费总额的平均比值",
+        "sql": "SELECT AVG(t_kc24.PER_ACC_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '2313711' AND t_kc24.CLINIC_SLT_DATE BETWEEN '2002-11-01' AND '2015-04-30'",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4356,
+        "template": 448,
+        "question": "医院8773150在2005-06-09到2006-02-24内所有医疗记录的个人账户支出与医疗费总额的平均比值",
+        "sql": "SELECT AVG(t_kc24.PER_ACC_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '8773150' AND t_kc24.CLINIC_SLT_DATE BETWEEN '2005-06-09' AND '2006-02-24'",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4357,
+        "template": 448,
+        "question": "医院4079416在2012-09-11到2014-12-07内所有医疗记录的个人账户支出与医疗费总额的平均比值",
+        "sql": "SELECT AVG(t_kc24.PER_ACC_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '4079416' AND t_kc24.CLINIC_SLT_DATE BETWEEN '2012-09-11' AND '2014-12-07'",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4358,
+        "template": 448,
+        "question": "医院2770364在2000-06-07到2017-04-04内所有医疗记录的个人账户支出与医疗费总额的平均比值",
+        "sql": "SELECT AVG(t_kc24.PER_ACC_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '2770364' AND t_kc24.CLINIC_SLT_DATE BETWEEN '2000-06-07' AND '2017-04-04'",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4359,
+        "template": 448,
+        "question": "医院9033547在2007-11-19到2017-02-07内所有医疗记录的个人账户支出与医疗费总额的平均比值",
+        "sql": "SELECT AVG(t_kc24.PER_ACC_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9033547' AND t_kc24.CLINIC_SLT_DATE BETWEEN '2007-11-19' AND '2017-02-07'",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4360,
+        "template": 449,
+        "question": "在不同科室编码下，列出医院9913454所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9913454' GROUP BY t_kc21.MED_ORG_DEPT_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4361,
+        "template": 449,
+        "question": "在不同科室编码下，列出医院5365915所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '5365915' GROUP BY t_kc21.MED_ORG_DEPT_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4362,
+        "template": 449,
+        "question": "在不同科室编码下，列出医院4856304所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '4856304' GROUP BY t_kc21.MED_ORG_DEPT_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4363,
+        "template": 449,
+        "question": "在不同科室编码下，列出医院7336183所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '7336183' GROUP BY t_kc21.MED_ORG_DEPT_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4364,
+        "template": 449,
+        "question": "在不同科室编码下，列出医院3046592所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '3046592' GROUP BY t_kc21.MED_ORG_DEPT_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4365,
+        "template": 449,
+        "question": "在不同科室编码下，列出医院7883638所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '7883638' GROUP BY t_kc21.MED_ORG_DEPT_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4366,
+        "template": 449,
+        "question": "在不同科室编码下，列出医院6248314所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '6248314' GROUP BY t_kc21.MED_ORG_DEPT_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4367,
+        "template": 449,
+        "question": "在不同科室编码下，列出医院6110632所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '6110632' GROUP BY t_kc21.MED_ORG_DEPT_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4368,
+        "template": 449,
+        "question": "在不同科室编码下，列出医院1456542所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '1456542' GROUP BY t_kc21.MED_ORG_DEPT_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4369,
+        "template": 449,
+        "question": "在不同科室编码下，列出医院6000894所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '6000894' GROUP BY t_kc21.MED_ORG_DEPT_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4370,
+        "template": 450,
+        "question": "在不同科室名称下，列出医院3519389所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '3519389' GROUP BY t_kc21.MED_ORG_DEPT_NM",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4371,
+        "template": 450,
+        "question": "在不同科室名称下，列出医院9886124所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9886124' GROUP BY t_kc21.MED_ORG_DEPT_NM",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4372,
+        "template": 450,
+        "question": "在不同科室名称下，列出医院9881939所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9881939' GROUP BY t_kc21.MED_ORG_DEPT_NM",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4373,
+        "template": 450,
+        "question": "在不同科室名称下，列出医院9009373所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9009373' GROUP BY t_kc21.MED_ORG_DEPT_NM",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4374,
+        "template": 450,
+        "question": "在不同科室名称下，列出医院9182083所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9182083' GROUP BY t_kc21.MED_ORG_DEPT_NM",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4375,
+        "template": 450,
+        "question": "在不同科室名称下，列出医院9301014所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9301014' GROUP BY t_kc21.MED_ORG_DEPT_NM",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4376,
+        "template": 450,
+        "question": "在不同科室名称下，列出医院2371026所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '2371026' GROUP BY t_kc21.MED_ORG_DEPT_NM",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4377,
+        "template": 450,
+        "question": "在不同科室名称下，列出医院3761566所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '3761566' GROUP BY t_kc21.MED_ORG_DEPT_NM",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4378,
+        "template": 450,
+        "question": "在不同科室名称下，列出医院0109582所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '0109582' GROUP BY t_kc21.MED_ORG_DEPT_NM",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4379,
+        "template": 450,
+        "question": "在不同科室名称下，列出医院8731863所有医疗就诊记录的统筹基金支出与医疗费总额的平均比值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, AVG(t_kc24.OVE_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '8731863' GROUP BY t_kc21.MED_ORG_DEPT_NM",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4380,
+        "template": 451,
+        "question": "在不同科室编码和入院诊断疾病编码下，列出医院1314915所有医疗就诊记录的大病支付与医疗费总额的比值的最小值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD, MIN(t_kc24.ILL_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '1314915' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4381,
+        "template": 451,
+        "question": "在不同科室编码和入院诊断疾病编码下，列出医院8056118所有医疗就诊记录的大病支付与医疗费总额的比值的最小值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD, MIN(t_kc24.ILL_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '8056118' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4382,
+        "template": 451,
+        "question": "在不同科室编码和入院诊断疾病编码下，列出医院9424563所有医疗就诊记录的大病支付与医疗费总额的比值的最小值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD, MIN(t_kc24.ILL_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9424563' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4383,
+        "template": 451,
+        "question": "在不同科室编码和入院诊断疾病编码下，列出医院9742956所有医疗就诊记录的大病支付与医疗费总额的比值的最小值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD, MIN(t_kc24.ILL_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9742956' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4384,
+        "template": 451,
+        "question": "在不同科室编码和入院诊断疾病编码下，列出医院9461389所有医疗就诊记录的大病支付与医疗费总额的比值的最小值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD, MIN(t_kc24.ILL_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9461389' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4385,
+        "template": 451,
+        "question": "在不同科室编码和入院诊断疾病编码下，列出医院0497811所有医疗就诊记录的大病支付与医疗费总额的比值的最小值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD, MIN(t_kc24.ILL_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '0497811' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4386,
+        "template": 451,
+        "question": "在不同科室编码和入院诊断疾病编码下，列出医院1301114所有医疗就诊记录的大病支付与医疗费总额的比值的最小值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD, MIN(t_kc24.ILL_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '1301114' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4387,
+        "template": 451,
+        "question": "在不同科室编码和入院诊断疾病编码下，列出医院1518558所有医疗就诊记录的大病支付与医疗费总额的比值的最小值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD, MIN(t_kc24.ILL_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '1518558' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4388,
+        "template": 451,
+        "question": "在不同科室编码和入院诊断疾病编码下，列出医院5569109所有医疗就诊记录的大病支付与医疗费总额的比值的最小值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD, MIN(t_kc24.ILL_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '5569109' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4389,
+        "template": 451,
+        "question": "在不同科室编码和入院诊断疾病编码下，列出医院7149327所有医疗就诊记录的大病支付与医疗费总额的比值的最小值",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD, MIN(t_kc24.ILL_PAY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '7149327' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_CD",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4390,
+        "template": 452,
+        "question": "在不同科室编码和入院诊断疾病名称下，列出医院1996297所有医疗就诊记录的民政补助与医疗费总额的比值的最大值，并降序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM, MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '1996297' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM ORDER BY MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) DESC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4391,
+        "template": 452,
+        "question": "在不同科室编码和入院诊断疾病名称下，列出医院7999719所有医疗就诊记录的民政补助与医疗费总额的比值的最大值，并降序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM, MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '7999719' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM ORDER BY MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) DESC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4392,
+        "template": 452,
+        "question": "在不同科室编码和入院诊断疾病名称下，列出医院1789276所有医疗就诊记录的民政补助与医疗费总额的比值的最大值，并降序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM, MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '1789276' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM ORDER BY MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) DESC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4393,
+        "template": 452,
+        "question": "在不同科室编码和入院诊断疾病名称下，列出医院0573118所有医疗就诊记录的民政补助与医疗费总额的比值的最大值，并降序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM, MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '0573118' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM ORDER BY MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) DESC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4394,
+        "template": 452,
+        "question": "在不同科室编码和入院诊断疾病名称下，列出医院9581134所有医疗就诊记录的民政补助与医疗费总额的比值的最大值，并降序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM, MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9581134' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM ORDER BY MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) DESC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4395,
+        "template": 452,
+        "question": "在不同科室编码和入院诊断疾病名称下，列出医院2325366所有医疗就诊记录的民政补助与医疗费总额的比值的最大值，并降序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM, MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '2325366' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM ORDER BY MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) DESC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4396,
+        "template": 452,
+        "question": "在不同科室编码和入院诊断疾病名称下，列出医院4560557所有医疗就诊记录的民政补助与医疗费总额的比值的最大值，并降序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM, MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '4560557' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM ORDER BY MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) DESC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4397,
+        "template": 452,
+        "question": "在不同科室编码和入院诊断疾病名称下，列出医院1120246所有医疗就诊记录的民政补助与医疗费总额的比值的最大值，并降序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM, MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '1120246' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM ORDER BY MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) DESC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4398,
+        "template": 452,
+        "question": "在不同科室编码和入院诊断疾病名称下，列出医院4694071所有医疗就诊记录的民政补助与医疗费总额的比值的最大值，并降序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM, MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '4694071' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM ORDER BY MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) DESC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4399,
+        "template": 452,
+        "question": "在不同科室编码和入院诊断疾病名称下，列出医院9767993所有医疗就诊记录的民政补助与医疗费总额的比值的最大值，并降序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM, MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9767993' GROUP BY t_kc21.MED_ORG_DEPT_CD, t_kc21.IN_DIAG_DIS_NM ORDER BY MAX(t_kc24.CIVIL_SUBSIDY / t_kc24.MED_AMOUT) DESC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4400,
+        "template": 453,
+        "question": "在不同科室名称和出院诊断疾病编码下，列出医院8925142所有医疗就诊记录的个人自费与医疗费总额的比值的最小值，并升序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD, MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '8925142' GROUP BY t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD ORDER BY MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) ASC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4401,
+        "template": 453,
+        "question": "在不同科室名称和出院诊断疾病编码下，列出医院1457935所有医疗就诊记录的个人自费与医疗费总额的比值的最小值，并升序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD, MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '1457935' GROUP BY t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD ORDER BY MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) ASC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4402,
+        "template": 453,
+        "question": "在不同科室名称和出院诊断疾病编码下，列出医院4523226所有医疗就诊记录的个人自费与医疗费总额的比值的最小值，并升序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD, MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '4523226' GROUP BY t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD ORDER BY MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) ASC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4403,
+        "template": 453,
+        "question": "在不同科室名称和出院诊断疾病编码下，列出医院1051519所有医疗就诊记录的个人自费与医疗费总额的比值的最小值，并升序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD, MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '1051519' GROUP BY t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD ORDER BY MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) ASC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4404,
+        "template": 453,
+        "question": "在不同科室名称和出院诊断疾病编码下，列出医院0798538所有医疗就诊记录的个人自费与医疗费总额的比值的最小值，并升序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD, MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '0798538' GROUP BY t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD ORDER BY MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) ASC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4405,
+        "template": 453,
+        "question": "在不同科室名称和出院诊断疾病编码下，列出医院8257985所有医疗就诊记录的个人自费与医疗费总额的比值的最小值，并升序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD, MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '8257985' GROUP BY t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD ORDER BY MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) ASC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4406,
+        "template": 453,
+        "question": "在不同科室名称和出院诊断疾病编码下，列出医院7279066所有医疗就诊记录的个人自费与医疗费总额的比值的最小值，并升序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD, MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '7279066' GROUP BY t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD ORDER BY MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) ASC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4407,
+        "template": 453,
+        "question": "在不同科室名称和出院诊断疾病编码下，列出医院4932501所有医疗就诊记录的个人自费与医疗费总额的比值的最小值，并升序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD, MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '4932501' GROUP BY t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD ORDER BY MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) ASC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4408,
+        "template": 453,
+        "question": "在不同科室名称和出院诊断疾病编码下，列出医院3349404所有医疗就诊记录的个人自费与医疗费总额的比值的最小值，并升序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD, MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '3349404' GROUP BY t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD ORDER BY MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) ASC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4409,
+        "template": 453,
+        "question": "在不同科室名称和出院诊断疾病编码下，列出医院9266257所有医疗就诊记录的个人自费与医疗费总额的比值的最小值，并升序排序",
+        "sql": "SELECT t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD, MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) FROM t_kc21 JOIN t_kc24 ON t_kc21.MED_CLINIC_ID = t_kc24.MED_CLINIC_ID WHERE t_kc21.MED_SER_ORG_NO = '9266257' GROUP BY t_kc21.MED_ORG_DEPT_NM, t_kc21.OUT_DIAG_DIS_CD ORDER BY MIN(t_kc24.PER_EXP / t_kc24.MED_AMOUT) ASC",
+        "schema": "医保表",
+        "level": "复杂"
+    },
+    {
+        "id": 4410,
+        "template": 454,
+        "question": "计算医疗费用明细记录06485196651中药品的数量与单价的乘积",
+        "sql": "SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '06485196651'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4411,
+        "template": 454,
+        "question": "计算医疗费用明细记录51659566599中药品的数量与单价的乘积",
+        "sql": "SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '51659566599'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4412,
+        "template": 454,
+        "question": "计算医疗费用明细记录11391558299中药品的数量与单价的乘积",
+        "sql": "SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '11391558299'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4413,
+        "template": 454,
+        "question": "计算医疗费用明细记录37191004580中药品的数量与单价的乘积",
+        "sql": "SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '37191004580'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4414,
+        "template": 454,
+        "question": "计算医疗费用明细记录63314892456中药品的数量与单价的乘积",
+        "sql": "SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '63314892456'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4415,
+        "template": 454,
+        "question": "计算医疗费用明细记录01809849541中药品的数量与单价的乘积",
+        "sql": "SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '01809849541'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4416,
+        "template": 454,
+        "question": "计算医疗费用明细记录08024624019中药品的数量与单价的乘积",
+        "sql": "SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '08024624019'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4417,
+        "template": 454,
+        "question": "计算医疗费用明细记录16362128474中药品的数量与单价的乘积",
+        "sql": "SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '16362128474'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4418,
+        "template": 454,
+        "question": "计算医疗费用明细记录11966451012中药品的数量与单价的乘积",
+        "sql": "SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '11966451012'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4419,
+        "template": 454,
+        "question": "计算医疗费用明细记录20733069750中药品的数量与单价的乘积",
+        "sql": "SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '20733069750'",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4420,
+        "template": 455,
+        "question": "验证医疗费用明细记录25299557093中药品的数量与单价的乘积是否等于药品的金额",
+        "sql": "SELECT (SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '25299557093') = (SELECT AMOUNT FROM t_kc22 WHERE MED_EXP_DET_ID = '25299557093')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4421,
+        "template": 455,
+        "question": "验证医疗费用明细记录81608015571中药品的数量与单价的乘积是否等于药品的金额",
+        "sql": "SELECT (SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '81608015571') = (SELECT AMOUNT FROM t_kc22 WHERE MED_EXP_DET_ID = '81608015571')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4422,
+        "template": 455,
+        "question": "验证医疗费用明细记录71084691252中药品的数量与单价的乘积是否等于药品的金额",
+        "sql": "SELECT (SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '71084691252') = (SELECT AMOUNT FROM t_kc22 WHERE MED_EXP_DET_ID = '71084691252')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4423,
+        "template": 455,
+        "question": "验证医疗费用明细记录09769938539中药品的数量与单价的乘积是否等于药品的金额",
+        "sql": "SELECT (SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '09769938539') = (SELECT AMOUNT FROM t_kc22 WHERE MED_EXP_DET_ID = '09769938539')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4424,
+        "template": 455,
+        "question": "验证医疗费用明细记录82601093874中药品的数量与单价的乘积是否等于药品的金额",
+        "sql": "SELECT (SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '82601093874') = (SELECT AMOUNT FROM t_kc22 WHERE MED_EXP_DET_ID = '82601093874')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4425,
+        "template": 455,
+        "question": "验证医疗费用明细记录22687525523中药品的数量与单价的乘积是否等于药品的金额",
+        "sql": "SELECT (SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '22687525523') = (SELECT AMOUNT FROM t_kc22 WHERE MED_EXP_DET_ID = '22687525523')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4426,
+        "template": 455,
+        "question": "验证医疗费用明细记录38892343383中药品的数量与单价的乘积是否等于药品的金额",
+        "sql": "SELECT (SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '38892343383') = (SELECT AMOUNT FROM t_kc22 WHERE MED_EXP_DET_ID = '38892343383')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4427,
+        "template": 455,
+        "question": "验证医疗费用明细记录02899233164中药品的数量与单价的乘积是否等于药品的金额",
+        "sql": "SELECT (SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '02899233164') = (SELECT AMOUNT FROM t_kc22 WHERE MED_EXP_DET_ID = '02899233164')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4428,
+        "template": 455,
+        "question": "验证医疗费用明细记录74649735794中药品的数量与单价的乘积是否等于药品的金额",
+        "sql": "SELECT (SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '74649735794') = (SELECT AMOUNT FROM t_kc22 WHERE MED_EXP_DET_ID = '74649735794')",
+        "schema": "医保表",
+        "level": "简单"
+    },
+    {
+        "id": 4429,
+        "template": 455,
+        "question": "验证医疗费用明细记录67814982614中药品的数量与单价的乘积是否等于药品的金额",
+        "sql": "SELECT (SELECT QTY * UNIVALENT FROM t_kc22 WHERE MED_EXP_DET_ID = '67814982614') = (SELECT AMOUNT FROM t_kc22 WHERE MED_EXP_DET_ID = '67814982614')",
+        "schema": "医保表",
+        "level": "简单"
     }
 ]

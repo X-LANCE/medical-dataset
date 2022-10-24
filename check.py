@@ -18,7 +18,7 @@ while i < len(dataset):
         continue
     os.system('cls')
     print(json.dumps(dataset[i], ensure_ascii=False, indent=4))
-    if 'INTERSECT' not in dataset[i]['sql']:
+    if ('INTERSECT' not in dataset[i]['sql']) and ('EXCEPT' not in dataset[i]['sql']):
         cursor.execute(dataset[i]['sql'])
         result = cursor.fetchall()
         print(result)

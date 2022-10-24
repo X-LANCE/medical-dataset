@@ -100,13 +100,14 @@ def generate_dataset():
             dataset = json.load(file)
         with open('resource/value_sets.bin', 'rb') as file:
             value_sets = pickle.load(file)
+        example_id = len(dataset)
     else:
         dataset = []
         value_sets = {}
         for key in place_holders:
             value_sets[key] = set()
+        example_id = 0
     data = pd.read_excel('resource/templates.xlsx', skiprows=10)
-    example_id = 0
     for i in range(len(data)):
         if (len(dataset) > 0 and i <= dataset[-1]['template']) or data['难度'][i] == '不可回答':
             continue

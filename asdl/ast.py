@@ -199,7 +199,7 @@ class AbstractSyntaxTree:
 
     def unparse_col_unit(self):
         assert self.type == 'col_unit'
-        return 'col' if self.constructor.name == 'Column' else f'({self.sons[0].unparse_sql_unit()})'
+        return 'col' if self.constructor.name == 'Column' else f'({self.sons[0].unparse_sql()})'
 
 
 class AbstractSyntaxTreeYlsql(AbstractSyntaxTree):
@@ -401,7 +401,7 @@ class AbstractSyntaxTreeYlsql(AbstractSyntaxTree):
         ast = AbstractSyntaxTreeYlsql('col_unit')
         if isinstance(col_unit, dict):
             ast.constructor = grammar['col_unit']['SQL']
-            ast.sons.append(AbstractSyntaxTreeYlsql.parse_sql_unit(grammar, col_unit))
+            ast.sons.append(AbstractSyntaxTreeYlsql.parse_sql(grammar, col_unit))
         else:
             ast.constructor = grammar['col_unit']['Column']
         return ast

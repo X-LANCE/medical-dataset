@@ -1,7 +1,7 @@
 import pymysql
 import random
 from datetime import date, datetime
-from util.constant import LAST_NAMES, MALE_FIRST_NAMES, FEMALE_FIRST_NAMES, REGIONS
+from util.constant import LAST_NAMES, MALE_FIRST_NAMES, FEMALE_FIRST_NAMES, REGIONS, SQL_AGGS
 
 
 def generate_date():
@@ -256,3 +256,16 @@ def update_database(database, cursor, table, data):
     for record in data:
         cursor.execute(sql, list(vars(record).values()))
         database.commit()
+
+
+def skip_nested(tokens, start):
+    assert tokens[start - 1] == '('
+    count = 1
+    end = start
+    while count > 0:
+        if tokens[end] == '(' or (tokens[end][:-1] in SQL_AGGS and tokens[end][-1] == '('):
+            count += 1
+        elif tokens[end] == ')':
+            count -= 1
+        end += 1
+    return end

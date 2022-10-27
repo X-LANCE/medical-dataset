@@ -4,20 +4,7 @@ from util.constant import INSU_TYPE_MAPPING, INSURED_STS_MAPPING, SERVANT_FLG_MA
     CLINIC_TYPE_MAPPING, REMOTE_SETTLE_FLG_MAPPING, MED_INV_ITEM_TYPE_MAPPING, \
     SCHEMA_MAPPING, TABLE_MAPPING, COLUMN_MAPPING, TYPE_MAPPING, COLUMNS, PRIMARY_KEYS, FOREIGN_KEYS, \
     SQL_AGGS, SQL_CONDS, SQL_KEYWORDS
-from util.util import str_to_number, random_split_array, connect_database
-
-
-def skip_nested(tokens, start):
-    assert tokens[start - 1] == '('
-    count = 1
-    end = start
-    while count > 0:
-        if tokens[end] == '(':
-            count += 1
-        elif tokens[end] == ')':
-            count -= 1
-        end += 1
-    return end
+from util.util import str_to_number, random_split_array, connect_database, skip_nested
 
 
 def preprocess_sql(sql):

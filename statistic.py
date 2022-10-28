@@ -63,11 +63,31 @@ def get_from_skeleton(from_clause):
 
 
 def get_group_by_skeleton(group_by):
-    return ''
+    assert group_by[0] == 'GROUP' and group_by[1] == 'BY'
+    result = 'GROUP BY '
+    for i in range(2, len(group_by), 2):
+        assert '.' in group_by[i]
+        result += 'col'
+        if i + 1 < len(group_by):
+            if group_by[i + 1] == 'HAVING':
+                result += f' HAVING {get_conds_skeleton(group_by[i + 2:])}'
+                break
+            assert group_by[i + 1] == ','
+            result += ', '
+    return result
 
 
 def get_order_by_skeleton(order_by):
-    return ''
+    assert order_by[0] == 'ORDER' and order_by[1] == 'BY'
+    result = 'ORDER BY '
+    i = 2
+    while order_by[i] not in ['ASC', 'DESC']:
+        i += 1
+    result += f"{', '.join(get_val_units_skeletons(order_by[2:i]))} {order_by[i]}"
+    if i + 1 < len(order_by):
+        assert order_by[i + 1] == 'LIMIT'
+        result += ' LIMIT value'
+    return result
 
 
 def get_conds_skeleton(conds):

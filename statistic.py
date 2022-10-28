@@ -6,7 +6,9 @@ from asdl.ast import AbstractSyntaxTreeYlsql, AbstractSyntaxTreeSpider, Abstract
 from util.constant import SQL_AGGS, SQL_CONDS
 from util.util import skip_nested
 
-DATASET_NAMES = ['ylsql', 'imdb', 'spider', 'dusql']
+SINGLE_DOMAIN_DATASETS = ['academic', 'imdb']
+CROSS_DOMAIN_DATASETS = ['spider', 'dusql']
+DATASET_NAMES = ['ylsql'] + SINGLE_DOMAIN_DATASETS + CROSS_DOMAIN_DATASETS
 
 
 def get_sql_skeleton(sql):
@@ -95,21 +97,26 @@ def get_conds_skeleton(conds):
     logic_op = None
     i = 0
     while i < len(conds):
-        j = i + 1
-        while j < len(conds) and conds[j] not in SQL_CONDS:
-            j += 1
-        cond_op = conds[j]
-        result.append(f'{get_val_unit_skeleton(conds[i:j])} {cond_op} ')
-        i = j = j + 1
-        while j < len(conds) and conds[j] not in ['AND', 'OR']:
-            j += 1
-        result[-1] += get_val_unit_skeleton(conds[i:j])
-        if cond_op == 'BETWEEN':
-            assert conds[j] == 'AND'
+        if conds[i] == '(':
+            j = skip_nested(conds, i + 1)
+            assert j == len(conds) or conds[j] in ['AND', 'OR']
+            result.append(f'({get_conds_skeleton(conds[i + 1:j - 1])})')
+        else:
+            j = i + 1
+            while j < len(conds) and conds[j] not in SQL_CONDS:
+                j += 1
+            cond_op = conds[j]
+            result.append(f'{get_val_unit_skeleton(conds[i:j])} {cond_op} ')
             i = j = j + 1
             while j < len(conds) and conds[j] not in ['AND', 'OR']:
                 j += 1
-            result[-1] += f' AND {get_val_unit_skeleton(conds[i:j])}'
+            result[-1] += get_val_unit_skeleton(conds[i:j])
+            if cond_op == 'BETWEEN':
+                assert conds[j] == 'AND'
+                i = j = j + 1
+                while j < len(conds) and conds[j] not in ['AND', 'OR']:
+                    j += 1
+                result[-1] += f' AND {get_val_unit_skeleton(conds[i:j])}'
         if j < len(conds):
             logic_op = conds[j]
         i = j + 1
@@ -141,7 +148,7 @@ def get_val_unit_skeleton(val_unit):
             if val_unit[i] == '(':
                 redundant_nested = True
                 i += 1
-        assert '.' in val_unit[i]
+        assert '.' in val_unit[i] or val_unit[i] == '*'
         result += 'col)'
         i += 1
         if redundant_nested:
@@ -154,9 +161,6 @@ def get_val_unit_skeleton(val_unit):
 
 
 def count_ast(dataset_name):
-    def tokenize_sql(sql):
-        return sql.strip(' ;').replace('=', '==').split()
-
     with open(f'data/{dataset_name}/all.json', 'r', encoding='utf-8') as file:
         dataset = json.load(file)
     if os.path.exists(f'asdl/grammar/{dataset_name}.txt'):
@@ -173,9 +177,9 @@ def count_ast(dataset_name):
             ast.check(grammar)
             ast.count_grammar(grammar_counter)
             sql_set.add(ast.unparse_sql())
-        elif dataset_name == 'imdb':
+        elif dataset_name in SINGLE_DOMAIN_DATASETS:
             for sql in example['sql']:
-                sql_set.add(get_sql_skeleton(tokenize_sql(sql)))
+                sql_set.add(get_sql_skeleton(sql.strip(' ;').replace('=', '==').split()))
         elif dataset_name == 'spider':
             ast = AbstractSyntaxTreeSpider.parse_sql(grammar, example['sql'])
             ast.check(grammar)
@@ -212,14 +216,14 @@ with open('log/log.txt', 'w') as file:
     for dataset_name in DATASET_NAMES:
         sql_sets[dataset_name] = count_ast(dataset_name)
     for dataset_name in [''] + DATASET_NAMES:
-        print(dataset_name.rjust(8), end='')
+        print(dataset_name.rjust(12 if dataset_name == '' else 16), end='')
     print()
     for dataset_name1 in DATASET_NAMES:
-        print(dataset_name1.ljust(8), end='')
+        print(dataset_name1.ljust(12), end='')
         for dataset_name2 in DATASET_NAMES:
             if dataset_name1 == dataset_name2:
-                print('-'.rjust(8), end='')
+                print('-'.rjust(16), end='')
             else:
-                print(f'{count_coverage(sql_sets[dataset_name1], sql_sets[dataset_name2])}%'.rjust(8), end='')
+                print(f'{count_coverage(sql_sets[dataset_name1], sql_sets[dataset_name2])}%'.rjust(16), end='')
         print()
     sys.stdout = original_stdout

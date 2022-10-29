@@ -6,36 +6,38 @@ from asdl.ast import AbstractSyntaxTreeYlsql, AbstractSyntaxTreeSpider, Abstract
 from util.constant import SQL_AGGS, SQL_CONDS
 from util.util import skip_nested
 
-SINGLE_DOMAIN_DATASETS = ['academic', 'imdb']
+SINGLE_DOMAIN_DATASETS = ['atis', 'academic', 'imdb']
 CROSS_DOMAIN_DATASETS = ['spider', 'dusql']
 DATASET_NAMES = ['ylsql'] + SINGLE_DOMAIN_DATASETS + CROSS_DOMAIN_DATASETS
 
 
-def get_sql_skeleton(sql):
-    def find_clause(start, end_keywords):
-        end = start + 1
-        while end < len(sql):
-            if sql[end] == '(':
-                end = skip_nested(sql, end + 1)
-            if sql[end] in end_keywords:
-                break
-            end += 1
-        return start, end
+def find_keyword(tokens, start, end_keywords):
+    end = start + 1
+    while end < len(tokens):
+        if tokens[end] == '(':
+            end = skip_nested(tokens, end + 1)
+            continue
+        if tokens[end] in end_keywords:
+            break
+        end += 1
+    return start, end
 
-    _, end = find_clause(0, ['FROM'])
+
+def get_sql_skeleton(sql):
+    _, end = find_keyword(sql, 0, ['FROM'])
     assert sql[0] == 'SELECT'
     result = f"SELECT {', '.join(sorted(get_val_units_skeletons(sql[1:end])))} "
-    start, end = find_clause(end, ['WHERE', 'GROUP', 'ORDER'])
+    start, end = find_keyword(sql, end, ['WHERE', 'GROUP', 'ORDER'])
     result += get_from_skeleton(sql[start:end])
     if end == len(sql):
         return result
     if sql[end] == 'WHERE':
-        start, end = find_clause(end, ['GROUP', 'ORDER'])
+        start, end = find_keyword(sql, end, ['GROUP', 'ORDER'])
         result += f' WHERE {get_conds_skeleton(sql[start + 1:end])}'
         if end == len(sql):
             return result
     if sql[end] == 'GROUP':
-        start, end = find_clause(end, ['ORDER'])
+        start, end = find_keyword(sql, end, ['ORDER'])
         result += f' {get_group_by_skeleton(sql[start:end])}'
         if end == len(sql):
             return result
@@ -93,35 +95,39 @@ def get_order_by_skeleton(order_by):
 
 
 def get_conds_skeleton(conds):
-    result = []
-    logic_op = None
+    conds_skeletons = []
+    logic_ops = []
     i = 0
     while i < len(conds):
-        if conds[i] == '(':
+        if conds[i] == 'NOT':
+            assert conds[i + 1] == '('
+            j = skip_nested(conds, i + 2)
+            assert j == len(conds) or conds[j] in ['AND', 'OR']
+            conds_skeletons.append(f'NOT ({get_conds_skeleton(conds[i + 2:j - 1])})')
+        elif conds[i] == '(':
             j = skip_nested(conds, i + 1)
             assert j == len(conds) or conds[j] in ['AND', 'OR']
-            result.append(f'({get_conds_skeleton(conds[i + 1:j - 1])})')
+            conds_skeletons.append(f'({get_conds_skeleton(conds[i + 1:j - 1])})')
         else:
-            j = i + 1
-            while j < len(conds) and conds[j] not in SQL_CONDS:
-                j += 1
+            _, j = find_keyword(conds, i, SQL_CONDS + ['NOT BETWEEN', 'IS', 'IS NOT'])
             cond_op = conds[j]
-            result.append(f'{get_val_unit_skeleton(conds[i:j])} {cond_op} ')
-            i = j = j + 1
-            while j < len(conds) and conds[j] not in ['AND', 'OR']:
-                j += 1
-            result[-1] += get_val_unit_skeleton(conds[i:j])
-            if cond_op == 'BETWEEN':
+            conds_skeletons.append(f'{get_val_unit_skeleton(conds[i:j])} {cond_op} ')
+            i, j = find_keyword(conds, j, ['AND', 'OR'])
+            conds_skeletons[-1] += get_val_unit_skeleton(conds[i + 1:j])
+            if cond_op in ['BETWEEN', 'NOT BETWEEN']:
                 assert conds[j] == 'AND'
-                i = j = j + 1
-                while j < len(conds) and conds[j] not in ['AND', 'OR']:
-                    j += 1
-                result[-1] += f' AND {get_val_unit_skeleton(conds[i:j])}'
+                i, j = find_keyword(conds, j, ['AND', 'OR'])
+                conds_skeletons[-1] += f' AND {get_val_unit_skeleton(conds[i + 1:j])}'
         if j < len(conds):
-            logic_op = conds[j]
+            logic_ops.append(conds[j])
         i = j + 1
-    result.sort()
-    return f' {logic_op} '.join(result)
+    assert len(conds_skeletons) - len(logic_ops) == 1
+    if all([logic_op == logic_ops[0] for logic_op in logic_ops[1:]]):
+        conds_skeletons.sort()
+    result = conds_skeletons[0]
+    for i in range(len(logic_ops)):
+        result += f' {logic_ops[i]} {conds_skeletons[i + 1]}'
+    return result
 
 
 def get_val_units_skeletons(val_units):
@@ -137,11 +143,21 @@ def get_val_units_skeletons(val_units):
 
 
 def get_val_unit_skeleton(val_unit):
-    if val_unit[0][-1] == '(':
-        assert val_unit[0][:-1] in SQL_AGGS
-        result = val_unit[0]
-        redundant_nested = False
+    if val_unit[0] in ['ALL', 'DISTINCT']:
+        result = f'{val_unit[0]} '
         i = 1
+    else:
+        result = ''
+        i = 0
+    if val_unit[i] == '(':
+        assert val_unit[-1] == ')'
+        result += f'({get_sql_skeleton(val_unit[i + 1:-1])})'
+        return result
+    if val_unit[i][-1] == '(':
+        assert val_unit[i][:-1] in SQL_AGGS
+        result += val_unit[i]
+        redundant_nested = False
+        i += 1
         if val_unit[i] == 'DISTINCT':
             result += 'DISTINCT '
             i += 1
@@ -155,12 +171,24 @@ def get_val_unit_skeleton(val_unit):
             assert val_unit[i] == ')'
             i += 1
         assert val_unit[i] == ')'
-    else:
-        result = 'col' if '.' in val_unit[0] else 'value'
+        return result
+    result += 'NULL' if val_unit[i] == 'NULL' else ('col' if '.' in val_unit[i] else 'value')
     return result
 
 
 def count_ast(dataset_name):
+    def tokenize_sql(sql):
+        sql = sql.strip(' ;').replace('=', '==').replace('>==', '>=').replace('<==', '<=').split()
+        i = 0
+        while i < len(sql) - 1:
+            if (sql[i] == 'NOT' and sql[i + 1] in ['BETWEEN', 'IN', 'LIKE']) or (sql[i] == 'IS' and sql[i + 1] == 'NOT'):
+                sql[i] += f' {sql[i + 1]}'
+                i += 1
+                sql.pop(i)
+            else:
+                i += 1
+        return sql
+
     with open(f'data/{dataset_name}/all.json', 'r', encoding='utf-8') as file:
         dataset = json.load(file)
     if os.path.exists(f'asdl/grammar/{dataset_name}.txt'):
@@ -179,7 +207,7 @@ def count_ast(dataset_name):
             sql_set.add(ast.unparse_sql())
         elif dataset_name in SINGLE_DOMAIN_DATASETS:
             for sql in example['sql']:
-                sql_set.add(get_sql_skeleton(sql.strip(' ;').replace('=', '==').split()))
+                sql_set.add(get_sql_skeleton(tokenize_sql(sql)))
         elif dataset_name == 'spider':
             ast = AbstractSyntaxTreeSpider.parse_sql(grammar, example['sql'])
             ast.check(grammar)
@@ -215,8 +243,9 @@ with open('log/log.txt', 'w') as file:
     sys.stdout, original_stdout = file, sys.stdout
     for dataset_name in DATASET_NAMES:
         sql_sets[dataset_name] = count_ast(dataset_name)
-    for dataset_name in [''] + DATASET_NAMES:
-        print(dataset_name.rjust(12 if dataset_name == '' else 16), end='')
+    print(''.rjust(12), end='')
+    for dataset_name in DATASET_NAMES:
+        print(f'{dataset_name}({len(sql_sets[dataset_name])})'.rjust(16), end='')
     print()
     for dataset_name1 in DATASET_NAMES:
         print(dataset_name1.ljust(12), end='')

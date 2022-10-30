@@ -3,10 +3,11 @@ import os
 import sys
 from asdl.asdl import Grammar
 from asdl.ast import AbstractSyntaxTreeYlsql, AbstractSyntaxTreeSpider, AbstractSyntaxTreeDusql
+from string import ascii_uppercase
 from util.constant import SQL_AGGS, SQL_CONDS
 from util.util import skip_nested
 
-SINGLE_DOMAIN_DATASETS = ['atis', 'academic', 'imdb']
+SINGLE_DOMAIN_DATASETS = ['atis', 'geoquery', 'academic', 'imdb']
 CROSS_DOMAIN_DATASETS = ['spider', 'dusql']
 DATASET_NAMES = ['ylsql'] + SINGLE_DOMAIN_DATASETS + CROSS_DOMAIN_DATASETS
 
@@ -59,8 +60,9 @@ def get_from_skeleton(from_clause):
             i += 1
         assert from_clause[i] == 'AS'
         i += 2
+        while i < len(from_clause) and from_clause[i] not in [',', 'JOIN']:
+            i += 1
         if i < len(from_clause):
-            assert from_clause[i] == ','
             result += ', '
             i += 1
     return result
@@ -85,8 +87,10 @@ def get_order_by_skeleton(order_by):
     assert order_by[0] == 'ORDER' and order_by[1] == 'BY'
     result = 'ORDER BY '
     i = 2
-    while order_by[i] not in ['ASC', 'DESC']:
+    while i < len(order_by) and order_by[i] not in ['ASC', 'DESC', 'LIMIT']:
         i += 1
+    if i == len(order_by) or order_by[i] == 'LIMIT':
+        order_by.insert(i, 'ASC')
     result += f"{', '.join(get_val_units_skeletons(order_by[2:i]))} {order_by[i]}"
     if i + 1 < len(order_by):
         assert order_by[i + 1] == 'LIMIT'
@@ -164,7 +168,6 @@ def get_val_unit_skeleton(val_unit):
             if val_unit[i] == '(':
                 redundant_nested = True
                 i += 1
-        assert '.' in val_unit[i] or val_unit[i] == '*'
         result += 'col)'
         i += 1
         if redundant_nested:
@@ -172,13 +175,18 @@ def get_val_unit_skeleton(val_unit):
             i += 1
         assert val_unit[i] == ')'
         return result
-    result += 'NULL' if val_unit[i] == 'NULL' else ('col' if '.' in val_unit[i] else 'value')
+    if val_unit[i] == 'NULL':
+        result += 'NULL'
+    elif '.' in val_unit[i] or val_unit[i][0] in ascii_uppercase:
+        result += 'col'
+    else:
+        result += 'value'
     return result
 
 
 def count_ast(dataset_name):
     def tokenize_sql(sql):
-        sql = sql.strip(' ;').replace('=', '==').replace('>==', '>=').replace('<==', '<=').split()
+        sql = sql.strip(' ;').replace('=', '==').replace('>==', '>=').replace('<==', '<=').replace('<>', '!=').split()
         i = 0
         while i < len(sql) - 1:
             if (sql[i] == 'NOT' and sql[i + 1] in ['BETWEEN', 'IN', 'LIKE']) or (sql[i] == 'IS' and sql[i + 1] == 'NOT'):

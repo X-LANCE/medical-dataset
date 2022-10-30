@@ -8,7 +8,7 @@ from util.constant import SQL_CONDS
 from util.util import skip_nested
 
 SINGLE_DOMAIN_DATASETS = ['atis', 'geoquery', 'restaurants', 'scholar', 'academic', 'yelp', 'imdb', 'advising']
-CROSS_DOMAIN_DATASETS = ['spider', 'dusql']
+CROSS_DOMAIN_DATASETS = ['wikisql', 'spider', 'dusql']
 DATASET_NAMES = ['ylsql'] + SINGLE_DOMAIN_DATASETS + CROSS_DOMAIN_DATASETS
 
 
@@ -61,8 +61,7 @@ def get_from_skeleton(from_clause):
         else:
             result += 'tab'
             i += 1
-        assert from_clause[i] == 'AS'
-        _, i = find_keyword(from_clause, i + 1, [',', 'JOIN'])
+        _, i = find_keyword(from_clause, i, [',', 'JOIN'])
         if i < len(from_clause):
             result += ', '
             i += 1
@@ -226,7 +225,7 @@ def count_ast(dataset_name):
             ast.check(grammar)
             ast.count_grammar(grammar_counter)
             sql_set.add(ast.unparse_sql())
-        elif dataset_name in SINGLE_DOMAIN_DATASETS:
+        elif dataset_name in SINGLE_DOMAIN_DATASETS + ['wikisql']:
             for sql in example['sql']:
                 sql_set.add(get_sql_skeleton(tokenize_sql(sql)))
         elif dataset_name == 'spider':

@@ -4,10 +4,10 @@ import sys
 from asdl.asdl import Grammar
 from asdl.ast import AbstractSyntaxTreeYlsql, AbstractSyntaxTreeSpider, AbstractSyntaxTreeDusql
 from string import ascii_uppercase
-from util.constant import SQL_AGGS, SQL_CONDS
+from util.constant import SQL_CONDS
 from util.util import skip_nested
 
-SINGLE_DOMAIN_DATASETS = ['atis', 'geoquery', 'academic', 'imdb']
+SINGLE_DOMAIN_DATASETS = ['atis', 'geoquery', 'restaurants', 'scholar', 'academic', 'yelp', 'imdb', 'advising']
 CROSS_DOMAIN_DATASETS = ['spider', 'dusql']
 DATASET_NAMES = ['ylsql'] + SINGLE_DOMAIN_DATASETS + CROSS_DOMAIN_DATASETS
 
@@ -25,13 +25,16 @@ def find_keyword(tokens, start, end_keywords):
 
 
 def get_sql_skeleton(sql):
-    _, end = find_keyword(sql, 0, ['FROM'])
+    _, end = find_keyword(sql, 0, ['FROM', 'WHERE', 'GROUP', 'ORDER'])
     assert sql[0] == 'SELECT'
     result = f"SELECT {', '.join(sorted(get_val_units_skeletons(sql[1:end])))} "
-    start, end = find_keyword(sql, end, ['WHERE', 'GROUP', 'ORDER'])
-    result += get_from_skeleton(sql[start:end])
     if end == len(sql):
         return result
+    if sql[end] == 'FROM':
+        start, end = find_keyword(sql, end, ['WHERE', 'GROUP', 'ORDER'])
+        result += get_from_skeleton(sql[start:end])
+        if end == len(sql):
+            return result
     if sql[end] == 'WHERE':
         start, end = find_keyword(sql, end, ['GROUP', 'ORDER'])
         result += f' WHERE {get_conds_skeleton(sql[start + 1:end])}'
@@ -59,9 +62,7 @@ def get_from_skeleton(from_clause):
             result += 'tab'
             i += 1
         assert from_clause[i] == 'AS'
-        i += 2
-        while i < len(from_clause) and from_clause[i] not in [',', 'JOIN']:
-            i += 1
+        _, i = find_keyword(from_clause, i + 1, [',', 'JOIN'])
         if i < len(from_clause):
             result += ', '
             i += 1
@@ -86,9 +87,7 @@ def get_group_by_skeleton(group_by):
 def get_order_by_skeleton(order_by):
     assert order_by[0] == 'ORDER' and order_by[1] == 'BY'
     result = 'ORDER BY '
-    i = 2
-    while i < len(order_by) and order_by[i] not in ['ASC', 'DESC', 'LIMIT']:
-        i += 1
+    _, i = find_keyword(order_by, 1, ['ASC', 'DESC', 'LIMIT'])
     if i == len(order_by) or order_by[i] == 'LIMIT':
         order_by.insert(i, 'ASC')
     result += f"{', '.join(get_val_units_skeletons(order_by[2:i]))} {order_by[i]}"
@@ -108,14 +107,25 @@ def get_conds_skeleton(conds):
             j = skip_nested(conds, i + 2)
             assert j == len(conds) or conds[j] in ['AND', 'OR']
             conds_skeletons.append(f'NOT ({get_conds_skeleton(conds[i + 2:j - 1])})')
-        elif conds[i] == '(':
+        elif conds[i] == 'EXISTS':
+            assert conds[i + 1] == '('
+            j = skip_nested(conds, i + 2)
+            assert j == len(conds) or conds[j] in ['AND', 'OR']
+            conds_skeletons.append(f'EXISTS ({get_sql_skeleton(conds[i + 2:j - 1])})')
+        elif conds[i] == '(' and conds[i + 1] != 'SELECT':
             j = skip_nested(conds, i + 1)
             assert j == len(conds) or conds[j] in ['AND', 'OR']
             conds_skeletons.append(f'({get_conds_skeleton(conds[i + 1:j - 1])})')
         else:
-            _, j = find_keyword(conds, i, SQL_CONDS + ['NOT BETWEEN', 'IS', 'IS NOT'])
-            cond_op = conds[j]
-            conds_skeletons.append(f'{get_val_unit_skeleton(conds[i:j])} {cond_op} ')
+            if conds[i] == '(':
+                j = skip_nested(conds, i + 1)
+                cond_op = conds[j]
+                assert cond_op in SQL_CONDS + ['NOT BETWEEN', 'IS', 'IS NOT']
+                conds_skeletons.append(f'({get_val_unit_skeleton(conds[i + 1:j - 1])}) {cond_op} ')
+            else:
+                _, j = find_keyword(conds, i, SQL_CONDS + ['NOT BETWEEN', 'IS', 'IS NOT'])
+                cond_op = conds[j]
+                conds_skeletons.append(f'{get_val_unit_skeleton(conds[i:j])} {cond_op} ')
             i, j = find_keyword(conds, j, ['AND', 'OR'])
             conds_skeletons[-1] += get_val_unit_skeleton(conds[i + 1:j])
             if cond_op in ['BETWEEN', 'NOT BETWEEN']:
@@ -138,9 +148,7 @@ def get_val_units_skeletons(val_units):
     result = []
     i = 0
     while i < len(val_units):
-        j = i + 1
-        while j < len(val_units) and val_units[j] != ',':
-            j += 1
+        _, j = find_keyword(val_units, i, [','])
         result.append(get_val_unit_skeleton(val_units[i:j]))
         i = j + 1
     return result
@@ -155,32 +163,37 @@ def get_val_unit_skeleton(val_unit):
         i = 0
     if val_unit[i] == '(':
         assert val_unit[-1] == ')'
-        result += f'({get_sql_skeleton(val_unit[i + 1:-1])})'
+        if val_unit[i + 1] == 'SELECT':
+            result += f'({get_sql_skeleton(val_unit[i + 1:-1])})'
+        else:
+            result += f"({', '.join(get_val_units_skeletons(val_unit[i + 1:-1]))})"
         return result
+    has_agg = False
     if val_unit[i][-1] == '(':
-        assert val_unit[i][:-1] in SQL_AGGS
+        has_agg = True
         result += val_unit[i]
-        redundant_nested = False
         i += 1
         if val_unit[i] == 'DISTINCT':
             result += 'DISTINCT '
             i += 1
             if val_unit[i] == '(':
-                redundant_nested = True
                 i += 1
-        result += 'col)'
-        i += 1
-        if redundant_nested:
-            assert val_unit[i] == ')'
-            i += 1
-        assert val_unit[i] == ')'
-        return result
-    if val_unit[i] == 'NULL':
+    if val_unit[i] == 'CASE':
+        assert val_unit[i + 1] == 'WHEN'
+        _, j = find_keyword(val_unit, i + 1, ['THEN'])
+        result += f'CASE WHEN {get_conds_skeleton(val_unit[i + 2:j])} THEN '
+        i, j = find_keyword(val_unit, j + 1, ['ELSE'])
+        result += f'{get_val_unit_skeleton(val_unit[i:j])} ELSE '
+        i, j = find_keyword(val_unit, j + 1, ['END'])
+        result += f'{get_val_unit_skeleton(val_unit[i:j])} END'
+    elif val_unit[i] == 'NULL':
         result += 'NULL'
     elif '.' in val_unit[i] or val_unit[i][0] in ascii_uppercase:
         result += 'col'
     else:
         result += 'value'
+    if has_agg:
+        result += ')'
     return result
 
 

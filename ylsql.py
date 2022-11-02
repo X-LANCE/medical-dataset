@@ -222,7 +222,7 @@ def parse_cond(schema, cond):
         if isinstance(value, list):
             return parse_sql(schema, value)
         if '.' in value and value[value.find('.') + 1:] in COLUMNS:
-            return parse_col_unit(schema, [value])[1]
+            return parse_col_unit(schema, [value])
         return value[1:-1] if "'" in value else str_to_number(value)
 
     for i in range(len(cond)):

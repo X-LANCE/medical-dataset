@@ -146,6 +146,20 @@ class AbstractSyntaxTree:
             return f'{agg_unit} LIKE value'
         if self.constructor.name == 'NotLike':
             return f'{agg_unit} NOT LIKE value'
+        if 'Col' in self.constructor.name:
+            col_unit = self.sons[1].unparse_col_unit()
+            if self.constructor.name == 'EqCol':
+                return f'{agg_unit} == {col_unit}'
+            if self.constructor.name == 'GtCol':
+                return f'{agg_unit} > {col_unit}'
+            if self.constructor.name == 'LtCol':
+                return f'{agg_unit} < {col_unit}'
+            if self.constructor.name == 'GeCol':
+                return f'{agg_unit} >= {col_unit}'
+            if self.constructor.name == 'LeCol':
+                return f'{agg_unit} <= {col_unit}'
+            if self.constructor.name == 'NeqCol':
+                return f'{agg_unit} != {col_unit}'
         sql = self.sons[1].unparse_sql()
         if self.constructor.name == 'BetweenSQL':
             return f'{agg_unit} BETWEEN ({sql}) AND value'
@@ -317,31 +331,34 @@ class AbstractSyntaxTreeYlsql(AbstractSyntaxTree):
                 ast.sons.append(AbstractSyntaxTreeYlsql.parse_cond(grammar, cond[i]))
             return ast
         ast.sons.append(AbstractSyntaxTreeYlsql.parse_agg_unit(grammar, [cond[0], cond[2]]))
+        is_col = 'Col' if isinstance(cond[3], list) else ''
         is_sql = 'SQL' if isinstance(cond[3], dict) else ''
         if cond[1] == 0:
             ast.constructor = grammar['cond'][f'NotIn{is_sql}']
         elif cond[1] == 1:
-            ast.constructor = grammar['cond'][f'Between{is_sql}']
+            ast.constructor = grammar['cond'][f'Between']
         elif cond[1] == 2:
-            ast.constructor = grammar['cond'][f'Eq{is_sql}']
+            ast.constructor = grammar['cond'][f'Eq{is_col}{is_sql}']
         elif cond[1] == 3:
-            ast.constructor = grammar['cond'][f'Gt{is_sql}']
+            ast.constructor = grammar['cond'][f'Gt{is_col}{is_sql}']
         elif cond[1] == 4:
-            ast.constructor = grammar['cond'][f'Lt{is_sql}']
+            ast.constructor = grammar['cond'][f'Lt{is_col}{is_sql}']
         elif cond[1] == 5:
-            ast.constructor = grammar['cond'][f'Ge{is_sql}']
+            ast.constructor = grammar['cond'][f'Ge{is_col}{is_sql}']
         elif cond[1] == 6:
-            ast.constructor = grammar['cond'][f'Le{is_sql}']
+            ast.constructor = grammar['cond'][f'Le{is_col}{is_sql}']
         elif cond[1] == 7:
-            ast.constructor = grammar['cond'][f'Neq{is_sql}']
+            ast.constructor = grammar['cond'][f'Neq{is_col}{is_sql}']
         elif cond[1] == 8:
             ast.constructor = grammar['cond'][f'In{is_sql}']
         elif cond[1] == 9:
-            ast.constructor = grammar['cond'][f'Like{is_sql}']
+            ast.constructor = grammar['cond'][f'Like']
         elif cond[1] == 10:
-            ast.constructor = grammar['cond'][f'NotLike{is_sql}']
+            ast.constructor = grammar['cond'][f'NotLike']
         else:
             raise ValueError(f'unknown conditional operator {cond[1]}')
+        if is_col:
+            ast.sons.append(AbstractSyntaxTreeYlsql.parse_col_unit(grammar, cond[3]))
         if is_sql:
             ast.sons.append(AbstractSyntaxTreeYlsql.parse_sql(grammar, cond[3]))
         return ast
@@ -531,7 +548,7 @@ class AbstractSyntaxTreeSpider(AbstractSyntaxTree):
         elif cond[1] == 8:
             ast.constructor = grammar['cond'][f'{is_not}In{is_sql}']
         elif cond[1] == 9:
-            ast.constructor = grammar['cond'][f'{is_not}Like{is_sql}']
+            ast.constructor = grammar['cond'][f'{is_not}Like']
         else:
             raise ValueError(f'unknown conditional operator {cond[1]}')
         if is_sql:
@@ -697,7 +714,7 @@ class AbstractSyntaxTreeDusql(AbstractSyntaxTree):
         if cond[1] == 0:
             ast.constructor = grammar['cond'][f'NotIn{is_sql}']
         elif cond[1] == 1:
-            ast.constructor = grammar['cond'][f'Between{is_sql}']
+            ast.constructor = grammar['cond'][f'Between']
         elif cond[1] == 2:
             ast.constructor = grammar['cond'][f'Eq{is_sql}']
         elif cond[1] == 3:
@@ -713,7 +730,7 @@ class AbstractSyntaxTreeDusql(AbstractSyntaxTree):
         elif cond[1] == 8:
             ast.constructor = grammar['cond'][f'In{is_sql}']
         elif cond[1] == 9:
-            ast.constructor = grammar['cond'][f'Like{is_sql}']
+            ast.constructor = grammar['cond'][f'Like']
         else:
             raise ValueError(f'unknown conditional operator {cond[1]}')
         if is_sql:

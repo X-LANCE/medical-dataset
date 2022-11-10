@@ -1,5 +1,6 @@
 import argparse
 import json
+import random
 from util.constant import INSU_TYPE_MAPPING, INSURED_STS_MAPPING, SERVANT_FLG_MAPPING, \
     CLINIC_TYPE_MAPPING, REMOTE_SETTLE_FLG_MAPPING, MED_INV_ITEM_TYPE_MAPPING, \
     SCHEMA_MAPPING, TABLE_MAPPING, COLUMN_MAPPING, TYPE_MAPPING, COLUMNS, PRIMARY_KEYS, FOREIGN_KEYS, \
@@ -422,6 +423,9 @@ elif args.split == 'template':
     train = [example for example in dataset if example['template'] in train_templates]
     dev = [example for example in dataset if example['template'] in dev_templates]
     test = [example for example in dataset if example['template'] in test_templates]
+    random.shuffle(train)
+    random.shuffle(dev)
+    random.shuffle(test)
 else:
     raise ValueError(f'unknown split method {args.split}')
 generate_db_content()

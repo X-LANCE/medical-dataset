@@ -93,10 +93,14 @@ class zyjzjlb:
 @dataclass
 class jybgb:
     YLJGDM: str = ''
+    YLJGDM_MZJZJLB: str = None
+    YLJGDM_ZYJZJLB: str = None
     BGDH: str = ''
     BGRQ: str = ''
     JYLX: int = 0
     JZLSH: str = ''
+    JZLSH_MZJZJLB: str = None
+    JZLSH_ZYJZJLB: str = None
     JZLX: int = 0
     KSBM: str = ''
     KSMC: str = ''
@@ -285,18 +289,21 @@ def generate_jybgb(value_sets, data_mzjzjlb, data_zyjzjlb):
     for i in range((len(data_mzjzjlb) + len(data_zyjzjlb)) * 2):
         record = jybgb()
         record.JZLX = random.randint(0, 1)
-        j = random.randint(0, (len(data_mzjzjlb) if record.JZLX == 0 else len(data_zyjzjlb)) - 1)
-        record.YLJGDM = record.BGJGDM = data_mzjzjlb[j].YLJGDM if record.JZLX == 0 else data_zyjzjlb[j].YLJGDM
-        record.BGDH = value_sets['检验报告单号'][i] if i < len(value_sets['检验报告单号']) else Xeger().xeger(r'\d{11}')
         if record.JZLX == 0:
+            j = random.randint(0, len(data_mzjzjlb) - 1)
+            record.YLJGDM = record.YLJGDM_MZJZJLB = record.BGJGDM = data_mzjzjlb[j].YLJGDM
+            record.JZLSH = record.JZLSH_MZJZJLB = data_mzjzjlb[j].JZLSH
             record.BGRQ = data_mzjzjlb[j].JZJSSJ[:10]
         else:
+            j = random.randint(0, len(data_zyjzjlb) - 1)
+            record.YLJGDM = record.YLJGDM_ZYJZJLB = record.BGJGDM = data_zyjzjlb[j].YLJGDM
+            record.JZLSH = record.JZLSH_ZYJZJLB = data_zyjzjlb[j].JZLSH
             while 1:
                 record.BGRQ = str(str_to_datetime(data_zyjzjlb[j].RYSJ) + timedelta(days=random.randint(0, 30)))[:10]
                 if record.BGRQ <= data_zyjzjlb[j].CYSJ[:10]:
                     break
+        record.BGDH = value_sets['检验报告单号'][i] if i < len(value_sets['检验报告单号']) else Xeger().xeger(r'\d{11}')
         record.JYLX = 0
-        record.JZLSH = data_mzjzjlb[j].JZLSH if record.JZLX == 0 else data_zyjzjlb[j].JZLSH
         record.KSBM = record.SQKS = record.JYKSBM = random.choice(value_sets['科室编码'])
         record.KSMC = record.SQKSMC = record.JYKSMC = random.choice(value_sets['科室名称'])
         record.SQRGH = Xeger().xeger(r'\d{8}')

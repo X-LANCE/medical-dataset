@@ -61,6 +61,19 @@ def get_partial_values(all_values):
     return list(partial_values)
 
 
+def fix_many_foreign_keys(dataset):
+    fixed_foreign_keys = [
+        ('mzjzjlb.YLJGDM = jybgb.YLJGDM', 'mzjzjlb.YLJGDM = jybgb.YLJGDM_MZJZJLB'),
+        ('zyjzjlb.YLJGDM = jybgb.YLJGDM', 'zyjzjlb.YLJGDM = jybgb.YLJGDM_ZYJZJLB'),
+        ('mzjzjlb.JZLSH = jybgb.JZLSH', 'mzjzjlb.JZLSH = jybgb.JZLSH_MZJZJLB'),
+        ('zyjzjlb.JZLSH = jybgb.JZLSH', 'zyjzjlb.JZLSH = jybgb.JZLSH_ZYJZJLB')
+    ]
+    for i in range(len(dataset)):
+        for fixed_foreign_key in fixed_foreign_keys:
+            dataset[i]['sql'] = dataset[i]['sql'].replace(fixed_foreign_key[0], fixed_foreign_key[1])
+    return dataset
+
+
 def generate_dataset():
     place_holders = {
         '整数': PlaceHolder('$', ['number'], func=lambda : [str(random.randint(1, 30))]),
@@ -166,6 +179,7 @@ def generate_dataset():
                 'level': data['难度'][i]
             })
             example_id += 1
+    dataset = fix_many_foreign_keys(dataset)
     with open('resource/dataset.json', 'w', encoding='utf-8') as file:
         json.dump(dataset, file, ensure_ascii=False, indent=4)
     with open('resource/value_sets.bin', 'wb') as file:

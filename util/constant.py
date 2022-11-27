@@ -5987,3 +5987,9 @@ SQL_KEYWORDS = [
     'NOT', 'AND', 'OR', 'BETWEEN', 'IN', 'LIKE',
     'ASC', 'DESC', 'LIMIT'
 ] + SQL_AGGS
+
+SINGLE_DOMAIN_DATASET_NAMES = ['atis', 'geoquery', 'restaurants', 'scholar', 'academic', 'yelp', 'imdb', 'advising']
+
+CROSS_DOMAIN_DATASET_NAMES = ['wikisql', 'spider', 'dusql']
+
+DATASET_NAMES = ['ylsql'] + SINGLE_DOMAIN_DATASET_NAMES + CROSS_DOMAIN_DATASET_NAMES

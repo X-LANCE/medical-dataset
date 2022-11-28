@@ -1,23 +1,37 @@
 import json
+import pandas as pd
 import sys
-from util.constant import DATASET_NAMES
+from util.constant import SINGLE_DOMAIN_DATASET_NAMES, DATASET_NAMES
 
 
 def count_schema_complexity(dataset_name):
     print(dataset_name.ljust(12), end='')
-    if dataset_name == 'ylsql':
-        with open('data/ylsql/tables.json', 'r', encoding='utf-8') as file:
+    if dataset_name in ['ylsql', 'spider', 'dusql']:
+        with open(f'data/{dataset_name}/tables.json', 'r', encoding='utf-8') as file:
             schemata = json.load(file)
         table_nums = [len(schema['table_names']) for schema in schemata]
-        column_nums = [len(schema['column_names']) - 1 for schema in schemata]
-        primary_key_nums = [len(schema['primary_keys']) for schema in schemata]
-        foreign_key_nums = [len(schema['foreign_keys']) * 2 for schema in schemata]
         print(str(round(sum(table_nums) / len(table_nums), 2)).rjust(12), end='')
-        print(str(round(sum(column_nums) / sum(table_nums), 2)).rjust(12), end='')
-        print(str(round(sum(primary_key_nums) / sum(table_nums), 2)).rjust(12), end='')
-        print(str(round(sum(foreign_key_nums) / sum(table_nums), 2)).rjust(12))
+        print(str(round(sum([len(schema['column_names']) - 1 for schema in schemata]) / sum(table_nums), 2)).rjust(12), end='')
+        print(str(round(sum([len(schema['primary_keys']) for schema in schemata]) / sum(table_nums), 2)).rjust(12), end='')
+        print(str(round(sum([len(schema['foreign_keys']) for schema in schemata]) / sum(table_nums), 2)).rjust(12))
+    elif dataset_name in SINGLE_DOMAIN_DATASET_NAMES:
+        schema = pd.read_csv(f'data/{dataset_name}/tables.csv')
+        tables = set(schema['Table Name'])
+        if '-' in tables:
+            tables.remove('-')
+        print(str(len(tables)).rjust(12), end='')
+        print(str(round(sum([column != '-' for column in schema['Field Name']]) / len(tables), 2)).rjust(12), end='')
+        print(str(round(sum([pk.lower() in ['y', 'pri'] for pk in schema['Is Primary Key']]) / len(tables), 2)).rjust(12), end='')
+        print(str(round(sum([fk.lower() in ['y', 'yes'] for fk in schema['Is Foreign Key']]) / len(tables), 2)).rjust(12))
+    elif dataset_name == 'wikisql':
+        schemata = pd.read_csv('data/wikisql/tables.csv')
+        schema_names = set(schemata['Database Name'])
+        print('1'.rjust(12), end='')
+        print(str(round(len(schemata) / len(schema_names), 2)).rjust(12), end='')
+        print(str(round(sum(schemata['Is Primary Key']) / len(schema_names), 2)).rjust(12), end='')
+        print(str(round(sum(schemata['Is Foreign Key']) / len(schema_names), 2)).rjust(12))
     else:
-        print()
+        raise ValueError(f'wrong dataset name {dataset_name}')
 
 
 def statistic_schema():

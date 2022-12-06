@@ -361,10 +361,10 @@ def generate_tables():
     return schemata
 
 
-def generate_train_or_dev(train_or_dev_set, set_name, schemata):
+def generate_subset(subset, set_name, schemata):
     result = []
     qid = 1
-    for example in train_or_dev_set:
+    for example in subset:
         sql = preprocess_sql(example['sql'])
         result.append({
             'query': sql,
@@ -378,26 +378,12 @@ def generate_train_or_dev(train_or_dev_set, set_name, schemata):
         json.dump(result, file, ensure_ascii=False, indent=4)
 
 
-def generate_train_or_dev_gold(set_name):
+def generate_subset_gold(set_name):
     with open(f'data/ylsql/{set_name}.json', 'r', encoding='utf-8') as file:
         train_or_dev_set = json.load(file)
     with open(f'data/ylsql/{set_name}_gold.sql', 'w', encoding='utf-8') as file:
         for example in train_or_dev_set:
             file.write(f"{example['question_id']}\t{example['query']}\t{example['db_id']}\n")
-
-
-def generate_test(test_set):
-    result = []
-    for i, example in enumerate(test_set):
-        result.append({
-            'query': '',
-            'db_id': example['schema'],
-            'question': example['question'],
-            'sql': '',
-            'question_id': f'qid{str(i + 1).zfill(5)}'
-        })
-    with open('data/ylsql/test.json', 'w', encoding='utf-8') as file:
-        json.dump(result, file, ensure_ascii=False, indent=4)
 
 
 arg_parser = argparse.ArgumentParser()
@@ -430,9 +416,10 @@ else:
     raise ValueError(f'unknown split method {args.split}')
 generate_db_content()
 schemata = generate_tables()
-generate_train_or_dev(dataset, 'all', schemata)
-generate_train_or_dev(train, 'train', schemata)
-generate_train_or_dev(dev, 'dev', schemata)
-generate_train_or_dev_gold('train')
-generate_train_or_dev_gold('dev')
-generate_test(test)
+generate_subset(dataset, 'all', schemata)
+generate_subset(train, 'train', schemata)
+generate_subset(dev, 'dev', schemata)
+generate_subset(test, 'test', schemata)
+generate_subset_gold('train')
+generate_subset_gold('dev')
+generate_subset_gold('test')

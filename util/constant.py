@@ -5966,10 +5966,10 @@ FOREIGN_KEYS = {
         (('zyjzjlb', 'YLJGDM'), ('hz_info', 'YLJGDM')),
         (('zyjzjlb', 'KH'), ('hz_info', 'KH')),
         (('zyjzjlb', 'KLX'), ('hz_info', 'KLX')),
-        (('jybgb', 'YLJGDM'), ('mzjzjlb', 'YLJGDM')),
-        (('jybgb', 'YLJGDM'), ('zyjzjlb', 'YLJGDM')),
-        (('jybgb', 'JZLSH'), ('mzjzjlb', 'JZLSH')),
-        (('jybgb', 'JZLSH'), ('zyjzjlb', 'JZLSH')),
+        (('jybgb', 'YLJGDM_MZJZJLB'), ('mzjzjlb', 'YLJGDM')),
+        (('jybgb', 'YLJGDM_ZYJZJLB'), ('zyjzjlb', 'YLJGDM')),
+        (('jybgb', 'JZLSH_MZJZJLB'), ('mzjzjlb', 'JZLSH')),
+        (('jybgb', 'JZLSH_ZYJZJLB'), ('zyjzjlb', 'JZLSH')),
         (('jyjgzbb', 'YLJGDM'), ('jybgb', 'YLJGDM')),
         (('jyjgzbb', 'BGDH'), ('jybgb', 'BGDH'))
     ]

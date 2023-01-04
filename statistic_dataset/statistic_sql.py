@@ -2,7 +2,7 @@ import json
 import os
 import sys
 from asdl.asdl import Grammar
-from asdl.ast import AbstractSyntaxTreeYlsql, AbstractSyntaxTreeSpider, AbstractSyntaxTreeDusql
+from asdl.ast import AbstractSyntaxTreeMdsql, AbstractSyntaxTreeSpider, AbstractSyntaxTreeDusql
 from string import ascii_uppercase
 from util.constant import SQL_CONDS, SINGLE_DOMAIN_DATASET_NAMES, DATASET_NAMES
 from util.util import skip_nested
@@ -209,15 +209,15 @@ def count_ast(dataset_name):
         dataset = json.load(file)
     if os.path.exists(f'asdl/grammar/{dataset_name}.txt'):
         grammar = Grammar.from_file(f'asdl/grammar/{dataset_name}.txt')
-    if dataset_name == 'ylsql':
+    if dataset_name == 'mdsql':
         grammar_counter = {}
         for type in grammar.constructors:
             for name in grammar[type]:
                 grammar_counter[(type, name)] = 0
     sql_set = set()
     for example in dataset:
-        if dataset_name == 'ylsql':
-            ast = AbstractSyntaxTreeYlsql.parse_sql(grammar, example['sql'])
+        if dataset_name == 'mdsql':
+            ast = AbstractSyntaxTreeMdsql.parse_sql(grammar, example['sql'])
             ast.check(grammar)
             ast.count_grammar(grammar_counter)
             sql_set.add(ast.unparse_sql())
@@ -235,8 +235,8 @@ def count_ast(dataset_name):
         else:
             raise ValueError(f'wrong dataset name {dataset_name}')
     sql_list = sorted(list(sql_set))
-    if dataset_name == 'ylsql':
-        print('frequencies of grammar rules in ylsql:')
+    if dataset_name == 'mdsql':
+        print('frequencies of grammar rules in mdsql:')
         for item in grammar_counter:
             print(str(grammar_counter[item]).ljust(7), f'{item[0]} = {grammar[item[0]][item[1]]}')
         print()

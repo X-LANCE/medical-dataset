@@ -7,14 +7,14 @@ from util.constant import SINGLE_DOMAIN_DATASET_NAMES, DATASET_NAMES
 def count_dataset_scale(dataset_name):
     with open(f'data/{dataset_name}/all.json', 'r', encoding='utf-8') as file:
         dataset = json.load(file)
-    if dataset_name in ['ylsql', 'spider', 'dusql']:
+    if dataset_name in ['mdsql', 'spider', 'dusql']:
         print(str(len(dataset)).rjust(12), end='')
     else:
         print(str(sum([len(example['sentences']) * len(example['sql']) for example in dataset])).rjust(12), end='')
 
 
 def count_schema_complexity(dataset_name):
-    if dataset_name in ['ylsql', 'spider', 'dusql']:
+    if dataset_name in ['mdsql', 'spider', 'dusql']:
         with open(f'data/{dataset_name}/tables.json', 'r', encoding='utf-8') as file:
             schemata = json.load(file)
         table_num = sum([len(schema['table_names']) for schema in schemata])

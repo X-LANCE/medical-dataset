@@ -1,11 +1,10 @@
 import argparse
 import json
-import random
 from util.constant import INSU_TYPE_MAPPING, INSURED_STS_MAPPING, SERVANT_FLG_MAPPING, \
     CLINIC_TYPE_MAPPING, REMOTE_SETTLE_FLG_MAPPING, MED_INV_ITEM_TYPE_MAPPING, \
     SCHEMA_MAPPING, TABLE_MAPPING, COLUMN_MAPPING, TYPE_MAPPING, COLUMNS, PRIMARY_KEYS, FOREIGN_KEYS, \
     SQL_AGGS, SQL_CONDS, SQL_KEYWORDS
-from util.util import str_to_number, random_split_array, connect_database, skip_nested
+from util.util import str_to_number, connect_database, skip_nested
 
 
 def preprocess_sql(sql):
@@ -319,7 +318,7 @@ def generate_db_content():
             'db_id': SCHEMA_MAPPING[schema],
             'tables': tables
         })
-    with open('data/ylsql/db_content.json', 'w', encoding='utf-8') as file:
+    with open('data/mdsql/db_content.json', 'w', encoding='utf-8') as file:
         json.dump(db_content, file, ensure_ascii=False, indent=4)
 
 
@@ -356,39 +355,33 @@ def generate_tables():
             'table_ids': table_ids,
             'column_ids': column_ids
         }
-    with open('data/ylsql/tables.json', 'w', encoding='utf-8') as file:
+    with open('data/mdsql/tables.json', 'w', encoding='utf-8') as file:
         json.dump(tables, file, ensure_ascii=False, indent=4)
     return schemata
 
 
-def generate_subset(subset, set_name, schemata):
+def generate_mdsql(subset, schemata):
     result = []
     qid = 1
     for example in subset:
+        if example['template'] in [181, 189, 248, 404, 407, 430, 432, 434, 436]:
+            continue
         sql = preprocess_sql(example['sql'])
         result.append({
             'query': sql,
             'db_id': example['schema'],
             'question': example['question'],
             'question_id': f'qid{str(qid).zfill(5)}',
+            'template_id': example['template'],
             'sql': parse_sql(schemata[example['schema']], tokenize_sql(sql.split()))
         })
         qid += 1
-    with open(f'data/ylsql/{set_name}.json', 'w', encoding='utf-8') as file:
+    with open(f'data/mdsql/all.json', 'w', encoding='utf-8') as file:
         json.dump(result, file, ensure_ascii=False, indent=4)
-
-
-def generate_subset_gold(set_name):
-    with open(f'data/ylsql/{set_name}.json', 'r', encoding='utf-8') as file:
-        train_or_dev_set = json.load(file)
-    with open(f'data/ylsql/{set_name}_gold.sql', 'w', encoding='utf-8') as file:
-        for example in train_or_dev_set:
-            file.write(f"{example['question_id']}\t{example['query']}\t{example['db_id']}\n")
 
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--filename', type=str, required=True)
-arg_parser.add_argument('--split', type=str, choices=['example', 'template'], required=True)
 args = arg_parser.parse_args()
 with open(f'resource/{args.filename}.json', 'r', encoding='utf-8') as file:
     dataset = json.load(file)
@@ -398,28 +391,6 @@ for example in dataset:
         if '.*' in tokens[i]:
             tokens[i] = '*'
     example['sql'] = ' '.join(tokens)
-if args.split == 'example':
-    train, dev, test = random_split_array(dataset)
-elif args.split == 'template':
-    templates = []
-    for example in dataset:
-        if len(templates) == 0 or example['template'] > templates[-1]:
-            templates.append(example['template'])
-    train_templates, dev_templates, test_templates = random_split_array(templates)
-    train = [example for example in dataset if example['template'] in train_templates]
-    dev = [example for example in dataset if example['template'] in dev_templates]
-    test = [example for example in dataset if example['template'] in test_templates]
-    random.shuffle(train)
-    random.shuffle(dev)
-    random.shuffle(test)
-else:
-    raise ValueError(f'unknown split method {args.split}')
 generate_db_content()
 schemata = generate_tables()
-generate_subset(dataset, 'all', schemata)
-generate_subset(train, 'train', schemata)
-generate_subset(dev, 'dev', schemata)
-generate_subset(test, 'test', schemata)
-generate_subset_gold('train')
-generate_subset_gold('dev')
-generate_subset_gold('test')
+generate_mdsql(dataset, schemata)

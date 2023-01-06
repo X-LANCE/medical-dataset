@@ -247,13 +247,6 @@ def count_ast(dataset_name):
     return sql_set
 
 
-def count_coverage(sql_set1, sql_set2):
-    cnt = 0
-    for sql in sql_set1:
-        cnt += sql in sql_set2
-    return round(cnt / len(sql_set1) * 100, 2)
-
-
 def statistic_sql():
     sql_sets = {}
     with open('log/statistic_sql.txt', 'w') as file:
@@ -261,15 +254,21 @@ def statistic_sql():
         for dataset_name in DATASET_NAMES:
             sql_sets[dataset_name] = count_ast(dataset_name)
         print(''.rjust(12), end='')
-        for dataset_name in DATASET_NAMES:
-            print(f'{dataset_name}({len(sql_sets[dataset_name])})'.rjust(16), end='')
+        for header in ['#', 'FROM SQL', 'GROUP BY', 'HAVING', 'ORDER BY', 'LIMIT', 'IUE']:
+            print(header.rjust(12), end='')
         print()
-        for dataset_name1 in DATASET_NAMES:
-            print(dataset_name1.ljust(12), end='')
-            for dataset_name2 in DATASET_NAMES:
-                if dataset_name1 == dataset_name2:
-                    print('-'.rjust(16), end='')
-                else:
-                    print(f'{count_coverage(sql_sets[dataset_name1], sql_sets[dataset_name2])}%'.rjust(16), end='')
+        for dataset_name in DATASET_NAMES:
+            print(dataset_name.ljust(12), end='')
+            print(str(len(sql_sets[dataset_name])).rjust(12), end='')
+            for keywords in [['FROM ('], ['GROUP BY'], ['HAVING'], ['ORDER BY'], ['LIMIT'], ['INTERSECT', 'UNION', 'EXCEPT']]:
+                has_keyword = False
+                for sql in sql_sets[dataset_name]:
+                    for keyword in keywords:
+                        if keyword in sql:
+                            has_keyword = True
+                            break
+                    if has_keyword:
+                        break
+                print(('Y' if has_keyword else 'N').rjust(12), end='')
             print()
         sys.stdout = original_stdout

@@ -15,10 +15,28 @@ def generate_subset(subset, split_method, set_name):
 
 
 def split_example(dataset):
+    dataset = [example for example in dataset if example['db_id'] in ['医保表', '医疗表']]
     train, dev, test = random_split_array(dataset)
     generate_subset(train, 'example', 'train')
     generate_subset(dev, 'example', 'dev')
     generate_subset(test, 'example', 'test')
+
+
+def split_template(dataset):
+    dataset = [example for example in dataset if example['db_id'] in ['医保表', '医疗表']]
+    templates = set()
+    for example in dataset:
+        templates.add(example['template_id'])
+    train_templates, dev_templates, test_templates = random_split_array(sorted(list(templates)))
+    train = [example for example in dataset if example['template_id'] in train_templates]
+    dev = [example for example in dataset if example['template_id'] in dev_templates]
+    test = [example for example in dataset if example['template_id'] in test_templates]
+    random.shuffle(train)
+    random.shuffle(dev)
+    random.shuffle(test)
+    generate_subset(train, 'template', 'train')
+    generate_subset(dev, 'template', 'dev')
+    generate_subset(test, 'template', 'test')
 
 
 def split_schema(dataset):
@@ -37,28 +55,12 @@ def split_schema(dataset):
     generate_subset(test, 'schema', 'test')
 
 
-def split_template(dataset):
-    templates = set()
-    for example in dataset:
-        templates.add(example['template_id'])
-    train_templates, dev_templates, test_templates = random_split_array(sorted(list(templates)))
-    train = [example for example in dataset if example['template_id'] in train_templates]
-    dev = [example for example in dataset if example['template_id'] in dev_templates]
-    test = [example for example in dataset if example['template_id'] in test_templates]
-    random.shuffle(train)
-    random.shuffle(dev)
-    random.shuffle(test)
-    generate_subset(train, 'template', 'train')
-    generate_subset(dev, 'template', 'dev')
-    generate_subset(test, 'template', 'test')
-
-
 random.seed(42)
 with open('data/mdsql/all.json', 'r', encoding='utf-8') as file:
     dataset_origin = json.load(file)
 dataset = copy.deepcopy(dataset_origin)
 split_example(dataset)
 dataset = copy.deepcopy(dataset_origin)
-split_schema(dataset)
-dataset = copy.deepcopy(dataset_origin)
 split_template(dataset)
+dataset = copy.deepcopy(dataset_origin)
+split_schema(dataset)

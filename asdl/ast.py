@@ -24,11 +24,11 @@ class AbstractSyntaxTree:
 
     def unparse_sql(self):
         assert self.type == 'sql'
-        sql_unit0 = self.sons[0].unparse_sql_unit()
+        sql_unit = self.sons[0].unparse_sql_unit()
         if self.constructor.name == 'Single':
-            return sql_unit0
-        sql_unit1 = self.sons[1].unparse_sql_unit()
-        return f'({sql_unit0}) {self.constructor.name.upper()} ({sql_unit1})'
+            return sql_unit
+        sql = self.sons[1].unparse_sql()
+        return f'({sql_unit}) {self.constructor.name.upper()} ({sql})'
 
     def unparse_sql_unit(self):
         assert self.type == 'sql_unit'
@@ -227,7 +227,7 @@ class AbstractSyntaxTreeMdsql(AbstractSyntaxTree):
             if sql[sql_keyword]:
                 ast.constructor = grammar['sql'][sql_keyword.title()]
                 ast.sons.append(AbstractSyntaxTreeMdsql.parse_sql_unit(grammar, sql))
-                ast.sons.append(AbstractSyntaxTreeMdsql.parse_sql_unit(grammar, sql[sql_keyword]))
+                ast.sons.append(AbstractSyntaxTreeMdsql.parse_sql(grammar, sql[sql_keyword]))
                 return ast
         ast.constructor = grammar['sql']['Single']
         ast.sons.append(AbstractSyntaxTreeMdsql.parse_sql_unit(grammar, sql))
@@ -435,7 +435,7 @@ class AbstractSyntaxTreeSpider(AbstractSyntaxTree):
             if sql[sql_keyword]:
                 ast.constructor = grammar['sql'][sql_keyword.title()]
                 ast.sons.append(AbstractSyntaxTreeSpider.parse_sql_unit(grammar, sql))
-                ast.sons.append(AbstractSyntaxTreeSpider.parse_sql_unit(grammar, sql[sql_keyword]))
+                ast.sons.append(AbstractSyntaxTreeSpider.parse_sql(grammar, sql[sql_keyword]))
                 return ast
         ast.constructor = grammar['sql']['Single']
         ast.sons.append(AbstractSyntaxTreeSpider.parse_sql_unit(grammar, sql))
@@ -616,7 +616,7 @@ class AbstractSyntaxTreeDusql(AbstractSyntaxTree):
             if sql[sql_keyword]:
                 ast.constructor = grammar['sql'][sql_keyword.title()]
                 ast.sons.append(AbstractSyntaxTreeDusql.parse_sql_unit(grammar, sql))
-                ast.sons.append(AbstractSyntaxTreeDusql.parse_sql_unit(grammar, sql[sql_keyword]))
+                ast.sons.append(AbstractSyntaxTreeDusql.parse_sql(grammar, sql[sql_keyword]))
                 return ast
         ast.constructor = grammar['sql']['Single']
         ast.sons.append(AbstractSyntaxTreeDusql.parse_sql_unit(grammar, sql))

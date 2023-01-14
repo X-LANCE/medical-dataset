@@ -1,6 +1,6 @@
-sql = Intersect(sql_unit, sql_unit)
-        | Union(sql_unit, sql_unit)
-        | Except(sql_unit, sql_unit)
+sql = Intersect(sql_unit, sql)
+        | Union(sql_unit, sql)
+        | Except(sql_unit, sql)
         | Single(sql_unit)
 
 sql_unit = Complete(select, from, cond, group_by, order_by)

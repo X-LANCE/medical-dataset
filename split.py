@@ -44,7 +44,7 @@ def split_schema(dataset):
     for example in dataset:
         schemata.add(example['db_id'])
     while 1:
-        train_schemata, dev_schemata, test_schemata = random_split_array(sorted(list(schemata)))
+        train_schemata, dev_schemata, test_schemata = random_split_array(sorted(list(schemata)), [0.6, 0.2, 0.2])
         if '医保表' in train_schemata and '医疗表' in train_schemata:
             break
     train = [example for example in dataset if example['db_id'] in train_schemata]

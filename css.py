@@ -318,7 +318,7 @@ def generate_db_content():
             'db_id': SCHEMA_MAPPING[schema],
             'tables': tables
         })
-    with open('data/mdsql/db_content.json', 'w', encoding='utf-8') as file:
+    with open('data/css/db_content.json', 'w', encoding='utf-8') as file:
         json.dump(db_content, file, ensure_ascii=False, indent=4)
 
 
@@ -355,12 +355,12 @@ def generate_tables():
             'table_ids': table_ids,
             'column_ids': column_ids
         }
-    with open('data/mdsql/tables.json', 'w', encoding='utf-8') as file:
+    with open('data/css/tables.json', 'w', encoding='utf-8') as file:
         json.dump(tables, file, ensure_ascii=False, indent=4)
     return schemata
 
 
-def generate_mdsql(subset, schemata):
+def generate_css(subset, schemata):
     result = []
     qid = 1
     for example in subset:
@@ -376,7 +376,7 @@ def generate_mdsql(subset, schemata):
             'sql': parse_sql(schemata[example['schema']], tokenize_sql(sql.split()))
         })
         qid += 1
-    with open(f'data/mdsql/all.json', 'w', encoding='utf-8') as file:
+    with open(f'data/css/all.json', 'w', encoding='utf-8') as file:
         json.dump(result, file, ensure_ascii=False, indent=4)
 
 
@@ -393,4 +393,4 @@ for example in dataset:
     example['sql'] = ' '.join(tokens)
 generate_db_content()
 schemata = generate_tables()
-generate_mdsql(dataset, schemata)
+generate_css(dataset, schemata)

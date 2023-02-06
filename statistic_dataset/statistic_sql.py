@@ -1,8 +1,9 @@
 import json
+import numpy as np
 import os
 import sys
 from asdl.asdl import Grammar
-from asdl.ast import AbstractSyntaxTreeMdsql, AbstractSyntaxTreeSpider, AbstractSyntaxTreeDusql
+from asdl.ast import AbstractSyntaxTreeCss, AbstractSyntaxTreeSpider, AbstractSyntaxTreeDusql
 from string import ascii_uppercase
 from util.constant import SQL_CONDS, SINGLE_DOMAIN_DATASET_NAMES, DATASET_NAMES
 from util.util import skip_nested
@@ -209,17 +210,11 @@ def count_ast(dataset_name):
         dataset = json.load(file)
     if os.path.exists(f'asdl/grammar/{dataset_name}.txt'):
         grammar = Grammar.from_file(f'asdl/grammar/{dataset_name}.txt')
-    if dataset_name == 'mdsql':
-        grammar_counter = {}
-        for type in grammar.constructors:
-            for name in grammar[type]:
-                grammar_counter[(type, name)] = 0
     sql_set = set()
     for example in dataset:
-        if dataset_name == 'mdsql':
-            ast = AbstractSyntaxTreeMdsql.parse_sql(grammar, example['sql'])
+        if dataset_name == 'css':
+            ast = AbstractSyntaxTreeCss.parse_sql(grammar, example['sql'])
             ast.check(grammar)
-            ast.count_grammar(grammar_counter)
             sql_set.add(ast.unparse_sql())
         elif dataset_name in SINGLE_DOMAIN_DATASET_NAMES + ['wikisql']:
             for sql in example['sql']:
@@ -235,16 +230,44 @@ def count_ast(dataset_name):
         else:
             raise ValueError(f'wrong dataset name {dataset_name}')
     sql_list = sorted(list(sql_set))
-    if dataset_name == 'mdsql':
-        print('frequencies of grammar rules in mdsql:')
-        for item in grammar_counter:
-            print(str(grammar_counter[item]).ljust(7), f'{item[0]} = {grammar[item[0]][item[1]]}')
-        print()
+    if dataset_name == 'css':
+        for subset in ['all', 'train', 'dev', 'test']:
+            grammar_counter = {}
+            for type in grammar.constructors:
+                for name in grammar[type]:
+                    grammar_counter[(type, name)] = 0
+            if subset != 'all':
+                with open(f'data/css/template/{subset}.json', 'r', encoding='utf-8') as file:
+                    dataset = json.load(file)
+            for example in dataset:
+                ast = AbstractSyntaxTreeCss.parse_sql(grammar, example['sql'])
+                ast.check(grammar)
+                ast.count_grammar(grammar_counter)
+            print(f'frequencies of grammar rules in css ({subset}):')
+            for item in grammar_counter:
+                print(str(grammar_counter[item]).ljust(7), f'{item[0]} = {grammar[item[0]][item[1]]}')
+            print()
     print(f'{dataset_name} has {len(sql_set)} different ASTs:')
     for sql in sql_list:
         print(sql)
     print()
     return sql_set
+
+
+def count_sql_len(dataset_name):
+    def tokenize_sql(sql):
+        return sql.strip(' ;').replace('  ', ' ').split(' ')
+
+    with open(f'data/{dataset_name}/all.json', 'r', encoding='utf-8') as file:
+        dataset = json.load(file)
+    sql_lens = []
+    for example in dataset:
+        if dataset_name in SINGLE_DOMAIN_DATASET_NAMES + ['wikisql']:
+            for sql in example['sql']:
+                sql_lens.append(len(tokenize_sql(sql)))
+        else:
+            sql_lens.append(len(tokenize_sql(example['query'])))
+    return np.mean(sql_lens), np.max(sql_lens)
 
 
 def statistic_sql():
@@ -254,12 +277,15 @@ def statistic_sql():
         for dataset_name in DATASET_NAMES:
             sql_sets[dataset_name] = count_ast(dataset_name)
         print(''.rjust(12), end='')
-        for header in ['#', 'FROM SQL', 'GROUP BY', 'HAVING', 'ORDER BY', 'LIMIT', 'IUE']:
+        for header in ['#', 'avg len', 'max len', 'FROM SQL', 'GROUP BY', 'HAVING', 'ORDER BY', 'LIMIT', 'IUE']:
             print(header.rjust(12), end='')
         print()
         for dataset_name in DATASET_NAMES:
             print(dataset_name.ljust(12), end='')
             print(str(len(sql_sets[dataset_name])).rjust(12), end='')
+            avg_len, max_len = count_sql_len(dataset_name)
+            print(str(round(avg_len, 2)).rjust(12), end='')
+            print(str(max_len).rjust(12), end='')
             for keywords in [['FROM ('], ['GROUP BY'], ['HAVING'], ['ORDER BY'], ['LIMIT'], ['INTERSECT', 'UNION', 'EXCEPT']]:
                 has_keyword = False
                 for sql in sql_sets[dataset_name]:

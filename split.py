@@ -10,7 +10,7 @@ def generate_subset(subset, split_method, set_name):
     for i, example in enumerate(subset):
         example['question_id'] = f'qid{str(i + 1).zfill(5)}'
         example.pop('template_id')
-    with open(f'data/mdsql/{split_method}/{set_name}.json', 'w', encoding='utf-8') as file:
+    with open(f'data/css/{split_method}/{set_name}.json', 'w', encoding='utf-8') as file:
         json.dump(subset, file, ensure_ascii=False, indent=4)
 
 
@@ -59,7 +59,7 @@ def split_schema(dataset):
 
 
 random.seed(42)
-with open('data/mdsql/all.json', 'r', encoding='utf-8') as file:
+with open('data/css/all.json', 'r', encoding='utf-8') as file:
     dataset_origin = json.load(file)
 dataset = copy.deepcopy(dataset_origin)
 split_example(dataset)

@@ -216,121 +216,121 @@ class AbstractSyntaxTree:
         return 'col' if self.constructor.name == 'Column' else f'({self.sons[0].unparse_sql()})'
 
 
-class AbstractSyntaxTreeMdsql(AbstractSyntaxTree):
+class AbstractSyntaxTreeCss(AbstractSyntaxTree):
     def __init__(self, type):
         super().__init__(type)
 
     @staticmethod
     def parse_sql(grammar, sql):
-        ast = AbstractSyntaxTreeMdsql('sql')
+        ast = AbstractSyntaxTreeCss('sql')
         for sql_keyword in ['intersect', 'union', 'except']:
             if sql[sql_keyword]:
                 ast.constructor = grammar['sql'][sql_keyword.title()]
-                ast.sons.append(AbstractSyntaxTreeMdsql.parse_sql_unit(grammar, sql))
-                ast.sons.append(AbstractSyntaxTreeMdsql.parse_sql(grammar, sql[sql_keyword]))
+                ast.sons.append(AbstractSyntaxTreeCss.parse_sql_unit(grammar, sql))
+                ast.sons.append(AbstractSyntaxTreeCss.parse_sql(grammar, sql[sql_keyword]))
                 return ast
         ast.constructor = grammar['sql']['Single']
-        ast.sons.append(AbstractSyntaxTreeMdsql.parse_sql_unit(grammar, sql))
+        ast.sons.append(AbstractSyntaxTreeCss.parse_sql_unit(grammar, sql))
         return ast
 
     @staticmethod
     def parse_sql_unit(grammar, sql_unit):
-        ast = AbstractSyntaxTreeMdsql('sql_unit')
-        ast.sons.append(AbstractSyntaxTreeMdsql.parse_select(grammar, sql_unit['select']))
+        ast = AbstractSyntaxTreeCss('sql_unit')
+        ast.sons.append(AbstractSyntaxTreeCss.parse_select(grammar, sql_unit['select']))
         if sql_unit['where'] and sql_unit['groupBy'] and sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['Complete']
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_from(grammar, sql_unit['from']['table_units']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_cond(grammar, sql_unit['where']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_from(grammar, sql_unit['from']['table_units']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_cond(grammar, sql_unit['where']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         if sql_unit['groupBy'] and sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['NoWhere']
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_from(grammar, sql_unit['from']['table_units']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_from(grammar, sql_unit['from']['table_units']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         if sql_unit['where'] and sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['NoGroupBy']
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_from(grammar, sql_unit['from']['table_units']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_cond(grammar, sql_unit['where']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_from(grammar, sql_unit['from']['table_units']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_cond(grammar, sql_unit['where']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         if sql_unit['where'] and sql_unit['groupBy']:
             ast.constructor = grammar['sql_unit']['NoOrderBy']
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_from(grammar, sql_unit['from']['table_units']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_cond(grammar, sql_unit['where']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_from(grammar, sql_unit['from']['table_units']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_cond(grammar, sql_unit['where']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
             return ast
         if sql_unit['where']:
             ast.constructor = grammar['sql_unit']['OnlyWhere']
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_from(grammar, sql_unit['from']['table_units']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_cond(grammar, sql_unit['where']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_from(grammar, sql_unit['from']['table_units']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_cond(grammar, sql_unit['where']))
             return ast
         if sql_unit['groupBy']:
             ast.constructor = grammar['sql_unit']['OnlyGroupBy']
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_from(grammar, sql_unit['from']['table_units']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_from(grammar, sql_unit['from']['table_units']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_group_by(grammar, sql_unit['groupBy'], sql_unit['having']))
             return ast
         if sql_unit['orderBy']:
             ast.constructor = grammar['sql_unit']['OnlyOrderBy']
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_from(grammar, sql_unit['from']['table_units']))
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_from(grammar, sql_unit['from']['table_units']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_order_by(grammar, sql_unit['orderBy'], sql_unit['limit']))
             return ast
         if sql_unit['from']:
             ast.constructor = grammar['sql_unit']['Simple']
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_from(grammar, sql_unit['from']['table_units']))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_from(grammar, sql_unit['from']['table_units']))
             return ast
         ast.constructor = grammar['sql_unit']['VerySimple']
         return ast
 
     @staticmethod
     def parse_select(grammar, select):
-        ast = AbstractSyntaxTreeMdsql('select')
+        ast = AbstractSyntaxTreeCss('select')
         ast.constructor = grammar['select'][f'Select{num2word.word(len(select))}']
         for agg_unit in select:
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_agg_unit(grammar, agg_unit))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_agg_unit(grammar, agg_unit))
         return ast
 
     @staticmethod
     def parse_from(grammar, table_units):
-        ast = AbstractSyntaxTreeMdsql('from')
+        ast = AbstractSyntaxTreeCss('from')
         if table_units[0][0] == 'sql':
             ast.constructor = grammar['from']['FromSQL']
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_sql(grammar, table_units[0][1]))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_sql(grammar, table_units[0][1]))
         else:
             ast.constructor = grammar['from'][f'From{num2word.word(len(table_units))}Table']
         return ast
 
     @staticmethod
     def parse_group_by(grammar, group_by, having):
-        ast = AbstractSyntaxTreeMdsql('group_by')
+        ast = AbstractSyntaxTreeCss('group_by')
         ast.constructor = grammar['group_by'][f"{num2word.word(len(group_by))}{'' if having else 'No'}Having"]
         for col_unit in group_by:
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_col_unit(grammar, col_unit))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_col_unit(grammar, col_unit))
         if having:
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_cond(grammar, having))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_cond(grammar, having))
         return ast
 
     @staticmethod
     def parse_order_by(grammar, order_by, limit):
-        ast = AbstractSyntaxTreeMdsql('order_by')
+        ast = AbstractSyntaxTreeCss('order_by')
         ast.constructor = grammar['order_by'][f"{num2word.word(len(order_by[1]))}{order_by[0].title()}{'Limit' if limit else ''}"]
         for agg_unit in order_by[1]:
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_agg_unit(grammar, agg_unit))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_agg_unit(grammar, agg_unit))
         return ast
 
     @staticmethod
     def parse_cond(grammar, cond):
-        ast = AbstractSyntaxTreeMdsql('cond')
+        ast = AbstractSyntaxTreeCss('cond')
         if len(cond) == 1:
             cond = cond[0]
         elif cond[1] in ['and', 'or']:
             ast.constructor = grammar['cond'][f'{cond[1].title()}{num2word.word((len(cond) + 1) // 2)}']
             for i in range(0, len(cond), 2):
-                ast.sons.append(AbstractSyntaxTreeMdsql.parse_cond(grammar, cond[i]))
+                ast.sons.append(AbstractSyntaxTreeCss.parse_cond(grammar, cond[i]))
             return ast
-        ast.sons.append(AbstractSyntaxTreeMdsql.parse_agg_unit(grammar, [cond[0], cond[2]]))
+        ast.sons.append(AbstractSyntaxTreeCss.parse_agg_unit(grammar, [cond[0], cond[2]]))
         is_col = 'Col' if isinstance(cond[3], list) else ''
         is_sql = 'SQL' if isinstance(cond[3], dict) else ''
         if cond[1] == 0:
@@ -358,14 +358,14 @@ class AbstractSyntaxTreeMdsql(AbstractSyntaxTree):
         else:
             raise ValueError(f'unknown conditional operator {cond[1]}')
         if is_col:
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_col_unit(grammar, cond[3]))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_col_unit(grammar, cond[3]))
         if is_sql:
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_sql(grammar, cond[3]))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_sql(grammar, cond[3]))
         return ast
 
     @staticmethod
     def parse_agg_unit(grammar, agg_unit):
-        ast = AbstractSyntaxTreeMdsql('agg_unit')
+        ast = AbstractSyntaxTreeCss('agg_unit')
         if agg_unit[0] == 0:
             ast.constructor = grammar['agg_unit']['None']
         elif agg_unit[0] == 1:
@@ -383,20 +383,20 @@ class AbstractSyntaxTreeMdsql(AbstractSyntaxTree):
             ast.constructor = grammar['agg_unit']['Avg']
         else:
             raise ValueError(f'unknown aggregate function {agg_unit[0]}')
-        ast.sons.append(AbstractSyntaxTreeMdsql.parse_val_unit(grammar, agg_unit[1]))
+        ast.sons.append(AbstractSyntaxTreeCss.parse_val_unit(grammar, agg_unit[1]))
         return ast
 
     @staticmethod
     def parse_val_unit(grammar, val_unit):
-        ast = AbstractSyntaxTreeMdsql('val_unit')
-        ast.sons.append(AbstractSyntaxTreeMdsql.parse_col_unit(grammar, val_unit[1]))
+        ast = AbstractSyntaxTreeCss('val_unit')
+        ast.sons.append(AbstractSyntaxTreeCss.parse_col_unit(grammar, val_unit[1]))
         if val_unit[0] == 0:
             ast.constructor = grammar['val_unit']['Unary']
             return ast
         if val_unit[0] == 6:
             ast.constructor = grammar['val_unit']['Mod']
             return ast
-        ast.sons.append(AbstractSyntaxTreeMdsql.parse_col_unit(grammar, val_unit[2]))
+        ast.sons.append(AbstractSyntaxTreeCss.parse_col_unit(grammar, val_unit[2]))
         if val_unit[0] == 1:
             ast.constructor = grammar['val_unit']['Minus']
         elif val_unit[0] == 2:
@@ -415,10 +415,10 @@ class AbstractSyntaxTreeMdsql(AbstractSyntaxTree):
 
     @staticmethod
     def parse_col_unit(grammar, col_unit):
-        ast = AbstractSyntaxTreeMdsql('col_unit')
+        ast = AbstractSyntaxTreeCss('col_unit')
         if isinstance(col_unit, dict):
             ast.constructor = grammar['col_unit']['SQL']
-            ast.sons.append(AbstractSyntaxTreeMdsql.parse_sql(grammar, col_unit))
+            ast.sons.append(AbstractSyntaxTreeCss.parse_sql(grammar, col_unit))
         else:
             ast.constructor = grammar['col_unit']['Column']
         return ast
